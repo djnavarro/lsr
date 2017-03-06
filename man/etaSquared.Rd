@@ -1,0 +1,70 @@
+\name{etaSquared}
+
+\alias{etaSquared}
+
+\title{Effect size calculations for ANOVAs}
+
+\description{
+Calculates eta-squared and partial eta-squared
+}
+
+\usage{
+	etaSquared( x, type = 2, anova = FALSE )
+}
+
+\arguments{
+  \item{x}{An analysis of variance (aov) object.}
+  \item{type}{What type of sum of squares to calculate?}
+  \item{anova}{Should the full ANOVA table be printed out in addition to the effect sizes}
+}
+
+\details{
+Calculates the eta-squared and partial eta-squared measures of effect size that are commonly used in analysis of variance. The input \code{x} should be the analysis of variance object itself. 
+
+For unbalanced designs, the default in \code{etaSquared} is to compute Type II sums of squares (\code{type=2}), in keeping with the \code{Anova} function in the \code{car} package. It is possible to revert to the Type I SS values (\code{type=1}) to be consistent with \code{anova}, but this rarely tests hypotheses of interest. Type III SS values (\code{type=3}) can also be computed.
+}
+
+\value{
+If \code{anova=FALSE}, the output is an M x 2 matrix. Each of the M rows corresponds to one of the terms in the ANOVA (e.g., main effect 1, main effect 2, interaction, etc), and each of the columns corresponds to a different measure of effect size. Column 1 contains the eta-squared values, and column 2 contains partial eta-squared values. If \code{anova=TRUE}, the output contains additional columns containing the sums of squares, mean squares, degrees of freedom, F-statistics and p-values.
+}
+
+\section{Warning}{This package is under development, and has been released only due to teaching constraints. Until this notice disappears from the help files, you should assume that everything in the package is subject to change. Backwards compatibility is NOT guaranteed. Functions may be deleted in future versions and new syntax may be inconsistent with earlier versions. For the moment at least, this package should be treated with extreme caution.}
+
+%\references{
+%% ~put references to the literature/web site here ~
+%}
+
+\author{Daniel Navarro}
+
+%\note{
+%%  ~~further notes~~
+%}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+	\code{\link{anova}}, \code{Anova} (in the \pkg{car} package)
+}
+\examples{
+#### Example 1: one-way ANOVA ####
+
+outcome <- c( 1.4,2.1,3.0,2.1,3.2,4.7,3.5,4.5,5.4 )  # data
+treatment1 <- factor( c( 1,1,1,2,2,2,3,3,3 ))        # grouping variable
+anova1 <- aov( outcome ~ treatment1 )                # run the ANOVA
+summary( anova1 )                                    # print the ANOVA table
+etaSquared( anova1 )                                 # effect size                            
+
+#### Example 2: two-way ANOVA ####
+
+treatment2 <- factor( c( 1,2,3,1,2,3,1,2,3 ))      # second grouping variable
+anova2 <- aov( outcome ~ treatment1 + treatment2 ) # run the ANOVA
+summary( anova2 )                                  # print the ANOVA table
+etaSquared( anova2 )                               # effect size
+
+
+}
+
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+%\keyword{ ~kwd1 }
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
