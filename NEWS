@@ -1,5 +1,10 @@
 NEWS file for the lsr package
 
+Version 0.5.1
+
+- uses correct maintainer information
+- minor internal changes to fix CRAN notes
+
 Version 0.5
 
 - version number advanced to match next iteration of the book
