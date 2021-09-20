@@ -34,10 +34,10 @@ Although the email address and names have changed, they correspond
 to the same person. Unfortunately the old maintainer email address
 no longer exists, but it should be possible to verify that I am 
 the same person by briefly checking the website associated with the
-package (https://learningstatisticswithr.com) and my professional
-website (https://djnavarro.net). My apologies for the inconvenience:
-quite a lot has changed since I was last in a position to update
-this package.
-
+package (https://learningstatisticswithr.com), my professional
+website (https://djnavarro.net), or the GitHub repository for the
+package (https://github.com/djnavarro/lsr). My apologies for the 
+awkward situation: quite a lot has changed since I was last in a 
+position to update this package.
 
 
