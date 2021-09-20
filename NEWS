@@ -3,6 +3,7 @@ NEWS file for the lsr package
 Version 0.5.1
 
 - uses correct maintainer information
+- ports documentation to roxygen2 and adds pkgdown site
 - minor internal changes to fix CRAN notes
 
 Version 0.5
@@ -52,13 +53,13 @@ Version 0.2.2
 Version 0.2.1
 
 - Warning statements in the help files are more explicit regarding (lack of) backwards compatibility for pre-1.0 versions of the package
-- xfun removed from package (duplicates existing functionality). 
+- xfun removed from package (duplicates existing functionality).
 
 Version 0.2
 
 - New functions: rowCopy, colCopy, permuteLevels, expandFactors, xfun
 - The etaSquared function now supports Type II and Type III sum of squares
-- Clean up of the repeated measures reshaping functions. 
+- Clean up of the repeated measures reshaping functions.
 
 Version 0.1.1
 

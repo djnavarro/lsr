@@ -14,6 +14,7 @@
 * windows server 2008 R2 SP1 (on r-hub), R-devel
 * win-builder (devel)
 
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
@@ -25,3 +26,18 @@ New maintainer:
   Danielle Navarro <d.navarro@unsw.edu.au>
 Old maintainer(s):
   Daniel Navarro <daniel.navarro@adelaide.edu.au>
+
+
+## Author note regarding the maintainer change
+
+Although the email address and names have changed, they correspond
+to the same person. Unfortunately the old maintainer email address
+no longer exists, but it should be possible to verify that I am 
+the same person by briefly checking the website associated with the
+package (https://learningstatisticswithr.com) and my professional
+website (https://djnavarro.net). My apologies for the inconvenience:
+quite a lot has changed since I was last in a position to update
+this package.
+
+
+
