@@ -5,3 +5,6 @@
 ^LICENSE\.md$
 ^cran-comments\.md$
 ^other/.*$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
