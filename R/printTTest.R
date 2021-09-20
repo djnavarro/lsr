@@ -1,5 +1,12 @@
 
 
+#' Print method for lsr t-tests
+#'
+#' @param x An object of class 'TTest'
+#' @param ... For consistency with the generic (unused)
+#'
+#' @return Invisibly returns the original object
+#' @export
 print.TTest <- function( x, ... ) {
 
   # function to force equal digit printing

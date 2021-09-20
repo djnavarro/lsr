@@ -1,5 +1,8 @@
 
 # maxFreq() returns the frequency of the sample mode.
+
+#' @rdname mode
+#' @export
 maxFreq <- function(x, na.rm = TRUE) {
 
   if( !is.vector(x) & !is.factor(x) ) {

@@ -1,5 +1,52 @@
 
 
+#' Chi-square test against specified probabilities
+#'
+#' @description Convenience function that runs a chi-square goodness of fit
+#' test against specified probabilities. This is a wrapper function intended
+#' to be used for pedagogical purposes only.
+#'
+#' @param x Factor variable containing the raw outcomes.
+#' @param p Numeric variable containing the null-hypothesis probabilities (default = all outcomes equally likely)
+#'
+#' @details The \code{goodnessOfFitTest} function runs the chi-square
+#' goodness of fit test of the hypothesis that the outcomes in the factor
+#' \code{x} were generated according to the probabilities in the vector
+#' \code{p}. The probability vector \code{p} must be a numeric variable
+#' of length \code{nlevels(x)}. If no probabilities are specified, all
+#' outcomes are assumed to be equally likely.
+#'
+#' @return An object of class 'gofTest'. When printed, the output is
+#' organised into four short sections. The first section lists the name
+#' of the test and the variables included. The second lists the null and
+#' alternative hypotheses for the test. The third shows the observed
+#' frequency table, the expected frequency table under the null hypothesis,
+#' and the probabilities specified by the null. The fourth prints out the
+#' test results.
+#'
+#' @export
+#'
+#' @seealso
+#' \code{\link{chisq.test}},
+#' \code{\link{associationTest}},
+#' \code{\link{cramersV}}
+#'
+#' @examples
+#' # raw data
+#' gender <- factor(
+#'   c( "male","male","male","male","female","female",
+#'      "female","male","male","male" ))
+#'
+#' # goodness of fit test against the hypothesis that males and
+#' # females occur with equal frequency
+#' goodnessOfFitTest( gender )
+#'
+#' # goodness of fit test against the hypothesis that males appear
+#' # with probability .6 and females with probability .4.
+#' goodnessOfFitTest( gender, p=c(.4,.6) )
+#' goodnessOfFitTest( gender, p=c(female=.4,male=.6) )
+#' goodnessOfFitTest( gender, p=c(male=.6,female=.4) )
+#'
 goodnessOfFitTest <- function( x, p=NULL ) {
 
   # check if x is missing
@@ -95,7 +142,13 @@ goodnessOfFitTest <- function( x, p=NULL ) {
 }
 
 
-# print method
+#' Print method for lsr goodness-of-fit tests
+#'
+#' @param x An object of class 'gofTest'
+#' @param ... For consistency with the generic (unused)
+#'
+#' @return Invisibly returns the original object
+#' @export
 print.gofTest <- function(x, ...) {
 
   # print the name of the test

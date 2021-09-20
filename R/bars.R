@@ -1,5 +1,44 @@
 
 
+#' Grouped Bar Plots with Error Bars
+#'
+#' @description Grouped bar plots with error bars
+#'
+#' @param formula A two-sided formula specifying the response variable and the grouping factors
+#' @param data An optional data frame containing the variables
+#' @param heightFun The function used to calculate the bar height for a group (default=mean)
+#' @param errorFun The function used to calculate the error bar for a group (default=ciMean). No bars drawn if \code{errorFun=FALSE}
+#' @param yLabel The y-axis label (defaults to the name of the response variable)
+#' @param xLabels The x-axis bar labels (defaults to factor labels of the appropriate grouping variable)
+#' @param main The plot title
+#' @param ylim The y-axis limit: lower bound defaults to 0, default upper bound estimated
+#' @param barFillColour The colours to fill the bars (defaults to a rainbow palette with saturation .3)
+#' @param barLineWidth The width of the bar border lines (default=2)
+#' @param barLineColour The colour of the bar border lines (default="black")
+#' @param barSpaceSmall The size of the gap between bars within a cluster, as a proportion of bar width (default=.2)
+#' @param barSpaceBig The size of the gap separating clusters of bars, as a proportion of bar width (default=1)
+#' @param legendLabels The text for the legend (defaults to factor labels of the appropriate grouping variable). No legends drawn if \code{legendLabels=FALSE} or if only one grouping variable is specified
+#' @param legendDownShift How far below the top is the legend, as proportion of plot height? (default=0)
+#' @param legendLeftShift How far away from the right edge is the legend, as proportion of plot? (default=0)
+#' @param errorBarLineWidth The line width for the error bars (default=1)
+#' @param errorBarLineColour The colour of the error bars (default="grey40")
+#' @param errorBarWhiskerWidth The width of error bar whiskers, as proportion of bar width (default=.2)
+#'
+#' @details Plots group means (or other function, if specified) broken down by
+#' one or two grouping factors. Confidence intervals (or other function) are
+#' plotted. User specifies a two sided formula of the form
+#' \code{response ~ group1 + group2}, where \code{response} must be numeric
+#' and \code{group1} and \code{group2} are factors. The \code{group1} variable
+#' defines the primary separation on the x-axis, and the x-axis labels by
+#' default print out the levels of this factor. The \code{group2} variable
+#' defines the finer grain separation, and the legend labels correspond to
+#' the levels of this factor. Note that \code{group2} is optional.
+#'
+#' @return Invisibly returns a data frame containing the factor levels, group
+#' means and confidence intervals. Note that this function is usually called
+#' for its side effects.
+#'
+#' @export
 bars <- function(
   formula, # two-sided formula specifying the response variable and the grouping factors
   data=NULL, # optional data frame containing the variables
