@@ -12,8 +12,8 @@ status](https://www.r-pkg.org/badges/version/lsr)](https://CRAN.R-project.org/pa
 
 The goal of lsr is to provide tools intended to make introductory
 statistics easier to teach, including wrappers for common hypothesis
-tests and basic data manipulation. The package is associated with
-<https://learningstatistincswithr.com>.
+tests and basic data manipulation. The package is associated with the
+introductory textbook at <https://learningstatisticswithr.com>
 
 ## Installation
 
