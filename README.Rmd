@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/lsr)](https://CRAN.R-project.org/package=lsr)
+[![R-CMD-check](https://github.com/djnavarro/lsr/workflows/R-CMD-check/badge.svg)](https://github.com/djnavarro/lsr/actions)
 <!-- badges: end -->
 
 The goal of lsr is to provide tools intended to make introductory statistics easier to teach, including wrappers for common hypothesis tests and basic data manipulation. The package is associated with https://learningstatistincswithr.com.

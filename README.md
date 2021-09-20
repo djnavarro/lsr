@@ -7,6 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/lsr)](https://CRAN.R-project.org/package=lsr)
+[![R-CMD-check](https://github.com/djnavarro/lsr/workflows/R-CMD-check/badge.svg)](https://github.com/djnavarro/lsr/actions)
 <!-- badges: end -->
 
 The goal of lsr is to provide tools intended to make introductory
