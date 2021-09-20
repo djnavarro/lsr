@@ -1,4 +1,5 @@
 ## Test environments
+
 * local R installation, R 4.1.1
 * mac OS X 10.15.7 (on github-actions), R 4.1.1
 * windows server 10.0.17763 (on github-actions), R 4.1.1
@@ -32,12 +33,18 @@ Old maintainer(s):
 
 Although the email address and names have changed, they correspond
 to the same person. Unfortunately the old maintainer email address
-no longer exists, but it should be possible to verify that I am 
-the same person by briefly checking the website associated with the
-package (https://learningstatisticswithr.com), my professional
+no longer exists (I moved from Adelaide to UNSW some time ago), but 
+it should (I hope) be possible to verify that I am the same person by 
+checking the website associated with the package 
+(https://learningstatisticswithr.com), my professional
 website (https://djnavarro.net), or the GitHub repository for the
 package (https://github.com/djnavarro/lsr). My apologies for the 
 awkward situation: quite a lot has changed since I was last in a 
 position to update this package.
 
+If there is any other documentation or confirmation I can provide
+please don't hesitate to ask.
+
+Kind regards,
+Danielle
 
