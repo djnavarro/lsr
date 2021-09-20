@@ -4,6 +4,26 @@
 # RStudio because there's a button you can click to do the same thing,
 # but it can be handy for beginners who don't yet understand how arguments
 # work.
+
+#' Remove all objects
+#'
+#' @description Removes all objects from the workspace
+#'
+#' @param ask Logical value indicating whether to ask user to confirm deletions. Default is \code{TRUE}
+#'
+#' @details The \code{rmAll} function provides a simple way of deleting all
+#' objects from the workspace. It is almost equivalent to the usual
+#' \code{rm(list = objects())} command. The only difference that it requires
+#' the user to confirm the deletions first if \code{ask = TRUE}, after
+#' displaying a list of the current objects in the worspace. This can
+#' occasionally be useful for teaching purposes.
+#'
+#' @return Invisibly returns 0 if no deletions are made, 1 if at least one deletion is made.
+#'
+#' @seealso \code{\link{rm}}
+#'
+#' @export
+#'
 rmAll <- function(ask = TRUE) {
 
   # preliminaries

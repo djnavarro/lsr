@@ -1,4 +1,53 @@
 
+#' One sample t-test
+#'
+#' @description Convenience function that runs a one sample t-test. This is
+#' a wrapper function intended to be used for pedagogical purposes only.
+#'
+#' @param x The variable to be tested (required).
+#' @param mu The value against which the mean should be tested (required).
+#' @param one.sided One sided or two sided hypothesis test (default = \code{FALSE})
+#' @param conf.level The confidence level for the confidence interval (default = .95).
+#'
+#' @details The \code{oneSampleTTest} function runs a one-sample t-test on
+#' the data in \code{x}, and prints the results in a format that is easier
+#' for novices to handle than the output of \code{t.test}. All the actual
+#' calculations are done by the \code{t.test} and \code{cohensD} functions.
+#'
+#' As with the \code{t.test} function, the default test is two sided,
+#' corresponding to a default value of \code{one.sided = FALSE}. To specify
+#' a one sided test in which the alternative hypothesis is that \code{x} is
+#' larger than \code{mu}, the input must be \code{one.sided = "greater"}.
+#' Similarly, if \code{one.sided="less"}, then the alternative hypothesis
+#' is that the mean of \code{x} is smaller than \code{mu}.
+#'
+#' @return An object of class 'TTest'. When printed, the output is organised
+#' into five short sections. The first section lists the name of the test and
+#' the variables included. The second provides means and standard deviations.
+#' The third states explicitly what the null and alternative hypotheses were.
+#' The fourth contains the test results: t-statistic, degrees of freedom and
+#' p-value. The final section includes the relevant confidence interval and an
+#' estimate of the effect size (i.e., Cohen's d).
+#'
+#' @export
+#'
+#' @seealso
+#' \code{\link{t.test}},
+#' \code{\link{pairedSamplesTTest}},
+#' \code{\link{independentSamplesTTest}},
+#' \code{\link{cohensD}}
+#'
+#' @examples
+#'
+#' likert <- c(3,1,4,1,4,6,7,2,6,6,7)
+#'
+#' oneSampleTTest( x = likert, mu = 4 )
+#' oneSampleTTest( x = likert, mu = 4, one.sided = "greater" )
+#' oneSampleTTest( x = likert, mu = 4, conf.level=.99 )
+#'
+#' likert <- c(3,NA,4,NA,4,6,7,NA,6,6,7)
+#' oneSampleTTest( x = likert, mu = 4 )
+#'
 oneSampleTTest <- function(
   x,
   mu,

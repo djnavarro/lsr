@@ -1,4 +1,36 @@
 
+#' Chi-square test of association / independence
+#'
+#' @description Convenience function that runs a chi-square test of
+#' association/independence. This is a wrapper function intended to
+#' be used for pedagogical purposes only.
+#'
+#' @param formula One-sided formula specifying the two variables (required).
+#' @param data Optional data frame containing the variables.
+#'
+#' @details The \code{associationTest} function runs the chi-square test
+#' of association on the variables specified in the \code{formula} argument.
+#' The formula must be a one-sided formula of the form
+#' \code{~variable1 + variable2}, and both variables must be factors.
+#'
+#' @return An object of class 'assocTest'. When printed, the output is
+#' organised into six short sections. The first section lists the name
+#' of the test and the variables included. The second lists the null and
+#' alternative hypotheses for the test. The third shows the observed
+#' contingency table, and the fourth shows the expected contingency
+#' table under the null. The fifth prints out the test results, and the
+#' sixth reports an estimate of effect size.
+#'
+#' @export
+#'
+#' @examples
+#' df <- data.frame(
+#' gender=factor(c("male","male","male","male","female","female","female")),
+#' answer=factor(c("heads","heads","heads","heads","tails","tails","heads"))
+#' )
+#'
+#' associationTest( ~ gender + answer, df )
+#'
 associationTest <- function( formula, data=NULL ) {
 
   ############ check  formula ############
@@ -135,6 +167,14 @@ associationTest <- function( formula, data=NULL ) {
 
 
 # print method
+
+#' Print method for lsr chi-square tests
+#'
+#' @param x An object of class 'assocTest'
+#' @param ... For consistency with the generic (unused)
+#'
+#' @return Invisibly returns the original object
+#' @export
 print.assocTest <- function(x, ...) {
 
   nDigits <- 3

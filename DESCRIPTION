@@ -20,3 +20,4 @@ Imports:
     grDevices,
     methods,
     stats
+RoxygenNote: 7.1.1
