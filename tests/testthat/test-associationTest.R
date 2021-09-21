@@ -5,6 +5,10 @@ df <- data.frame(
   answer = factor(sample(c("head", "tail"), size = 100, replace = TRUE))
 )
 
+test_that("associationTest returns an assocTest object", {
+  expect_s3_class(associationTest(~ gender + answer, df), "assocTest")
+})
+
 test_that("associationTest computes the same p-value as stats::chisq.test", {
   expect_equal(
     object = (associationTest(~ gender + answer, df))$p.value,
@@ -28,15 +32,38 @@ test_that("associationTest returns the same results regardless of data context",
 
 
 test_that("associationTest warns for small N", {
-
-  df <- data.frame(
+  df_smol <- data.frame(
     gender = as.factor(c("male", "female", "male", "female", "nonbinary")),
     answer = as.factor(c("head", "tail", "tail", "head", "head"))
   )
-
-  expect_warning(associationTest(~ gender + answer, df), "frequencies too small")
-
+  expect_warning(associationTest(~ gender + answer, df_smol), "frequencies too small")
 })
+
+test_that("associationTest print method returns original object", {
+  x <- associationTest(~gender + answer, df)
+  sink(tempfile()) # don't clutter the output
+  y <- print(x)
+  sink()
+  expect_identical(x, y)
+})
+
+
+test_that("associationTest print method contains expected lines", {
+  tst <- associationTest(~gender + answer, df)
+  out <- capture.output(print(tst))
+  exists_pattern <- function(strs, pattern) {
+    length(grep(pattern = pattern, x = strs)) > 0
+  }
+
+  expect_true(exists_pattern(out, "Chi-square test of categorical association"))
+  expect_true(exists_pattern(out, "Hypotheses"))
+  expect_true(exists_pattern(out, "Observed contingency table"))
+  expect_true(exists_pattern(out, "Expected contingency table"))
+  expect_true(exists_pattern(out, "Test results"))
+})
+
+
+
 
 
 
