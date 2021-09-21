@@ -1,6 +1,6 @@
 Package: lsr
 Title: Companion to "Learning Statistics with R"
-Version: 0.5.1
+Version: 0.5.1.9000
 Authors@R: 
     person(given = "Danielle",
            family = "Navarro",
@@ -21,3 +21,6 @@ Imports:
     methods,
     stats
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
