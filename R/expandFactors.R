@@ -36,7 +36,6 @@ expandFactors <- function( data, ... ) {
 
   attr(data,"na.action") <- stats::na.pass # don't drop NA
   df <- stats::model.matrix( stats::as.formula( paste("~",names(data),collapse="+")), data, ... )
-  print(df)
   df <- df[,-1,drop=FALSE] # remove intercept
   attr(df,"contrasts") <- NULL
   attr(df,"assign") <- NULL
