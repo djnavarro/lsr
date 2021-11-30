@@ -1,5 +1,10 @@
 NEWS file for the lsr package
 
+Version 0.5.2
+
+- updates maintainer email (again!)
+- adds basic unit tests in preparation for refactoring
+
 Version 0.5.1
 
 - uses correct maintainer information
