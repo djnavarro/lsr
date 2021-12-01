@@ -41,6 +41,6 @@ devtools::install_github("djnavarro/lsr")
 
 ## Note
 
-I am in the process of updating the package after a long hiatus. Version 0.5.1 is a minimal update to fix CRAN notes, warnings and errors. Other changes such as tidying the code base and fixing bugs are planned for release 0.6. The long-term plan for the package is maintenance-focused: it is unlikely to see new functionality or API changes, but I intend to add unit tests, improve the internals, and generally make the package more reliable. Breaking changes will be avoided except as needed to fix erroneous results.
+I am in the process of updating the package after a long hiatus. The long-term plan for the package is maintenance-focused: it is unlikely to see new functionality or API changes, but I intend to extend unit tests, improve the internals, and generally make the package more reliable. Breaking changes will be avoided except as needed to fix erroneous results.
 
 

@@ -1,11 +1,11 @@
 Package: lsr
 Title: Companion to "Learning Statistics with R"
-Version: 0.5.1.9000
+Version: 0.5.2
 Authors@R: 
     person(given = "Danielle",
            family = "Navarro",
            role = c("aut", "cre"),
-           email = "d.navarro@unsw.edu.au",
+           email = "djnavarro@protonmail.com",
            comment = c(ORCID = "0000-0001-7648-6578"))
 Description: A collection of tools intended to make introductory 
     statistics easier to teach, including wrappers for common 
@@ -13,6 +13,8 @@ Description: A collection of tools intended to make introductory
     Navarro, D. J. (2015). Learning Statistics with R: A Tutorial 
     for Psychology Students and Other Beginners, Version 0.6. 
 License: MIT + file LICENSE
+URL: https://github.com/djnavarro/lsr
+BugReports: https://github.com/djnavarro/lsr/issues
 Encoding: UTF-8
 LazyLoad: yes
 Imports: 
