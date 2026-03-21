@@ -32,12 +32,3 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("djnavarro/lsr")
 ```
-
-## Note
-
-I am in the process of updating the package after a long hiatus. The
-long-term plan for the package is maintenance-focused: it is unlikely to
-see new functionality or API changes, but I intend to extend unit tests,
-improve the internals, and generally make the package more reliable.
-Breaking changes will be avoided except as needed to fix erroneous
-results.
