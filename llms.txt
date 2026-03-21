@@ -1,0 +1,94 @@
+# lsr
+
+The goal of lsr is to provide tools intended to make introductory
+statistics easier to teach, including wrappers for common hypothesis
+tests and basic data manipulation. The package is associated with the
+introductory textbook at <https://learningstatisticswithr.com>
+
+## Installation
+
+You can install the released version of lsr from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("lsr")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("djnavarro/lsr")
+```
+
+# Package index
+
+## All functions
+
+- [`aad()`](https://lsr.djnavarro.net/reference/aad.md) : Mean (average)
+  absolute deviation from the mean
+- [`associationTest()`](https://lsr.djnavarro.net/reference/associationTest.md)
+  : Chi-square test of association / independence
+- [`bars()`](https://lsr.djnavarro.net/reference/bars.md) : Grouped Bar
+  Plots with Error Bars
+- [`ciMean()`](https://lsr.djnavarro.net/reference/ciMean.md) :
+  Confidence interval around the mean
+- [`cohensD()`](https://lsr.djnavarro.net/reference/cohensD.md) :
+  Cohen's d
+- [`colCopy()`](https://lsr.djnavarro.net/reference/copy.md)
+  [`rowCopy()`](https://lsr.djnavarro.net/reference/copy.md) : Copies a
+  vector into a matrix
+- [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md) :
+  Correlation matrices
+- [`cramersV()`](https://lsr.djnavarro.net/reference/cramersV.md) :
+  Cramer's V
+- [`etaSquared()`](https://lsr.djnavarro.net/reference/etaSquared.md) :
+  Effect size calculations for ANOVAs
+- [`expandFactors()`](https://lsr.djnavarro.net/reference/expandFactors.md)
+  : Expand factors to a set of contrasts
+- [`goodnessOfFitTest()`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md)
+  : Chi-square test against specified probabilities
+- [`importList()`](https://lsr.djnavarro.net/reference/importList.md) :
+  Import a list
+- [`independentSamplesTTest()`](https://lsr.djnavarro.net/reference/independentSamplesTTest.md)
+  : Independent samples t-test
+- [`longToWide()`](https://lsr.djnavarro.net/reference/longToWide.md) :
+  Reshape from long to wide
+- [`maxFreq()`](https://lsr.djnavarro.net/reference/mode.md)
+  [`modeOf()`](https://lsr.djnavarro.net/reference/mode.md) : Sample
+  mode
+- [`oneSampleTTest()`](https://lsr.djnavarro.net/reference/oneSampleTTest.md)
+  : One sample t-test
+- [`pairedSamplesTTest()`](https://lsr.djnavarro.net/reference/pairedSamplesTTest.md)
+  : Paired samples t-test
+- [`permuteLevels()`](https://lsr.djnavarro.net/reference/permuteLevels.md)
+  : Permute the levels of a factor
+- [`posthocPairwiseT()`](https://lsr.djnavarro.net/reference/posthocPairwiseT.md)
+  : Post-hoc pairwise t-tests for ANOVA
+- [`print(`*`<TTest>`*`)`](https://lsr.djnavarro.net/reference/print.TTest.md)
+  : Print method for lsr t-tests
+- [`print(`*`<assocTest>`*`)`](https://lsr.djnavarro.net/reference/print.assocTest.md)
+  : Print method for lsr chi-square tests
+- [`print(`*`<correlate>`*`)`](https://lsr.djnavarro.net/reference/print.correlate.md)
+  : Print method for correlate objects
+- [`print(`*`<gofTest>`*`)`](https://lsr.djnavarro.net/reference/print.gofTest.md)
+  : Print method for lsr goodness-of-fit tests
+- [`print(`*`<whoList>`*`)`](https://lsr.djnavarro.net/reference/print.whoList.md)
+  : Print method for whoList objects
+- [`quantileCut()`](https://lsr.djnavarro.net/reference/quantileCut.md)
+  : Cut by quantiles
+- [`rmAll()`](https://lsr.djnavarro.net/reference/rmAll.md) : Remove all
+  objects
+- [`sortFrame()`](https://lsr.djnavarro.net/reference/sortFrame.md) :
+  Sort a data frame
+- [`standardCoefs()`](https://lsr.djnavarro.net/reference/standardCoefs.md)
+  : Standardised regression coefficients
+- [`tFrame()`](https://lsr.djnavarro.net/reference/tFrame.md) :
+  Transpose a data frame
+- [`unlibrary()`](https://lsr.djnavarro.net/reference/unlibrary.md) :
+  Unload a package
+- [`who()`](https://lsr.djnavarro.net/reference/who.md) : Contents of
+  workspace
+- [`wideToLong()`](https://lsr.djnavarro.net/reference/wideToLong.md) :
+  Reshape from wide to long
+
