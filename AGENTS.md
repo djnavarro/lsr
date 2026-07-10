@@ -33,9 +33,9 @@ stages, listed in order of priority:
    `0.5.2.9000`, created `NEWS.md`.
 5. ~~**Test coverage review**~~ – **Complete.** Coverage raised from 75% to
    82% (556 assertions). `correlate()` loop bug fixed. See PLAN.md for details.
-   **This is the current focus: Stage 6.**
 6. **Documentation improvement** – revise Roxygen tags for accuracy and
-   beginner-friendliness across all 29 functions. See PLAN.md for details.
+   beginner-friendliness across all 29 functions. **In progress:** Group 1
+   (t-tests) complete (PR #17). Three groups remain. See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.

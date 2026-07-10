@@ -146,7 +146,7 @@ tested.
 
 ---
 
-### Stage 6 — Roxygen documentation improvement
+### Stage 6 — Roxygen documentation improvement 🔄 Current focus
 
 **Goal:** Make the documentation more accurate, consistent, and
 beginner-friendly across all 29 exported functions and their print methods.
@@ -159,9 +159,11 @@ reflect this:
   "class attribute" mean nothing to a beginner. Rewrite in plain English.
 - **Describe what the user sees, not what R does internally.** For functions
   whose primary purpose is printing (t-test functions, `who()`, `correlate()`,
-  etc.), `@return` should describe the printed output and note that the return
-  value is invisible — not lead with "returns an object of class X".
-- **`@examples` should be self-contained and immediately runnable.**
+  etc.), `@return` should describe the printed output — not lead with
+  "returns an object of class X".
+- **`@examples` should be self-contained, immediately runnable, and use
+  consistent code style** (spaces around `=`, spaces after commas, no
+  extra spaces after `(` or before `)`).
 
 **Specific checks per file:**
 - `@description` — one clear sentence; remove redundant hedges like
@@ -175,9 +177,29 @@ reflect this:
   called automatically when the object is printed, without using the word
   "dispatch".
 
-**Approach:** Work by function group (t-tests, effect sizes, data
-manipulation, utilities), one PR per group. Run `devtools::document()` after
+**Approach:** One PR per function group. Run `devtools::document()` after
 each batch to verify `.Rd` files regenerate cleanly.
+
+#### Group 1 — T-tests ✅ Complete (PR #17, 2026-07-11)
+
+`oneSampleTTest`, `independentSamplesTTest`, `pairedSamplesTTest`,
+`cohensD`, `print.TTest`
+
+#### Group 2 — Hypothesis tests and effect sizes 🔄 Next
+
+`associationTest`, `goodnessOfFitTest`, `etaSquared`, `cramersV`,
+`ciMean`, `correlate`, `posthocPairwiseT`, `bars`,
+`print.assocTest`, `print.gofTest`, `print.correlate`
+
+#### Group 3 — Data manipulation
+
+`wideToLong`, `longToWide`, `expandFactors`, `permuteLevels`,
+`quantileCut`, `sortFrame`, `tFrame`, `colCopy`, `rowCopy`
+
+#### Group 4 — Workspace utilities
+
+`who`, `modeOf`, `aad`, `maxFreq`, `rmAll`, `unlibrary`,
+`importList`, `standardCoefs`, `print.whoList`
 
 ---
 
