@@ -5,25 +5,35 @@
 # but it can be handy for beginners who don't yet understand how arguments
 # work.
 
-#' Remove all objects
+#' Remove all objects from the workspace
 #'
-#' @description Removes all objects from the workspace
+#' @description Deletes all objects from the workspace, with an optional
+#' confirmation prompt.
 #'
-#' @param ask Logical value indicating whether to ask user to confirm deletions. Default is \code{TRUE}
+#' @param ask Set to \code{TRUE} (the default) to display the current
+#'   workspace contents and ask for confirmation before deleting. Set to
+#'   \code{FALSE} to delete immediately without prompting.
 #'
-#' @details The \code{rmAll} function provides a simple way of deleting all
-#' objects from the workspace. It is almost equivalent to the usual
-#' \code{rm(list = objects())} command. The only difference that it requires
-#' the user to confirm the deletions first if \code{ask = TRUE}, after
-#' displaying a list of the current objects in the worspace. This can
-#' occasionally be useful for teaching purposes.
+#' @details Removes all objects from the workspace. When \code{ask = TRUE},
+#' the list of objects is printed and the user must type \code{y} to confirm
+#' before anything is deleted. This is similar to \code{rm(list = objects())},
+#' but with an interactive safety check.
 #'
-#' @return Invisibly returns 0 if no deletions are made, 1 if at least one deletion is made.
+#' @return Invisibly returns \code{1} if objects were deleted, \code{0} if
+#' the user declined or the workspace was already empty.
 #'
-#' @seealso \code{\link{rm}}
+#' @seealso \code{\link{rm}}, \code{\link{objects}}
 #'
 #' @export
 #'
+#' @examples
+#' if (FALSE) {
+#'   # interactive: displays workspace contents and asks for confirmation
+#'   rmAll()
+#'
+#'   # non-interactive: deletes immediately without prompting
+#'   rmAll(ask = FALSE)
+#' }
 rmAll <- function(ask = TRUE) {
 
   if( !methods::is(ask,"logical") || length(ask) != 1 || is.na(ask) ) {

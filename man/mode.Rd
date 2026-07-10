@@ -11,61 +11,47 @@ modeOf(x, na.rm = TRUE)
 maxFreq(x, na.rm = TRUE)
 }
 \arguments{
-\item{x}{A vector containing the observations.}
+\item{x}{A vector or factor containing the observations.}
 
-\item{na.rm}{Logical value indicating whether NA values should be removed.}
+\item{na.rm}{Set to \code{TRUE} (the default) to remove missing values
+before computing the mode. Set to \code{FALSE} to treat \code{NA} as a
+possible modal value (see Details).}
 }
 \value{
-The \code{modeOf} function returns the mode of \code{x}. If there
-are ties, it returns a vector containing all values of \code{x} that have
-the modal frequency. The \code{maxFreq} function returns the modal
-frequency as a numeric value.
+\code{modeOf} returns the most frequently observed value. If
+multiple values are tied for the highest frequency, all of them are
+returned as a vector. \code{maxFreq} returns the modal frequency as a
+single number.
 }
 \description{
-Calculate the mode of a sample: both modal value(s) and
-the corresponding frequency
+Calculate the most frequently occurring value(s) in a sample
+(\code{modeOf}) or the frequency of the most common value (\code{maxFreq}).
 }
 \details{
-These two functions can be used to calculate the mode (most
-frequently observed value) of a sample, and the actual frequency of the
-modal value. The only complication is in respect to missing data. If
-\code{na.rm = FALSE}, then there are multiple possibilities for how to
-calculate the mode. One possibility is to treat \code{NA} as another
-possible value for the elements of \code{x}, and therefore if \code{NA}
-is more frequent than any other value, then \code{NA} is the mode; and
-the modal frequency is equal to the number of missing values. This is
-the version that is currently implemented.
+When \code{na.rm = FALSE}, missing values are treated as a
+distinct value that can itself be the mode. If the number of \code{NA}s
+exceeds the frequency of every other value, \code{modeOf} returns
+\code{NA} and \code{maxFreq} returns the count of missing values.
 
-Another possibility is to treat \code{NA} as meaning "true value unknown",
-and to the mode of \code{x} is itself known only if the number of missing
-values is small enough that -- regardless of what value they have -- they
-cannot alter the sample mode. For instance, if \code{x} were
-\code{c(1,1,1,1,2,2,NA)}, we know that the mode of \code{x} is \code{1}
-regardless of what the true value is for the one missing datum; and we
-know that the modal frequency is between 4 and 5. This is also a valid
-interpretation, depending on what precisely it is the user wants, but
-is not currently implemented.
-
-Because of the ambiguity of how \code{na.rm = FALSE} should be interpreted,
-the default value has been set to \code{na.rm = TRUE}, which differs from
-the default value used elsewhere in the package.
+Because of this ambiguity, the default is \code{na.rm = TRUE}, unlike
+most other functions in this package.
 }
 \examples{
-# simple example
-eyes <- c("green","green","brown","brown","blue")
-modeOf(eyes)
-maxFreq(eyes)
+eyes <- c("green", "green", "brown", "brown", "blue")
+modeOf(eyes)   # returns c("green", "brown") -- a tie
+maxFreq(eyes)  # returns 2
 
-# vector with missing data
-eyes <- c("green","green","brown","brown","blue",NA,NA,NA)
+# with missing data
+eyes <- c("green", "green", "brown", "brown", "blue", NA, NA, NA)
 
-# returns NA as the modal value.
+# na.rm = FALSE: NA is the most frequent "value"
 modeOf(eyes, na.rm = FALSE)
 maxFreq(eyes, na.rm = FALSE)
 
-# returns c("green", "brown") as the modes, as before
+# na.rm = TRUE: missing values ignored
 modeOf(eyes, na.rm = TRUE)
 maxFreq(eyes, na.rm = TRUE)
+NULL
 }
 \seealso{
 \code{\link{mean}},
