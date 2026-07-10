@@ -107,29 +107,29 @@ correlate <- function( x, y=NULL, test=FALSE, corr.method="pearson", p.adjust.me
     call <- match.call()
     n <- call[[2]]
     names(x) <- "x.var"
-    if(class(n) == "name") names(x) <- as.character(n)
+    if(is.name(n)) names(x) <- as.character(n)
   }
   if( two.inputs & is.vector(y) & is.numeric(y) ) {
     y <- data.frame(y)
     call <- match.call()
     n <- call[[3]]
     names(y) <- "y.var"
-    if(class(n) == "name") names(y) <- as.character(n)
+    if(is.name(n)) names(y) <- as.character(n)
   }
 
   # check input matrices are data frames
-  if( !(class(x) %in% c("matrix","data.frame") )) {
+  if( !inherits(x, c("matrix","data.frame")) ) {
     stop( 'x must be a matrix or data frame' )
   }
-  if( two.inputs & !(class(y) %in% c("matrix","data.frame") )) {
+  if( two.inputs & !inherits(y, c("matrix","data.frame")) ) {
     stop( 'y must be a matrix or data frame' )
   }
 
   # warn if x and y appear to have the same variables!
 
   # coerce to data frame
-  if( class(x) =="matrix" ) x <- as.data.frame(x)
-  if( two.inputs & class(y) == "matrix") y <- as.data.frame(y)
+  if( is.matrix(x) ) x <- as.data.frame(x)
+  if( two.inputs & is.matrix(y) ) y <- as.data.frame(y)
 
   # store other args
   args <- c( two.inputs=two.inputs, test=test,
@@ -144,7 +144,7 @@ correlate <- function( x, y=NULL, test=FALSE, corr.method="pearson", p.adjust.me
     tp <- FALSE # assume no ties problem unless...
 
     # check for failures:
-    if( class(ct) == "try-error" ) {
+    if( inherits(ct, "try-error") ) {
 
       # handle the case when the "error" was a ties warning
       tp <- length( grep("exact p-value with ties",ct )) > 0

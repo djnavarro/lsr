@@ -118,7 +118,7 @@ associationTest <- function( formula, data=NULL ) {
   need.warning <- FALSE # assume warning
 
   # check for failures:
-  if( class(htest) == "try-error" ) {
+  if( inherits(htest, "try-error") ) {
 
     # handle the case when the "error" was the warning we're catching
     need.warning <- length( grep("Chi-squared approximation may be incorrect",htest )) > 0
