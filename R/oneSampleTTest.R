@@ -96,7 +96,7 @@ oneSampleTTest <- function(
   if( any( is.na(x))) {warning( paste( sum(is.na(x))), " case(s) removed due to missingness" ) }
 
   # run the ttest
-  htest <- stats::t.test( x=x, mu=mu, alternative=one.sided )
+  htest <- stats::t.test( x=x, mu=mu, alternative=one.sided, conf.level=conf.level )
 
   # get cohensD
   d <- cohensD( x=x, mu=mu )
