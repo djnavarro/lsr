@@ -146,7 +146,7 @@ tested.
 
 ---
 
-### Stage 6 — Roxygen documentation improvement 🔄 Current focus
+### Stage 6 — Roxygen documentation improvement ✅ Complete
 
 **Goal:** Make the documentation more accurate, consistent, and
 beginner-friendly across all 29 exported functions and their print methods.
@@ -200,7 +200,7 @@ each batch to verify `.Rd` files regenerate cleanly.
 `wideToLong`, `longToWide`, `expandFactors`, `permuteLevels`,
 `quantileCut`, `sortFrame`, `tFrame`, `colCopy`, `rowCopy`
 
-#### Group 4 — Workspace utilities 🔄 Next
+#### Group 4 — Workspace utilities ✅ Complete (PR #20, 2026-07-11)
 
 `who`, `modeOf`, `aad`, `maxFreq`, `rmAll`, `unlibrary`,
 `importList`, `standardCoefs`, `print.whoList`

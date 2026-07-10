@@ -33,9 +33,10 @@ stages, listed in order of priority:
    `0.5.2.9000`, created `NEWS.md`.
 5. ~~**Test coverage review**~~ – **Complete.** Coverage raised from 75% to
    82% (556 assertions). `correlate()` loop bug fixed. See PLAN.md for details.
-6. **Documentation improvement** – revise Roxygen tags for accuracy and
-   beginner-friendliness across all 29 functions. **In progress:** Group 1
-   (t-tests) complete (PR #17). Three groups remain. See PLAN.md for details.
+6. ~~**Documentation improvement**~~ – **Complete.** Roxygen tags revised
+   for accuracy and beginner-friendliness across all 29 functions, in four
+   groups (PRs #17–#20, 2026-07-11). Also fixed a duplicate `@description`
+   bug in `quantileCut`. See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.
@@ -158,6 +159,26 @@ PLAN.md for the complete list. No known hardening issues remain.
   version after any documentation rebuild.
 - The pkgdown site is deployed automatically from `main` via GitHub Actions.
   Do not commit to `docs/` manually.
+
+### Documentation style (Stage 6 conventions, completed 2026-07-11)
+
+All 29 exported functions and their print methods were revised in Stage 6.
+The conventions established are:
+
+- **`@description`**: one clear sentence per function; no "convenience
+  function" or "intended for pedagogical purposes only" hedging.
+- **`@param`**: plain English; flags described as directives ("Set to `TRUE`
+  to …"), not questions ("Should R …?").
+- **`@return`**: describes what the user sees, not "returns an object of
+  class X"; print methods note they are called automatically on display.
+- **`@details`**: accurate after Stages 1–3; no first-person language; no
+  "future versions will …" promises.
+- **`@seealso`**: present on every function.
+- **`@examples`**: self-contained and immediately runnable; consistent style
+  (spaces around `=`, spaces after commas, no padding inside `()`); interactive
+  examples wrapped in `if(FALSE){}` (not `\dontrun{}`); no `library()` calls
+  inside `if(FALSE){}` for packages not in `Suggests` (triggers R CMD check
+  dependency warning).
 
 ---
 
