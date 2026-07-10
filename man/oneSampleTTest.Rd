@@ -37,15 +37,20 @@ format. The calculations are done by \code{\link{t.test}} and
 warning.
 }
 \examples{
+likert <- c(3, 1, 4, 1, 4, 6, 7, 2, 6, 6, 7)
 
-likert <- c(3,1,4,1,4,6,7,2,6,6,7)
+# two-sided test (the default)
+oneSampleTTest(x = likert, mu = 4)
 
-oneSampleTTest( x = likert, mu = 4 )
-oneSampleTTest( x = likert, mu = 4, one.sided = "greater" )
-oneSampleTTest( x = likert, mu = 4, conf.level=.99 )
+# one-sided test: is the mean greater than 4?
+oneSampleTTest(x = likert, mu = 4, one.sided = "greater")
 
-likert <- c(3,NA,4,NA,4,6,7,NA,6,6,7)
-oneSampleTTest( x = likert, mu = 4 )
+# wider confidence interval
+oneSampleTTest(x = likert, mu = 4, conf.level = 0.99)
+
+# missing values are removed with a warning
+likert <- c(3, NA, 4, NA, 4, 6, 7, NA, 6, 6, 7)
+oneSampleTTest(x = likert, mu = 4)
 
 }
 \seealso{

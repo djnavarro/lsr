@@ -43,24 +43,24 @@
 #' @export
 #'
 #' @examples
-#'
 #' df <- data.frame(
 #'   rt = c(451, 562, 704, 324, 505, 600, 829),
-#'   cond = factor( x=c(1,1,1,2,2,2,2), labels=c("group1","group2")))
+#'   cond = factor(x = c(1, 1, 1, 2, 2, 2, 2), labels = c("group1", "group2"))
+#' )
 #'
-#' # Welch t-test
-#' independentSamplesTTest( rt ~ cond, df )
+#' # Welch's t-test (the default, does not assume equal variances)
+#' independentSamplesTTest(rt ~ cond, df)
 #'
-#' # Student t-test
-#' independentSamplesTTest( rt ~ cond, df, var.equal=TRUE )
+#' # Student's t-test (assumes equal variances)
+#' independentSamplesTTest(rt ~ cond, df, var.equal = TRUE)
 #'
-#' # one sided test
-#' independentSamplesTTest( rt ~ cond, df, one.sided="group1" )
+#' # one-sided test: is group1 larger?
+#' independentSamplesTTest(rt ~ cond, df, one.sided = "group1")
 #'
-#' # missing data
+#' # missing values are removed with a warning
 #' df$rt[1] <- NA
 #' df$cond[7] <- NA
-#' independentSamplesTTest( rt ~ cond, df )
+#' independentSamplesTTest(rt ~ cond, df)
 #'
 independentSamplesTTest <- function(
   formula,
