@@ -2,40 +2,37 @@
 
 #' Independent samples t-test
 #'
-#' @description Convenience function that runs an independent samples t-test.
-#' This is a wrapper function intended to be used for pedagogical purposes only.
+#' @description Runs an independent-samples t-test and prints the results in
+#' a readable format.
 #'
-#' @param formula Formula specifying the outcome and the groups (required).
-#' @param data Optional data frame containing the variables.
-#' @param var.equal Should the test assume equal variances (default = \code{FALSE}).
-#' @param one.sided One sided or two sided hypothesis test (default = \code{FALSE})
-#' @param conf.level The confidence level for the confidence interval (default = .95).
+#' @param formula A formula of the form \code{outcome ~ group}, where
+#'   \code{outcome} is the numeric variable being measured and \code{group}
+#'   is a factor with exactly two levels.
+#' @param data An optional data frame containing the variables named in
+#'   \code{formula}. Tibbles are accepted and converted automatically. If
+#'   \code{data} is omitted the variables are looked up in the workspace.
+#' @param var.equal Set to \code{TRUE} to run Student's t-test, which assumes
+#'   equal group variances. The default (\code{FALSE}) runs Welch's t-test,
+#'   which is safer when variances may differ between groups.
+#' @param one.sided Set to \code{FALSE} (default) for a two-sided test. Set
+#'   to the name of the group expected to have the larger mean for a one-sided
+#'   test (e.g., \code{one.sided = "group2"}).
+#' @param conf.level The confidence level for the confidence interval.
+#'   The default is \code{0.95} for a 95\% interval.
 #'
-#' @details The \code{independentSamplesTTest} function runs an
-#' independent-samples t-test and prints the results in a format that is
-#' easier for novices to handle than the output of \code{t.test}. All the
-#' actual calculations are done by the \code{t.test} and \code{cohensD}
-#' functions. The \code{formula} argument must be a two-sided formula of
-#' the form \code{outcome ~ group}. When \code{var.equal=TRUE}, a Student's
-#' t-test is run and the estimate of Cohen's d uses a pooled estimate of
-#' standard deviation. When \code{var.equal=FALSE}, the Welch test is used,
-#' and the estimate of Cohen's d uses the "unequal" method.
+#' @details Runs an independent-samples t-test comparing the means of two
+#' groups, and prints the results in a beginner-friendly format. The
+#' calculations are done by \code{\link{t.test}} and \code{\link{cohensD}}.
+#' When \code{var.equal = TRUE}, Cohen's d uses a pooled standard deviation;
+#' when \code{var.equal = FALSE} (Welch's test), it uses the "unequal" method.
+#' Cases with missing values are removed with a warning.
 #'
-#' As with the \code{t.test} function, the default test is two sided,
-#' corresponding to a default value of \code{one.sided = FALSE}. To specify
-#' a one sided test, the \code{one.sided} argument must specify the name of
-#'  the factor level that is hypothesised (under the alternative) to have
-#'  the larger mean. For instance, if the outcome for "group2" is expected
-#'  to be higher than for "group1", then the corresponding one sided test
-#'  is specified by \code{one.sided = "group2"}.
-#'
-#' @return An object of class 'TTest'. When printed, the output is organised
-#' into five short sections. The first section lists the name of the test and
-#' the variables included. The second provides means and standard deviations.
-#' The third states explicitly what the null and alternative hypotheses were.
-#' The fourth contains the test results: t-statistic, degrees of freedom and
-#' p-value. The final section includes the relevant confidence interval and
-#' an estimate of the effect size (i.e., Cohen's d)
+#' @return Prints a summary showing the outcome and grouping variable names,
+#' group means and standard deviations, null and alternative hypotheses, test
+#' results (t-statistic, degrees of freedom, p-value), a confidence interval,
+#' and Cohen's d as a measure of effect size. The underlying results are also
+#' returned as a list, so the output can be assigned to a variable and
+#' inspected if needed.
 #'
 #' @seealso
 #' \code{\link{t.test}},

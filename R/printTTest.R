@@ -1,11 +1,17 @@
 
 
-#' Print method for lsr t-tests
+#' Print t-test results
 #'
-#' @param x An object of class 'TTest'
-#' @param ... For consistency with the generic (unused)
+#' @description Prints the results of a t-test in a readable, beginner-friendly
+#' format. This function is called automatically whenever a result from
+#' \code{\link{oneSampleTTest}}, \code{\link{independentSamplesTTest}}, or
+#' \code{\link{pairedSamplesTTest}} is displayed.
 #'
-#' @return Invisibly returns the original object
+#' @param x A t-test result, as returned by \code{\link{oneSampleTTest}},
+#'   \code{\link{independentSamplesTTest}}, or \code{\link{pairedSamplesTTest}}.
+#' @param ... Additional arguments (unused, included for compatibility).
+#'
+#' @return Invisibly returns \code{x} unchanged.
 #' @export
 print.TTest <- function( x, ... ) {
 

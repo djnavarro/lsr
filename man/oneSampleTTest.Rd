@@ -7,39 +7,34 @@
 oneSampleTTest(x, mu, one.sided = FALSE, conf.level = 0.95)
 }
 \arguments{
-\item{x}{The variable to be tested (required).}
+\item{x}{A numeric vector containing the data to be tested.}
 
-\item{mu}{The value against which the mean should be tested (required).}
+\item{mu}{The hypothesised population mean to test against.}
 
-\item{one.sided}{One sided or two sided hypothesis test (default = \code{FALSE})}
+\item{one.sided}{Set to \code{FALSE} (default) for a two-sided test. Set
+to \code{"greater"} if you expect the population mean to be above
+\code{mu}, or \code{"less"} if you expect it to be below.}
 
-\item{conf.level}{The confidence level for the confidence interval (default = .95).}
+\item{conf.level}{The confidence level for the confidence interval.
+The default is \code{0.95} for a 95\% interval.}
 }
 \value{
-An object of class 'TTest'. When printed, the output is organised
-into five short sections. The first section lists the name of the test and
-the variables included. The second provides means and standard deviations.
-The third states explicitly what the null and alternative hypotheses were.
-The fourth contains the test results: t-statistic, degrees of freedom and
-p-value. The final section includes the relevant confidence interval and an
-estimate of the effect size (i.e., Cohen's d).
+Prints a summary showing the variable name, descriptive statistics,
+null and alternative hypotheses, test results (t-statistic, degrees of
+freedom, p-value), a confidence interval, and Cohen's d as a measure of
+effect size. The underlying results are also returned as a list, so the
+output can be assigned to a variable and inspected if needed.
 }
 \description{
-Convenience function that runs a one sample t-test. This is
-a wrapper function intended to be used for pedagogical purposes only.
+Runs a one-sample t-test and prints the results in a
+readable format.
 }
 \details{
-The \code{oneSampleTTest} function runs a one-sample t-test on
-the data in \code{x}, and prints the results in a format that is easier
-for novices to handle than the output of \code{t.test}. All the actual
-calculations are done by the \code{t.test} and \code{cohensD} functions.
-
-As with the \code{t.test} function, the default test is two sided,
-corresponding to a default value of \code{one.sided = FALSE}. To specify
-a one sided test in which the alternative hypothesis is that \code{x} is
-larger than \code{mu}, the input must be \code{one.sided = "greater"}.
-Similarly, if \code{one.sided="less"}, then the alternative hypothesis
-is that the mean of \code{x} is smaller than \code{mu}.
+Runs a one-sample t-test comparing the mean of \code{x} to the
+hypothesised value \code{mu}, and prints the results in a beginner-friendly
+format. The calculations are done by \code{\link{t.test}} and
+\code{\link{cohensD}}. Missing values in \code{x} are removed with a
+warning.
 }
 \examples{
 
