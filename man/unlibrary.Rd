@@ -7,28 +7,30 @@
 unlibrary(package)
 }
 \arguments{
-\item{package}{A package name, which may be specified with or without quotes.}
+\item{package}{The name of the package to unload, with or without quotes.}
 }
 \value{
-Identical to \code{detach}.
+Called for its side effect of removing the package from the search
+path. Returns the result of \code{\link{detach}} invisibly.
 }
 \description{
-A wrapper function to \code{\link{detach}} that removes a package
-from the search path, but takes a package name as input similar to \code{\link{library}}.
+Removes a package from the search path, using the same
+naming convention as \code{\link{library}}.
 }
 \details{
-Unloads a package. This is just a wrapper for the \code{detach}
-function. However, the \code{package} argument is just the name of the
-package (rather than the longer string that is required by the \code{detach}
-function), and -- like the \code{library} function -- can be specified
-without quote marks. The \code{unlibrary} function does not unload dependencies,
-only the named package.
+Calls \code{\link{detach}} on the named package. Unlike
+\code{detach}, which requires the full \code{"package:name"} string,
+\code{unlibrary} accepts the bare package name (with or without quotes),
+matching the syntax of \code{\link{library}}. Only the named package is
+unloaded; dependencies are not affected.
+}
+\examples{
+\dontrun{
+library(MASS)
+unlibrary(MASS)
+}
 
-The name "unlibrary" is a bit of an abuse of both R terminology (in which
-one has a library of packages) and the English language, but I think it
-helps convey that the goal of the \code{unlibrary} function is to do the
-opposite of what the \code{library} function does.
 }
 \seealso{
-\code{\link{library}}, \code{\link{require}}, \code{\link{detach}}
+\code{\link{library}}, \code{\link{detach}}
 }

@@ -3,62 +3,43 @@
 # importList() copies each element of a list into a separate variable in the workspace.
 
 
-#' Import a list
+#' Import a list into the workspace
 #'
-#' @description Creates variables in the workspace corresponding to the elements of a list
+#' @description Copies each element of a list into a separate variable in the
+#' workspace, using the list element names as variable names.
 #'
-#' @param x List to be imported
-#' @param ask Should R ask the user to confirm the new variables before creating them? (default is \code{TRUE})
+#' @param x A list or data frame whose elements are to be imported as
+#'   individual variables.
+#' @param ask Set to \code{TRUE} (the default) to display the names of the
+#'   variables that will be created and ask for confirmation before
+#'   proceeding. Set to \code{FALSE} to import silently.
 #'
-#' @details The \code{importList} function creates variables in the parent
-#' environment (generally the global workspace) corresponding to each of the
-#' elements of the list object \code{x}. If the names of these elements do
-#' not correspond to legitimate variables names they are converted using
-#' the \code{\link{make.names}} functions to valid variables names.
+#' @details Creates one variable per list element in the calling environment
+#' (usually the global workspace). Element names that are not valid R variable
+#' names are automatically converted using \code{\link{make.names}}.
 #'
-#' @return Invisibly returns \code{0} if the user chooses not to import the
-#' variables, otherwise invisibly returns \code{1}.
+#' @return Called primarily for its side effect of creating variables in the
+#' workspace. Invisibly returns \code{1} if variables were created, \code{0}
+#' if the user declined.
 #'
-#' @seealso
-#' \code{\link{unlist}},
-#' \code{\link{attach}}
+#' @seealso \code{\link{unlist}}, \code{\link{attach}}
 #'
 #' @export
 #'
 #' @examples
+#' values <- c(1, 2, 3, 4, 5)
+#' group  <- c("group A", "group A", "group B", "group B", "group B")
 #'
-#' # data set organised into two groups
-#' data <- c(1,2,3,4,5)
-#' group <- c("group A","group A","group B","group B","group B")
+#' # split() returns a named list: one element per group
+#' grp_list <- split(values, group)
 #'
-#' # the split function creates a list with two elements
-#' # named "group A" and "group B", each containing the
-#' # data for the respective groups
-#' data.list <- split( data, group )
+#' # import silently (no confirmation prompt)
+#' importList(grp_list, ask = FALSE)
 #'
-#' # The data.list variable looks like this:
-#'
-#' #   $`group A`
-#' #   [1] 1 2
-#' #
-#' #   $`group B`
-#' #   [1] 3 4 5
-#'
-#' # importing the list with the default value of ask = TRUE will
-#' # cause R to wait on the user's approval. Typing this:
-#'
-#' #   importList( data.list )
-#'
-#' # would produce the following output:
-#'
-#' #   Names of variables to be created:
-#' #   [1] "group.A" "group.B"
-#' #   Create these variables? [y/n]
-#'
-#' # If the user then types y, the new variables are created.
-#'
-#' # this version will silently import the variables.
-#' importList( x = data.list, ask = FALSE )
+#' \dontrun{
+#' # interactive: shows variable names and asks for confirmation
+#' importList(grp_list)
+#' }
 #'
 importList <- function(x, ask = TRUE ) {
 

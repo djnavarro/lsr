@@ -6,48 +6,37 @@
 
 #' Contents of workspace
 #'
-#' @description Prints out a simple summary of all the objects in the workspace
+#' @description Prints a summary of all objects in the workspace, showing
+#' each object's name, class, and size.
 #'
-#' @param expand Should R "expand" data frames when listing variables? If
-#' \code{expand = TRUE}, variables inside a data frame are included in the
-#' output. The default is \code{FALSE}
+#' @param expand Set to \code{TRUE} to also list the variables inside any
+#'   data frames in the workspace. Defaults to \code{FALSE}.
 #'
-#' @details The \code{who} function prints out some basic information about
-#' all variables in the workspace. Specifically, it lists the names of all
-#' variables, what class they are, and how big they are (see below for
-#' specifics). If the \code{expand} argument is \code{TRUE} it will also
-#' print out the same information about variables within data frames. See
-#' the examples below to see what the output looks like.
+#' @details Shows each object's name, class, and size. For objects with
+#' explicit dimensions (e.g., data frames, matrices) the size is shown as
+#' rows x columns; for other objects it is the length. Size is only shown
+#' for objects whose mode is \code{numeric}, \code{character}, \code{logical},
+#' \code{complex}, or \code{list}.
 #'
-#' The purpose for the function is to show more information than the
-#' \code{objects} function (especially as regards the names of variables
-#' inside data frames), but not to show as much detail as the \code{ls.str}
-#' function, which is generally too verbose for novice users.
+#' Shows more information than \code{\link{objects}} (especially for variables
+#' inside data frames) but less detail than \code{\link{ls.str}}.
 #'
-#' The "size" of an object is only reported for some kinds of object:
-#' specifically, only those objects whose \code{\link{mode}} is either
-#' \code{numeric}, \code{character}, \code{logical}, \code{complex} or
-#' \code{list}. Nothing is printed for any other kind of object. If the
-#' object has explicit dimensions (e.g., data frames or matrices) then
-#' \code{who} prints out the dimension sizes (e.g., "2 x 3" ). Otherwise
-#' the length of the object is printed.
-#'
-#' @return \code{who} returns an object of class \code{whoList} which is
-#' just a data frame with a dedicated print method.
-#'
-#' @export
+#' @return Prints the workspace summary and invisibly returns the underlying
+#' data (a data frame with columns \code{Name}, \code{Class}, and \code{Size}),
+#' which can be assigned to a variable and inspected if needed.
 #'
 #' @seealso \code{\link{objects}}, \code{\link{ls.str}}
 #'
-#' @examples
+#' @export
 #'
+#' @examples
 #' cats <- 4
 #' mood <- "happy"
 #' who()
 #'
 #' dataset <- data.frame(
-#'   hi = c( "hello","cruel","world" ),
-#'   pi = c( 3,1,4 )
+#'   hi = c("hello", "cruel", "world"),
+#'   pi = c(3, 1, 4)
 #' )
 #'
 #' who()
@@ -118,12 +107,16 @@ who <- function(expand = FALSE) {
 }
 
 
-#' Print method for whoList objects
+#' Print workspace summary
 #'
-#' @param x An object of class 'whoList'
-#' @param ... For consistency with the generic (unused)
+#' @description Prints a workspace summary in a readable format. This function
+#' is called automatically whenever a result from \code{\link{who}} is
+#' displayed.
 #'
-#' @return Invisibly returns the original object
+#' @param x A workspace summary, as returned by \code{\link{who}}.
+#' @param ... Additional arguments (unused, included for compatibility).
+#'
+#' @return Invisibly returns \code{x} unchanged.
 #' @export
 print.whoList <- function(x,...) {
 

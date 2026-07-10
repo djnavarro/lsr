@@ -6,27 +6,29 @@
 
 #' Unload a package
 #'
-#' @description A wrapper function to \code{\link{detach}} that removes a package
-#' from the search path, but takes a package name as input similar to \code{\link{library}}.
+#' @description Removes a package from the search path, using the same
+#' naming convention as \code{\link{library}}.
 #'
-#' @param package A package name, which may be specified with or without quotes.
+#' @param package The name of the package to unload, with or without quotes.
 #'
-#' @details Unloads a package. This is just a wrapper for the \code{detach}
-#' function. However, the \code{package} argument is just the name of the
-#' package (rather than the longer string that is required by the \code{detach}
-#' function), and -- like the \code{library} function -- can be specified
-#' without quote marks. The \code{unlibrary} function does not unload dependencies,
-#' only the named package.
+#' @details Calls \code{\link{detach}} on the named package. Unlike
+#' \code{detach}, which requires the full \code{"package:name"} string,
+#' \code{unlibrary} accepts the bare package name (with or without quotes),
+#' matching the syntax of \code{\link{library}}. Only the named package is
+#' unloaded; dependencies are not affected.
 #'
-#' The name "unlibrary" is a bit of an abuse of both R terminology (in which
-#' one has a library of packages) and the English language, but I think it
-#' helps convey that the goal of the \code{unlibrary} function is to do the
-#' opposite of what the \code{library} function does.
+#' @return Called for its side effect of removing the package from the search
+#' path. Returns the result of \code{\link{detach}} invisibly.
 #'
-#' @return Identical to \code{detach}.
+#' @seealso \code{\link{library}}, \code{\link{detach}}
+#'
 #' @export
 #'
-#' @seealso \code{\link{library}}, \code{\link{require}}, \code{\link{detach}}
+#' @examples
+#' \dontrun{
+#' library(MASS)
+#' unlibrary(MASS)
+#' }
 #'
 unlibrary <- function(package) {
   env.name <- deparse(substitute(package))   # allow input to drop the quote marks

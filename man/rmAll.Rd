@@ -2,27 +2,38 @@
 % Please edit documentation in R/rmAll.R
 \name{rmAll}
 \alias{rmAll}
-\title{Remove all objects}
+\title{Remove all objects from the workspace}
 \usage{
 rmAll(ask = TRUE)
 }
 \arguments{
-\item{ask}{Logical value indicating whether to ask user to confirm deletions. Default is \code{TRUE}}
+\item{ask}{Set to \code{TRUE} (the default) to display the current
+workspace contents and ask for confirmation before deleting. Set to
+\code{FALSE} to delete immediately without prompting.}
 }
 \value{
-Invisibly returns 0 if no deletions are made, 1 if at least one deletion is made.
+Invisibly returns \code{1} if objects were deleted, \code{0} if
+the user declined or the workspace was already empty.
 }
 \description{
-Removes all objects from the workspace
+Deletes all objects from the workspace, with an optional
+confirmation prompt.
 }
 \details{
-The \code{rmAll} function provides a simple way of deleting all
-objects from the workspace. It is almost equivalent to the usual
-\code{rm(list = objects())} command. The only difference that it requires
-the user to confirm the deletions first if \code{ask = TRUE}, after
-displaying a list of the current objects in the worspace. This can
-occasionally be useful for teaching purposes.
+Removes all objects from the workspace. When \code{ask = TRUE},
+the list of objects is printed and the user must type \code{y} to confirm
+before anything is deleted. This is similar to \code{rm(list = objects())},
+but with an interactive safety check.
+}
+\examples{
+\dontrun{
+# interactive: displays workspace contents and asks for confirmation
+rmAll()
+
+# non-interactive: deletes immediately without prompting
+rmAll(ask = FALSE)
+}
 }
 \seealso{
-\code{\link{rm}}
+\code{\link{rm}}, \code{\link{objects}}
 }
