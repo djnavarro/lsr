@@ -1,28 +1,30 @@
 
 
-#' Chi-square test against specified probabilities
+#' Chi-square goodness of fit test
 #'
-#' @description Convenience function that runs a chi-square goodness of fit
-#' test against specified probabilities. This is a wrapper function intended
-#' to be used for pedagogical purposes only.
+#' @description Runs a chi-square goodness of fit test to check whether the
+#' observed frequencies in a categorical variable match a set of hypothesised
+#' probabilities.
 #'
-#' @param x Factor variable containing the raw outcomes.
-#' @param p Numeric variable containing the null-hypothesis probabilities (default = all outcomes equally likely)
+#' @param x A factor variable containing the observed outcomes.
+#' @param p A numeric vector of hypothesised probabilities, one per level of
+#'   \code{x}. The values must sum to 1. If named, the names must match the
+#'   levels of \code{x} (order does not matter). If omitted, all outcomes are
+#'   assumed to be equally likely.
 #'
-#' @details The \code{goodnessOfFitTest} function runs the chi-square
-#' goodness of fit test of the hypothesis that the outcomes in the factor
-#' \code{x} were generated according to the probabilities in the vector
-#' \code{p}. The probability vector \code{p} must be a numeric variable
-#' of length \code{nlevels(x)}. If no probabilities are specified, all
-#' outcomes are assumed to be equally likely.
+#' @details The test checks whether the observed frequencies for a categorical
+#' variable are consistent with the probabilities specified in \code{p}.
 #'
-#' @return An object of class 'gofTest'. When printed, the output is
-#' organised into four short sections. The first section lists the name
-#' of the test and the variables included. The second lists the null and
-#' alternative hypotheses for the test. The third shows the observed
-#' frequency table, the expected frequency table under the null hypothesis,
-#' and the probabilities specified by the null. The fourth prints out the
-#' test results.
+#' Missing values in \code{x} are removed before the test is run, and a
+#' warning is issued if any cases are dropped. If the probabilities in
+#' \code{p} do not sum exactly to 1, they are rescaled with a warning.
+#'
+#' @return Prints a summary of the test showing the variable name, null and
+#' alternative hypotheses, a table of observed frequencies, expected
+#' frequencies, and hypothesised probabilities, and the test results
+#' (chi-square statistic, degrees of freedom, p-value). The underlying results
+#' are also returned as a list, so the output can be assigned to a variable
+#' and inspected if needed.
 #'
 #' @export
 #'
@@ -142,12 +144,17 @@ goodnessOfFitTest <- function( x, p=NULL ) {
 }
 
 
-#' Print method for lsr goodness-of-fit tests
+#' Print goodness of fit test results
 #'
-#' @param x An object of class 'gofTest'
-#' @param ... For consistency with the generic (unused)
+#' @description Prints the results of a chi-square goodness of fit test in a
+#' readable format. This function is called automatically whenever a result
+#' from \code{\link{goodnessOfFitTest}} is displayed.
 #'
-#' @return Invisibly returns the original object
+#' @param x A goodness of fit test result, as returned by
+#'   \code{\link{goodnessOfFitTest}}.
+#' @param ... Additional arguments (unused, included for compatibility).
+#'
+#' @return Invisibly returns \code{x} unchanged.
 #' @export
 print.gofTest <- function(x, ...) {
 

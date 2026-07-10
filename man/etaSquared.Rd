@@ -2,55 +2,60 @@
 % Please edit documentation in R/etaSquared.R
 \name{etaSquared}
 \alias{etaSquared}
-\title{Effect size calculations for ANOVAs}
+\title{Effect size for ANOVAs}
 \usage{
 etaSquared(x, type = 2, anova = FALSE)
 }
 \arguments{
-\item{x}{An analysis of variance (aov) object.}
+\item{x}{An \code{aov} object, as returned by \code{\link{aov}}.}
 
-\item{type}{What type of sum of squares to calculate?}
+\item{type}{Which type of sums of squares to use: \code{1} for Type I,
+\code{2} for Type II (the default), or \code{3} for Type III. Type II is
+recommended for most unbalanced designs.}
 
-\item{anova}{Should the full ANOVA table be printed out in addition to the effect sizes?}
+\item{anova}{Set to \code{TRUE} to include the full ANOVA table alongside
+the effect sizes. Defaults to \code{FALSE}.}
 }
 \value{
-If \code{anova=FALSE}, the output is an M x 2 matrix. Each of the
-M rows corresponds to one of the terms in the ANOVA (e.g., main effect 1,
-main effect 2, interaction, etc), and each of the columns corresponds to
-a different measure of effect size. Column 1 contains the eta-squared
-values, and column 2 contains partial eta-squared values. If
-\code{anova=TRUE}, the output contains additional columns containing the
-sums of squares, mean squares, degrees of freedom, F-statistics and p-values.
+A matrix with one row per term in the ANOVA model and columns for
+eta-squared (\code{eta.sq}) and partial eta-squared (\code{eta.sq.part}).
+If \code{anova = TRUE}, additional columns show the sums of squares,
+mean squares, degrees of freedom, F-statistics, and p-values.
 }
 \description{
-Calculates eta-squared and partial eta-squared
+Calculates eta-squared and partial eta-squared effect sizes for
+an analysis of variance.
 }
 \details{
-Calculates the eta-squared and partial eta-squared measures of
-effect size that are commonly used in analysis of variance. The input
-\code{x} should be the analysis of variance object itself.
+Calculates eta-squared and partial eta-squared, two commonly used
+measures of effect size in analysis of variance. The input \code{x} should
+be an ANOVA fitted with \code{\link{aov}}.
 
-For unbalanced designs, the default in \code{etaSquared} is to compute
-Type II sums of squares (\code{type=2}), in keeping with the \code{Anova}
-function in the \code{car} package. It is possible to revert to the
-Type I SS values (\code{type=1}) to be consistent with \code{anova}, but
-this rarely tests hypotheses of interest. Type III SS values (\code{type=3})
-can also be computed.
+For unbalanced designs, Type II sums of squares (\code{type = 2}) are
+recommended and are the default, consistent with the \code{Anova} function
+in the \pkg{car} package. Type I (\code{type = 1}) matches the output of
+\code{\link{anova}} but tests hypotheses that are often not of interest in
+unbalanced designs. Type III (\code{type = 3}) is also available.
 }
 \examples{
-# Example 1: one-way ANOVA
+outcome <- c(1.4, 2.1, 3.0, 2.1, 3.2, 4.7, 3.5, 4.5, 5.4)
+treatment1 <- factor(c(1, 1, 1, 2, 2, 2, 3, 3, 3))
 
-outcome <- c( 1.4,2.1,3.0,2.1,3.2,4.7,3.5,4.5,5.4 )  # data
-treatment1 <- factor( c( 1,1,1,2,2,2,3,3,3 ))        # grouping variable
-anova1 <- aov( outcome ~ treatment1 )                # run the ANOVA
-summary( anova1 )                                    # print the ANOVA table
-etaSquared( anova1 )                                 # effect size
+# one-way ANOVA
+anova1 <- aov(outcome ~ treatment1)
+summary(anova1)
+etaSquared(anova1)
 
-# Example 2: two-way ANOVA
+# include the full ANOVA table
+etaSquared(anova1, anova = TRUE)
 
-treatment2 <- factor( c( 1,2,3,1,2,3,1,2,3 ))      # second grouping variable
-anova2 <- aov( outcome ~ treatment1 + treatment2 ) # run the ANOVA
-summary( anova2 )                                  # print the ANOVA table
-etaSquared( anova2 )                               # effect size
+# two-way ANOVA
+treatment2 <- factor(c(1, 2, 3, 1, 2, 3, 1, 2, 3))
+anova2 <- aov(outcome ~ treatment1 + treatment2)
+etaSquared(anova2)
 
+}
+\seealso{
+\code{\link{aov}},
+\code{\link{summary.aov}}
 }

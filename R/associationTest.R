@@ -1,35 +1,42 @@
 
 #' Chi-square test of association / independence
 #'
-#' @description Convenience function that runs a chi-square test of
-#' association/independence. This is a wrapper function intended to
-#' be used for pedagogical purposes only.
+#' @description Runs a chi-square test to check whether two categorical
+#' variables are independent of one another.
 #'
-#' @param formula One-sided formula specifying the two variables (required).
-#' @param data Optional data frame containing the variables.
+#' @param formula A one-sided formula of the form \code{~var1 + var2},
+#'   specifying the two variables to be tested. Both variables must be factors.
+#' @param data An optional data frame containing the variables named in
+#'   \code{formula}. If omitted, the variables are looked up in the workspace.
 #'
-#' @details The \code{associationTest} function runs the chi-square test
-#' of association on the variables specified in the \code{formula} argument.
-#' The formula must be a one-sided formula of the form
-#' \code{~variable1 + variable2}, and both variables must be factors.
+#' @details The test checks whether two categorical variables are statistically
+#' independent. Both variables must be factors, and the formula must be
+#' one-sided with exactly two variables, e.g. \code{~gender + answer}.
 #'
-#' @return An object of class 'assocTest'. When printed, the output is
-#' organised into six short sections. The first section lists the name
-#' of the test and the variables included. The second lists the null and
-#' alternative hypotheses for the test. The third shows the observed
-#' contingency table, and the fourth shows the expected contingency
-#' table under the null. The fifth prints out the test results, and the
-#' sixth reports an estimate of effect size.
+#' Missing values are removed before the test is run, and a warning is issued
+#' if any cases are dropped. When both variables have only two levels, Yates'
+#' continuity correction is applied automatically.
+#'
+#' @return Prints a summary of the test showing the variable names, null and
+#' alternative hypotheses, observed and expected frequency tables, test results
+#' (chi-square statistic, degrees of freedom, p-value), and Cramer's V as a
+#' measure of effect size. The underlying results are also returned as a list,
+#' so the output can be assigned to a variable and inspected if needed.
+#'
+#' @seealso
+#' \code{\link{chisq.test}},
+#' \code{\link{goodnessOfFitTest}},
+#' \code{\link{cramersV}}
 #'
 #' @export
 #'
 #' @examples
 #' df <- data.frame(
-#' gender=factor(c("male","male","male","male","female","female","female")),
-#' answer=factor(c("heads","heads","heads","heads","tails","tails","heads"))
+#'   gender = factor(c("male", "male", "male", "male", "female", "female", "female")),
+#'   answer = factor(c("heads", "heads", "heads", "heads", "tails", "tails", "heads"))
 #' )
 #'
-#' associationTest( ~ gender + answer, df )
+#' associationTest(~gender + answer, df)
 #'
 associationTest <- function( formula, data=NULL ) {
 
@@ -169,12 +176,17 @@ associationTest <- function( formula, data=NULL ) {
 
 # print method
 
-#' Print method for lsr chi-square tests
+#' Print chi-square association test results
 #'
-#' @param x An object of class 'assocTest'
-#' @param ... For consistency with the generic (unused)
+#' @description Prints the results of a chi-square test of association in a
+#' readable format. This function is called automatically whenever a result
+#' from \code{\link{associationTest}} is displayed.
 #'
-#' @return Invisibly returns the original object
+#' @param x An association test result, as returned by
+#'   \code{\link{associationTest}}.
+#' @param ... Additional arguments (unused, included for compatibility).
+#'
+#' @return Invisibly returns \code{x} unchanged.
 #' @export
 print.assocTest <- function(x, ...) {
 
