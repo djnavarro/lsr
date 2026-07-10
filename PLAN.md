@@ -195,12 +195,12 @@ each batch to verify `.Rd` files regenerate cleanly.
 `ciMean`, `correlate`, `posthocPairwiseT`, `bars`,
 `print.assocTest`, `print.gofTest`, `print.correlate`
 
-#### Group 3 — Data manipulation 🔄 Next
+#### Group 3 — Data manipulation ✅ Complete (PR #19, 2026-07-11)
 
 `wideToLong`, `longToWide`, `expandFactors`, `permuteLevels`,
 `quantileCut`, `sortFrame`, `tFrame`, `colCopy`, `rowCopy`
 
-#### Group 4 — Workspace utilities
+#### Group 4 — Workspace utilities 🔄 Next
 
 `who`, `modeOf`, `aad`, `maxFreq`, `rmAll`, `unlibrary`,
 `importList`, `standardCoefs`, `print.whoList`
