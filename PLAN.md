@@ -93,6 +93,82 @@ breaking change. One fix per PR; include or update a test for each fix.
 
 ---
 
+### Stage 4 — Release infrastructure 🔄 Current focus
+
+**Goal:** Bring the changelog and version number up to date before any
+further work.
+
+**Approach:** Single commit to `dev`; no PR needed.
+
+**Tasks:**
+- Bump `Version` in `DESCRIPTION` from `0.5.2` to `0.5.2.9000` (the
+  conventional R marker for a development version ahead of CRAN)
+- Create `NEWS.md` documenting all changes since the 0.5.2 CRAN release,
+  drawn from the Stages 1–3 work (bug fixes, hardening, expanded test suite)
+- Remove the stale `^NEWS$` line from `.Rbuildignore` (the file it was
+  guarding against never existed; `NEWS.md` is a standard R package file
+  and does not need to be ignored)
+
+---
+
+### Stage 5 — Test coverage review
+
+**Goal:** Identify lines not currently exercised by the test suite and write
+targeted tests for the most important gaps. The aim is not 100% coverage for
+its own sake — it is to ensure that non-trivial logic branches are actually
+tested.
+
+**Approach:**
+1. Run `covr::package_coverage()` and inspect the report with
+   `covr::zero_coverage()` to list uncovered lines.
+2. Triage gaps by importance: non-trivial logic branches (e.g. alternative
+   paths in `cohensD`, `correlate`, `etaSquared`, `pairedSamplesTTest`) are
+   high priority; hard-to-trigger error paths and the complex `bars()` plotting
+   function are lower priority.
+3. Write tests function by function, following existing conventions (pin
+   numeric results with `tolerance`; use `expect_error()` for error paths;
+   test the public interface only).
+4. If the `correlate()` loop edge case identified in Stage 3 (incorrect
+   iteration when fewer than 2 numeric variables are present) surfaces during
+   coverage work, fix the code before writing the test.
+
+---
+
+### Stage 6 — Roxygen documentation improvement
+
+**Goal:** Make the documentation more accurate, consistent, and
+beginner-friendly across all 29 exported functions and their print methods.
+
+**Guiding principle — the reader is a novice:** The audience is introductory
+statistics students encountering R for the first time. Documentation must
+reflect this:
+
+- **Avoid S3/OOP jargon.** "S3 method", "dispatch", "generic function",
+  "class attribute" mean nothing to a beginner. Rewrite in plain English.
+- **Describe what the user sees, not what R does internally.** For functions
+  whose primary purpose is printing (t-test functions, `who()`, `correlate()`,
+  etc.), `@return` should describe the printed output and note that the return
+  value is invisible — not lead with "returns an object of class X".
+- **`@examples` should be self-contained and immediately runnable.**
+
+**Specific checks per file:**
+- `@description` — one clear sentence; remove redundant hedges like
+  "convenience function intended for pedagogical purposes only".
+- `@param` — all parameters documented; plain language (not "a logical flag",
+  but "set to `TRUE` to ...").
+- `@return` — highest priority for revision; describe what the user sees.
+- `@details` — verify accuracy after Stages 1–3 changes.
+- `@seealso` — cross-references relevant and complete.
+- Print methods — minimal but plain-English documentation; note they are
+  called automatically when the object is printed, without using the word
+  "dispatch".
+
+**Approach:** Work by function group (t-tests, effect sizes, data
+manipulation, utilities), one PR per group. Run `devtools::document()` after
+each batch to verify `.Rd` files regenerate cleanly.
+
+---
+
 ## Guiding principles
 
 - The package is **stable and feature-frozen**. No new exported functions,

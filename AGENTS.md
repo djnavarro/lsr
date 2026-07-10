@@ -18,8 +18,8 @@ common statistical procedures and is published on CRAN.
 ## Development Status and Priorities
 
 The package is **stable and feature-frozen**. No new exported functions, no
-API changes, and no new dependencies are planned. Work is limited to three
-areas, listed in order of priority:
+API changes, and no new dependencies are planned. Work is limited to six
+stages, listed in order of priority:
 
 1. ~~**Test suite quality**~~ – **Complete.** 28 test files, 448 assertions,
    all 29 exported functions covered.
@@ -29,6 +29,12 @@ areas, listed in order of priority:
 3. ~~**Bug fixes**~~ – **Complete.** 501 assertions. All five open GitHub
    issues resolved; three code bugs fixed, two closed as non-bugs. One
    missed Stage 2 hardening item also fixed. See PLAN.md for details.
+4. **Release infrastructure** – bump to dev version `0.5.2.9000`, create
+   `NEWS.md`. **This is the current focus.**
+5. **Test coverage review** – identify and fill gaps in the test suite using
+   `covr`. See PLAN.md for details.
+6. **Documentation improvement** – revise Roxygen tags for accuracy and
+   beginner-friendliness across all 29 functions. See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.
