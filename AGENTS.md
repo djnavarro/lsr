@@ -21,10 +21,12 @@ The package is **stable and feature-frozen**. No new exported functions, no
 API changes, and no new dependencies are planned. Work is limited to three
 areas, listed in order of priority:
 
-1. **Test suite quality** – add proper unit tests and improve coverage.
+1. ~~**Test suite quality**~~ – **Complete.** 28 test files, 448 assertions,
+   all 29 exported functions covered.
 2. **Internal hardening** – improve input validation, defensive coding, and
    robustness of internals so the package continues to work reliably as R and
-   its ecosystem evolve.
+   its ecosystem evolve. **This is the current focus.** See the Known Issues
+   table in the Internal Hardening Guidelines section for specific targets.
 3. **Bug fixes** – only where a genuine defect exists and a fix is clearly
    safe. Be conservative; prefer doing nothing over introducing a breaking
    change.
@@ -96,16 +98,20 @@ Custom S3 classes with `print` methods: `TTest`, `whoList`, `correlate`,
 
 ### Current state of the test suite
 
-The existing tests were written quickly and are not comprehensive. They should
-be treated as a baseline, not a model to follow. The immediate goal is to
-build a thorough, well-structured test suite alongside the existing tests —
-**do not remove old tests** until you are certain that the newer tests
-genuinely supersede them (i.e., cover the same behaviour plus more). When in
-doubt, keep both. Gaps in coverage are more dangerous than redundant tests.
+The test suite was overhauled in 2025 (PR merged into `dev`). It now has
+28 test files and 448 assertions covering all 29 exported functions and all
+S3 print methods. Every file covers at minimum: typical usage, numeric
+correctness against a reference (base R or hand-computed), and expected
+errors/warnings.
 
-Internal hardening work (input validation, defensive coding) should not begin
-until the test suite is in good shape. Tests must be in place first so that
-hardening changes can be verified against them.
+**The test suite is now considered sufficient to support the internal
+hardening phase.** Hardening PRs may proceed; tests are in place to verify
+that changes do not break existing behaviour.
+
+When adding new tests, the existing files are now a reasonable model to
+follow. The old "keep both" caution still applies for any test whose
+coverage is genuinely uncertain, but most of the original tests have been
+superseded and can be removed if they are strictly redundant.
 
 ### Guidelines for writing tests
 
@@ -131,6 +137,20 @@ hardening changes can be verified against them.
   `methods`, `stats`).
 - Keep changes narrow. If hardening one function, do not refactor adjacent
   functions in the same PR unless there is a direct dependency.
+
+### Known issues (priority candidates for the hardening PR)
+
+These were discovered during the test suite overhaul and are documented in
+the relevant test files. Each is a good-faith bug or validation gap, not a
+design decision, and each already has a test that will catch the fix.
+
+| Location | Issue |
+|----------|-------|
+| `printTTest.R` | `print.TTest` has no `return()` call; returns `NULL` instead of `invisible(x)` as documented and as every other lsr print method does. |
+| `unlibrary.R` | `unlibrary("pkg")` (quoted string) fails because `deparse(substitute("pkg"))` produces nested quotes. Only the bare unquoted form works. |
+| `modeOf.R`, `colCopy.R` | Several `is.vector()` guards do not catch plain lists, because `is.vector(list(...))` is `TRUE` in R. Affects `modeOf`, `maxFreq`, `colCopy`, `rowCopy`. |
+| `importList.R` | `importList(ask = NA)` passes the `is(ask, "logical")` guard (NA is logical) but errors later with an opaque message. The guard should also check `!is.na(ask)`. |
+| `standardCoefs.R` | `aov` objects inherit from `lm`, so they pass the `is(x, "lm")` guard silently. Decide whether `aov` input should be accepted or rejected with an informative message. |
 
 ---
 
