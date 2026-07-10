@@ -53,3 +53,14 @@ test_that("oneSampleTTest effect size equals cohensD for one-sample case", {
   tt <- oneSampleTTest(x = likert1, mu = 4)
   expect_equal(tt$effect.size, cohensD(x = likert1, mu = 4), tolerance = 1e-6)
 })
+
+test_that("oneSampleTTest errors on invalid conf.level", {
+  expect_error(oneSampleTTest(likert1, mu = 4, conf.level = c(0.9, 0.95)),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(oneSampleTTest(likert1, mu = 4, conf.level = NA_real_),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(oneSampleTTest(likert1, mu = 4, conf.level = 1.5),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(oneSampleTTest(likert1, mu = 4, conf.level = "high"),
+               '"conf.level" must be a number between 0 and 1')
+})
