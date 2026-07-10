@@ -8,93 +8,79 @@
 
 #' Correlation matrices
 #'
-#' @description Computes a correlation matrix and runs hypothesis tests with corrections for multiple comparisons
+#' @description Computes a correlation matrix, optionally with hypothesis tests
+#' and corrections for multiple comparisons.
 #'
-#' @param x Matrix or data frame containing variables to be correlated
-#' @param y Optionally, a second set of variables to be correlated with those in \code{x}
-#' @param test Should hypothesis tests be displayed? (Default=\code{FALSE})
-#' @param corr.method What kind of correlations should be computed? Default is \code{"pearson"}, but \code{"spearman"} and \code{"kendall"} are also supported
-#' @param p.adjust.method What method should be used to correct for multiple comparisons. Default value is \code{"holm"}, and the allowable values are the same as for \code{\link{p.adjust}}
+#' @param x A numeric vector, matrix, or data frame containing the variables to
+#'   be correlated.
+#' @param y An optional second matrix or data frame. If provided, the variables
+#'   in \code{x} are correlated with the variables in \code{y} rather than with
+#'   each other.
+#' @param test Set to \code{TRUE} to display p-values and sample sizes
+#'   alongside the correlations. Defaults to \code{FALSE}.
+#' @param corr.method The type of correlation to compute: \code{"pearson"}
+#'   (the default), \code{"spearman"}, or \code{"kendall"}.
+#' @param p.adjust.method The method used to correct p-values for multiple
+#'   comparisons. Defaults to \code{"holm"}. All methods supported by
+#'   \code{\link{p.adjust}} are accepted.
 #'
-#' @details The \code{correlate} function calculates a correlation matrix
-#' between all pairs of variables. Much like the \code{cor} function, if the
-#' user inputs only one set of variables (\code{x}) then it computes all
-#' pairwise correlations between the variables in \code{x}. If the user
-#' specifies both \code{x} and \code{y} it correlates the variables in
-#' \code{x} with the variables in \code{y}.
+#' @details Calculates a correlation matrix between all pairs of numeric
+#' variables. If only \code{x} is supplied, all pairwise correlations among
+#' the variables in \code{x} are computed. If both \code{x} and \code{y} are
+#' supplied, variables in \code{x} are correlated with variables in \code{y}.
 #'
-#' Unlike the \code{cor} function, \code{correlate} does not generate an
-#' error if some of the variables are categorical (i.e., factors). Variables
-#' that are not numeric (or integer) class are simply ignored. They appear in
-#' the output, but no correlations are reported for those variables. The
-#' decision to have the \code{correlate} function allow the user a little
-#' leniency when the input contains non-numeric variables should be explained.
-#' The motivation is pedagogical rather than statistical. It is sometimes the
-#'  case in psychology that students need to work with correlation matrices
-#'  before they are comfortable subsetting a data frame, so it is convenient
-#'  to allow them to type commands like \code{correlate(data)} even when
-#'  \code{data} contains variables for which Pearson/Spearman correlations
-#'  are not appropriate. (It is also useful to use the output of
-#'  \code{correlate} to illustrate the fact that Pearson correlations should
-#'  not be used for categorical variables).
+#' Non-numeric variables (e.g., factors) are silently ignored: they appear in
+#' the output with \code{NA} in place of correlation values. This makes it
+#' convenient to pass an entire data frame without first removing categorical
+#' columns.
 #'
-#'  A second difference between \code{cor} and \code{correlate} is that
-#'  \code{correlate} runs hypothesis tests for all correlations in the
-#'  correlation matrix (using the \code{cor.test} function to do the work).
-#'  The results of the tests are only displayed to the user if
-#'  \code{test=TRUE}. This is a pragmatic choice, given the (perhaps
-#'  unfortunate) fact that psychologists often want to see the results
-#'  of these tests: it is probably not coincidental that the \code{corr.test}
-#'  function in the \pkg{psych} package already provides this functionality
-#'  (though the output is difficult for novices to read).
+#' When \code{test = TRUE}, hypothesis tests are run for every pair of numeric
+#' variables. To reduce the risk of false positives from testing many pairs at
+#' once, p-values are adjusted using the Holm method by default. See
+#' \code{\link{p.adjust}} for other available methods.
 #'
-#'  The concern with running hypothesis tests for all elements of a correlation
-#'  matrix is inflated Type I error rates. To minimise this risk, reported
-#'  p-values are adjusted using the Holm method. The user can change this
-#'  setting by specifying \code{p.adjust.method}. See \code{\link{p.adjust}}
-#'  for details.
+#' Missing data are handled using pairwise complete cases, so sample sizes may
+#' differ across pairs of variables.
 #'
-#'  Missing data are handled using pairwise complete cases.
+#' @return Prints the correlation matrix. If \code{test = TRUE}, also prints a
+#' matrix of adjusted p-values and a matrix of sample sizes. The results are
+#' also returned as a list with four elements: \code{correlation} (the
+#' correlation matrix), \code{p.value} (the matrix of p-values),
+#' \code{sample.size} (the matrix of sample sizes), and \code{args} (a record
+#' of the options used). The list can be assigned to a variable and inspected
+#' if needed.
 #'
-#' @return The printed output shows the correlation matrix, and if tests are
-#' requested it also reports a matrix of p-values and sample sizes associated
-#' with each correlation (these can vary if there are missing data). The
-#' underlying data structure is an object of class \code{correlate} (an S3
-#' class). It is effectively a list containing four elements:
-#' \code{correlation} is the correlation matrix, \code{p.value} is the matrix
-#' of p-values, \code{sample.size} is the matrix of sample sizes, and
-#' \code{args} is a vector that stores information about what the user
-#' requested.
+#' @seealso
+#' \code{\link{cor}},
+#' \code{\link{cor.test}},
+#' \code{\link{p.adjust}}
 #'
 #' @export
 #'
 #' @examples
 #' # data frame with factors and missing values
 #' data <- data.frame(
-#'   anxiety = c(1.31,2.72,3.18,4.21,5.55,NA),
-#'   stress = c(2.01,3.45,1.99,3.25,4.27,6.80),
-#'   depression = c(2.51,1.77,3.34,5.83,9.01,7.74),
-#'   happiness = c(4.02,3.66,5.23,6.37,7.83,1.18),
-#'   gender = factor( c("male","female","female","male","female","female") ),
-#'   ssri = factor( c("no","no","no",NA,"yes","yes") )
+#'   anxiety    = c(1.31, 2.72, 3.18, 4.21, 5.55, NA),
+#'   stress     = c(2.01, 3.45, 1.99, 3.25, 4.27, 6.80),
+#'   depression = c(2.51, 1.77, 3.34, 5.83, 9.01, 7.74),
+#'   happiness  = c(4.02, 3.66, 5.23, 6.37, 7.83, 1.18),
+#'   gender = factor(c("male", "female", "female", "male", "female", "female")),
+#'   ssri   = factor(c("no", "no", "no", NA, "yes", "yes"))
 #' )
 #'
-#' # default output is just the (Pearson) correlation matrix
-#' correlate( data )
+#' # Pearson correlation matrix (the default)
+#' correlate(data)
 #'
-#' # other types of correlation:
-#' correlate( data, corr.method="spearman" )
+#' # Spearman correlations
+#' correlate(data, corr.method = "spearman")
 #'
-#' # two meaningful subsets to be correlated:
-#' nervous <- data[,c("anxiety","stress")]
-#' happy <- data[,c("happiness","depression","ssri")]
+#' # correlate two subsets of variables with each other
+#' nervous <- data[, c("anxiety", "stress")]
+#' happy   <- data[, c("happiness", "depression")]
+#' correlate(nervous, happy)
 #'
-#' # default output for two matrix input
-#' correlate( nervous, happy )
-#'
-#' # the same examples, with Holm-corrected p-values
-#' correlate( data, test=TRUE )
-#' correlate( nervous, happy, test=TRUE )
+#' # include Holm-corrected p-values and sample sizes
+#' correlate(data, test = TRUE)
 #'
 correlate <- function( x, y=NULL, test=FALSE, corr.method="pearson", p.adjust.method="holm" ) {
 
@@ -272,12 +258,16 @@ correlate <- function( x, y=NULL, test=FALSE, corr.method="pearson", p.adjust.me
 
 # print method
 
-#' Print method for correlate objects
+#' Print correlation matrix results
 #'
-#' @param x An object of class 'correlate'
-#' @param ... For consistency with the generic (unused)
+#' @description Prints the results of a correlation analysis in a readable
+#' format. This function is called automatically whenever a result from
+#' \code{\link{correlate}} is displayed.
 #'
-#' @return Invisibly returns the original object
+#' @param x A correlation result, as returned by \code{\link{correlate}}.
+#' @param ... Additional arguments (unused, included for compatibility).
+#'
+#' @return Invisibly returns \code{x} unchanged.
 #' @export
 print.correlate <- function( x, ... ){
 

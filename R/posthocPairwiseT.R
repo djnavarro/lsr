@@ -5,47 +5,46 @@
 
 #' Post-hoc pairwise t-tests for ANOVA
 #'
-#' @description Performs pairwise t-tests for an analysis of variance,
-#' making corrections for multiple comparisons.
+#' @description Runs pairwise t-tests for a one-way analysis of variance,
+#' with corrections for multiple comparisons.
 #'
-#' @param x An \code{aov} object
-#' @param ... Arguments to be passed to \code{pairwise.t.test}
+#' @param x An \code{aov} object, as returned by \code{\link{aov}}. Only
+#'   one-way ANOVA models are supported.
+#' @param ... Additional arguments passed to \code{\link{pairwise.t.test}},
+#'   such as \code{p.adjust.method}.
 #'
-#' @details The intention behind this function is to allow users to use simple
-#' tools for multiple corrections (e.g., Bonferroni, Holm) as post hoc
-#' corrections in an ANOVA context, using the fitted model object (i.e., an
-#' \code{aov} object) as the input. The reason for including this function is
-#' that Tukey / Scheffe methods for constructing simultaneous confidence
-#' intervals (as per \code{\link{TukeyHSD}}) are not often discussed in the
-#' context of an introductory class, and the more powerful tools provided by
-#' the \code{multcomp} package are not appropriate for students just beginning
-#' to learn statistics.
+#' @details Takes a fitted one-way ANOVA object and runs pairwise t-tests for
+#' all pairs of groups, applying a correction for multiple comparisons. This
+#' is a simpler alternative to \code{\link{TukeyHSD}} that uses the same
+#' correction methods (e.g., Holm, Bonferroni) as
+#' \code{\link{pairwise.t.test}}.
 #'
-#' This function is currently just a wrapper function for
-#' \code{\link{pairwise.t.test}}, and it only works for one-way ANOVA, but
-#' this may change in future versions.
-#'
-#' @return As per \code{pairwise.t.test}
-#' @export
+#' @return Prints a table of p-values for all pairwise group comparisons. The
+#' underlying result is also returned as a list (with the same structure as
+#' \code{\link{pairwise.t.test}}) so it can be assigned to a variable and
+#' inspected if needed.
 #'
 #' @seealso
 #' \code{\link{pairwise.t.test}},
-#' \code{\link{TukeyHSD}}
+#' \code{\link{TukeyHSD}},
+#' \code{\link{aov}}
+#'
+#' @export
 #'
 #' @examples
-#' # create the data set to analyse:
 #' dataset <- data.frame(
-#'   outcome = c( 1,2,3, 2,3,4, 5,6,7 ),
-#'   group = factor(c( "a","a","a", "b","b","b","c","c","c"))
+#'   outcome = c(1, 2, 3, 2, 3, 4, 5, 6, 7),
+#'   group = factor(c("a", "a", "a", "b", "b", "b", "c", "c", "c"))
 #' )
 #'
-#' # run the ANOVA and print out the ANOVA table:
-#' anova1 <- aov( outcome ~ group, data = dataset )
+#' anova1 <- aov(outcome ~ group, data = dataset)
 #' summary(anova1)
 #'
-#' # Currently, the following two commands are equivalent:
-#' posthocPairwiseT( anova1 )
-#' pairwise.t.test( dataset$outcome, dataset$group )
+#' # post-hoc pairwise comparisons with Holm correction (the default)
+#' posthocPairwiseT(anova1)
+#'
+#' # Bonferroni correction instead
+#' posthocPairwiseT(anova1, p.adjust.method = "bonferroni")
 #'
 posthocPairwiseT <- function(x,...) {
 

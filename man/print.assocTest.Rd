@@ -2,18 +2,21 @@
 % Please edit documentation in R/associationTest.R
 \name{print.assocTest}
 \alias{print.assocTest}
-\title{Print method for lsr chi-square tests}
+\title{Print chi-square association test results}
 \usage{
 \method{print}{assocTest}(x, ...)
 }
 \arguments{
-\item{x}{An object of class 'assocTest'}
+\item{x}{An association test result, as returned by
+\code{\link{associationTest}}.}
 
-\item{...}{For consistency with the generic (unused)}
+\item{...}{Additional arguments (unused, included for compatibility).}
 }
 \value{
-Invisibly returns the original object
+Invisibly returns \code{x} unchanged.
 }
 \description{
-Print method for lsr chi-square tests
+Prints the results of a chi-square test of association in a
+readable format. This function is called automatically whenever a result
+from \code{\link{associationTest}} is displayed.
 }
