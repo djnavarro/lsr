@@ -94,3 +94,56 @@ test_that("print.correlate output includes CORRELATIONS header", {
   out <- capture.output(print(r))
   expect_true(any(grepl("CORRELATIONS", out)))
 })
+
+test_that("print.correlate with test = TRUE shows p-values and sample sizes", {
+  r   <- correlate(x, test = TRUE)
+  out <- capture.output(print(r))
+  expect_true(any(grepl("p-VALUES",    out)))
+  expect_true(any(grepl("SAMPLE SIZES", out)))
+})
+
+test_that("correlate accepts a numeric vector as x (two-matrix form)", {
+  set.seed(4812)
+  a <- rnorm(30)
+  b <- data.frame(c = rnorm(30), d = rnorm(30))
+  r <- correlate(a, b)
+  expect_s3_class(r, "correlate")
+  expect_equal(r$correlation["a", "c"], cor(a, b$c), tolerance = 1e-10)
+})
+
+test_that("correlate accepts a numeric vector as y", {
+  set.seed(3561)
+  a <- data.frame(c = rnorm(30), d = rnorm(30))
+  b <- rnorm(30)
+  r <- correlate(a, b)
+  expect_s3_class(r, "correlate")
+  expect_equal(r$correlation["c", "b"], cor(a$c, b), tolerance = 1e-10)
+})
+
+test_that("correlate accepts a numeric matrix as x", {
+  set.seed(7203)
+  m <- matrix(rnorm(60), 20, 3, dimnames = list(NULL, c("a", "b", "c")))
+  r <- correlate(m)
+  expect_s3_class(r, "correlate")
+  expect_equal(r$correlation["a", "b"], cor(m[, "a"], m[, "b"]), tolerance = 1e-10)
+})
+
+test_that("correlate with a single numeric vector returns a well-formed object", {
+  set.seed(9014)
+  v <- rnorm(20)
+  r <- correlate(v)
+  expect_s3_class(r, "correlate")
+  expect_equal(dim(r$correlation), c(1L, 1L))
+  # diagonal sample size is filled; correlation is NA (no off-diagonal pairs)
+  expect_equal(r$sample.size[1, 1], 20L)
+  expect_true(is.na(r$correlation[1, 1]))
+})
+
+test_that("correlate errors when x is not a matrix, data frame, or numeric vector", {
+  expect_error(correlate(list(a = 1:5, b = 1:5)), "x must be a matrix or data frame")
+})
+
+test_that("correlate errors when y is not a matrix, data frame, or numeric vector", {
+  df <- data.frame(a = 1:5, b = 1:5)
+  expect_error(correlate(df, list(c = 1:5)), "y must be a matrix or data frame")
+})

@@ -181,7 +181,7 @@ correlate <- function( x, y=NULL, test=FALSE, corr.method="pearson", p.adjust.me
     R$tiesProblem <- FALSE
 
     # run pairwise tests (inefficient looping!)
-    for( a in 1:(n.cont-1) ){
+    for( a in seq_len(n.cont-1) ){
       for( b in (a+1):n.cont) {
         i <- inds[a] # the a-th continuous variable
         j <- inds[b] # the b-th continuous variable
@@ -209,7 +209,7 @@ correlate <- function( x, y=NULL, test=FALSE, corr.method="pearson", p.adjust.me
     }
 
     # and pairwise sample sizes for all variables
-    for( i in 1:(n.vars-1) ) {
+    for( i in seq_len(n.vars-1) ) {
       for( j in (i+1):n.vars) {
         R$sample.size[j,i] <- R$sample.size[i,j] <- sum(!(is.na(x[,i]) | is.na(x[,j])))
       }

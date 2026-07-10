@@ -2,6 +2,13 @@
 
 ## Bug fixes
 
+* `correlate()`: when fewer than 2 numeric variables were present in the
+  input, the pairwise-correlation loop used `1:(n-1)` which evaluates to
+  `c(1, 0)` in R rather than an empty sequence, causing incorrect iteration.
+  Fixed by replacing with `seq_len(n-1)` in both the correlation loop and the
+  pairwise sample-size loop. The function now returns a well-formed object
+  with no correlations computed when only one numeric variable is present.
+
 * `oneSampleTTest()`: the `conf.level` argument was not forwarded to
   `stats::t.test()`, so `$conf.int` always contained the 95% interval
   regardless of what the user requested (#9).

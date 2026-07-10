@@ -64,6 +64,22 @@ test_that("oneSampleTTest conf.level is passed through to the confidence interva
   expect_equal(tt80$conf.int, unname(base80$conf.int), tolerance = 1e-6)
 })
 
+test_that("oneSampleTTest one-sided p-value matches t.test (alternative = less)", {
+  base <- t.test(likert1, mu = 4, alternative = "less")
+  tt   <- oneSampleTTest(x = likert1, mu = 4, one.sided = "less")
+  expect_equal(tt$p.value, base$p.value, tolerance = 1e-6)
+})
+
+test_that("oneSampleTTest errors on missing or invalid inputs", {
+  expect_error(oneSampleTTest(mu = 4),                                   '"x" argument is missing')
+  expect_error(oneSampleTTest(x = likert1),                              '"mu" argument is missing')
+  expect_error(oneSampleTTest(x = "abc", mu = 4),                        '"x" must be numeric')
+  expect_error(oneSampleTTest(x = likert1, mu = "big"),                  '"mu" must be a single number')
+  expect_error(oneSampleTTest(x = likert1, mu = c(3, 4)),                '"mu" must be a single number')
+  expect_error(oneSampleTTest(x = likert1, mu = 4, one.sided = c("greater","less")), "invalid value for 'one.sided'")
+  expect_error(oneSampleTTest(x = likert1, mu = 4, one.sided = "up"),    "invalid value for 'one.sided'")
+})
+
 test_that("oneSampleTTest errors on invalid conf.level", {
   expect_error(oneSampleTTest(likert1, mu = 4, conf.level = c(0.9, 0.95)),
                '"conf.level" must be a number between 0 and 1')

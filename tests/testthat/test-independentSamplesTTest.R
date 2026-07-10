@@ -81,6 +81,47 @@ test_that("independentSamplesTTest works when data is a tibble", {
   expect_equal(tt_df$conf.int,    tt_tbl$conf.int,    tolerance = 1e-6)
 })
 
+test_that("independentSamplesTTest one.sided = second group gives alternative = 'less'", {
+  tt <- independentSamplesTTest(rt ~ cond, df, one.sided = "group2")
+  expect_equal(tt$alternative, "less")
+  base <- t.test(rt ~ cond, data = df, alternative = "less")
+  expect_equal(tt$p.value, base$p.value, tolerance = 1e-6)
+})
+
+test_that("independentSamplesTTest errors when one.sided is invalid", {
+  expect_error(
+    independentSamplesTTest(rt ~ cond, df, one.sided = "bad"),
+    "invalid value for 'one.sided'"
+  )
+})
+
+test_that("independentSamplesTTest warns when grouping factor has unused levels", {
+  df_extra       <- df
+  levels(df_extra$cond) <- c("group1", "group2", "group3")
+  expect_warning(
+    independentSamplesTTest(rt ~ cond, df_extra),
+    "unused factor levels"
+  )
+})
+
+test_that("independentSamplesTTest warns when group is not a factor but has 2 values", {
+  df_int       <- df
+  df_int$cond  <- as.integer(df_int$cond)
+  expect_warning(
+    independentSamplesTTest(rt ~ cond, df_int),
+    "group variable is not a factor"
+  )
+})
+
+test_that("independentSamplesTTest errors when non-factor group has more than 2 values", {
+  df_bad      <- df
+  df_bad$cond <- c(1L, 2L, 3L, 1L, 2L, 3L, 1L)
+  expect_error(
+    independentSamplesTTest(rt ~ cond, df_bad),
+    "grouping variable must contain only two unique values"
+  )
+})
+
 test_that("independentSamplesTTest errors on invalid conf.level", {
   expect_error(independentSamplesTTest(rt ~ cond, df, conf.level = c(0.9, 0.95)),
                '"conf.level" must be a number between 0 and 1')

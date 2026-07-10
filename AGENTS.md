@@ -29,10 +29,11 @@ stages, listed in order of priority:
 3. ~~**Bug fixes**~~ – **Complete.** 501 assertions. All five open GitHub
    issues resolved; three code bugs fixed, two closed as non-bugs. One
    missed Stage 2 hardening item also fixed. See PLAN.md for details.
-4. **Release infrastructure** – bump to dev version `0.5.2.9000`, create
-   `NEWS.md`. **This is the current focus.**
-5. **Test coverage review** – identify and fill gaps in the test suite using
-   `covr`. See PLAN.md for details.
+4. ~~**Release infrastructure**~~ – **Complete.** Bumped to dev version
+   `0.5.2.9000`, created `NEWS.md`.
+5. ~~**Test coverage review**~~ – **Complete.** Coverage raised from 75% to
+   82% (556 assertions). `correlate()` loop bug fixed. See PLAN.md for details.
+   **This is the current focus: Stage 6.**
 6. **Documentation improvement** – revise Roxygen tags for accuracy and
    beginner-friendliness across all 29 functions. See PLAN.md for details.
 
@@ -104,11 +105,12 @@ Custom S3 classes with `print` methods: `TTest`, `whoList`, `correlate`,
 ### Current state of the test suite
 
 The test suite was overhauled in Stage 1, extended during Stage 2 hardening,
-and further extended during Stage 3 bug fixes (all completed 2026-07-10 to
-2026-07-11). It now has 28 test files and 501 assertions covering all 29
-exported functions and all S3 print methods. Every file covers at minimum:
-typical usage, numeric correctness against a reference (base R or
-hand-computed), and expected errors/warnings.
+and further extended during Stage 3 bug fixes and Stage 5 coverage work (all
+completed 2026-07-10 to 2026-07-11). It now has 28 test files and 556
+assertions covering all 29 exported functions and all S3 print methods, with
+82% line coverage. Every file covers at minimum: typical usage, numeric
+correctness against a reference (base R or hand-computed), and expected
+errors/warnings.
 
 When adding new tests, the existing files are a reasonable model to follow.
 

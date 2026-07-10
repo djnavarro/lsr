@@ -46,3 +46,14 @@ test_that("cramersV result is between 0 and 1", {
   expect_gte(v, 0)
   expect_lte(v, 1)
 })
+
+test_that("cramersV goodness-of-fit branch: single vector with probability argument", {
+  # chisq.test(x, p=...) triggers the GOF branch in cramersV
+  observed <- c(10, 20, 30)
+  probs    <- c(1/6, 2/6, 3/6)
+  v <- suppressWarnings(cramersV(observed, p = probs))
+  expect_type(v, "double")
+  expect_length(v, 1L)
+  expect_gte(v, 0)
+  expect_lte(v, 1)
+})
