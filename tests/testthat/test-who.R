@@ -75,3 +75,9 @@ test_that("print.whoList prints 'No variables found' for an empty whoList", {
   out <- capture.output(print(w))
   expect_true(any(grepl("No variables found", out)))
 })
+
+test_that("who errors on invalid expand argument", {
+  expect_error(who(expand = NA),            '"expand" must be a single logical value')
+  expect_error(who(expand = "yes"),         '"expand" must be a single logical value')
+  expect_error(who(expand = c(TRUE, FALSE)),'"expand" must be a single logical value')
+})

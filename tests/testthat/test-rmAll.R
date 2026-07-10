@@ -28,3 +28,9 @@ test_that("rmAll returns 1 invisibly when workspace is already empty", {
   ret <- (function() rmAll(ask = FALSE))()
   expect_equal(ret, 1L)
 })
+
+test_that("rmAll errors on invalid ask argument", {
+  expect_error(rmAll(ask = NA),            '"ask" must be a single logical value')
+  expect_error(rmAll(ask = "yes"),         '"ask" must be a single logical value')
+  expect_error(rmAll(ask = c(TRUE, FALSE)),'"ask" must be a single logical value')
+})

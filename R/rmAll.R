@@ -26,6 +26,10 @@
 #'
 rmAll <- function(ask = TRUE) {
 
+  if( !methods::is(ask,"logical") || length(ask) != 1 || is.na(ask) ) {
+    stop( '"ask" must be a single logical value')
+  }
+
   # preliminaries
   env <- parent.frame() # evaluate in the parent frame
   object.list <- objects(env) # and the list of objects

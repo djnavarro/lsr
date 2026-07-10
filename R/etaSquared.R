@@ -55,7 +55,7 @@
 #'
 etaSquared<- function( x, type = 2, anova = FALSE ) {
 
-  if( !methods::is(anova,"logical") | length(anova) !=1 ) {
+  if( !methods::is(anova,"logical") || length(anova) !=1 || is.na(anova) ) {
     stop( '"anova" must be a single logical value')
   }
   if( !methods::is(x,"lm") ) {stop( '"x" must be a linear model object')}
