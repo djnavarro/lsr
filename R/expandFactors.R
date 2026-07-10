@@ -34,6 +34,8 @@
 #'
 expandFactors <- function( data, ... ) {
 
+  if( !methods::is(data, "data.frame") ) stop( '"data" must be a data frame')
+
   attr(data,"na.action") <- stats::na.pass # don't drop NA
   df <- stats::model.matrix( stats::as.formula( paste("~",names(data),collapse="+")), data, ... )
   df <- df[,-1,drop=FALSE] # remove intercept

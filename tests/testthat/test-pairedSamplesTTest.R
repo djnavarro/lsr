@@ -66,3 +66,14 @@ test_that("pairedSamplesTTest effect size equals cohensD (paired method)", {
     tolerance = 1e-6
   )
 })
+
+test_that("pairedSamplesTTest errors on invalid conf.level", {
+  expect_error(pairedSamplesTTest(wm ~ time, df1, id = "id", conf.level = c(0.9, 0.95)),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(pairedSamplesTTest(wm ~ time, df1, id = "id", conf.level = NA_real_),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(pairedSamplesTTest(wm ~ time, df1, id = "id", conf.level = 1.5),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(pairedSamplesTTest(wm ~ time, df1, id = "id", conf.level = "high"),
+               '"conf.level" must be a number between 0 and 1')
+})

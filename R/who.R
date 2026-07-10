@@ -55,6 +55,10 @@
 #'
 who <- function(expand = FALSE) {
 
+  if( !methods::is(expand,"logical") || length(expand) != 1 || is.na(expand) ) {
+    stop( '"expand" must be a single logical value')
+  }
+
   # extract a list of objects in the parent environment
   envir <- parent.frame()
   varnames <- objects( envir )

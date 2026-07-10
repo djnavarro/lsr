@@ -64,6 +64,14 @@
 #'
 longToWide <- function( data, formula, sep="_") {
 
+  if( !methods::is(data, "data.frame") ) stop( '"data" must be a data frame')
+  if( missing(formula) ) stop( '"formula" argument is missing, with no default')
+  if( !methods::is(formula, "formula") ) stop( '"formula" must be a formula')
+  if( length(formula) != 3 ) stop( '"formula" must be a two-sided formula')
+  if( !methods::is(sep, "character") || length(sep) != 1 ) {
+    stop( '"sep" must be a single character string')
+  }
+
   within <- all.vars(formula[-2])
   v.names <- all.vars(formula[-3])
   idvar <- setdiff(names(data),c(within,v.names))

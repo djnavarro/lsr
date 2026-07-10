@@ -70,3 +70,14 @@ test_that("independentSamplesTTest group means match tapply result", {
   # tapply returns a named array (has dim); convert to plain vector for comparison
   expect_equal(unname(tt$mean), as.vector(ref), tolerance = 1e-10)
 })
+
+test_that("independentSamplesTTest errors on invalid conf.level", {
+  expect_error(independentSamplesTTest(rt ~ cond, df, conf.level = c(0.9, 0.95)),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(independentSamplesTTest(rt ~ cond, df, conf.level = NA_real_),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(independentSamplesTTest(rt ~ cond, df, conf.level = 1.5),
+               '"conf.level" must be a number between 0 and 1')
+  expect_error(independentSamplesTTest(rt ~ cond, df, conf.level = "high"),
+               '"conf.level" must be a number between 0 and 1')
+})

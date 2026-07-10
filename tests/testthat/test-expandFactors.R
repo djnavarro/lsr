@@ -34,6 +34,13 @@ test_that("expandFactors with a data frame that has no factors returns numeric c
   expect_equal(result$y, df_numeric$y)
 })
 
+test_that("expandFactors errors when data is not a data frame", {
+  expect_error(expandFactors(list(a = 1:3, b = factor(c("x","y","x")))),
+               '"data" must be a data frame')
+  expect_error(expandFactors(matrix(1:4, 2, 2)),
+               '"data" must be a data frame')
+})
+
 test_that("expandFactors handles a factor with unused levels", {
   df <- data.frame(
     grp   = factor(c("a","a","b"), levels = c("a","b","c")),

@@ -59,10 +59,10 @@ permuteLevels <- function(x,perm,ordered = is.ordered(x),invert=FALSE) {
   if( !methods::is(perm,"numeric") ) stop('"perm" must be numeric')
   if( length(perm) != nlevels(x)) stop('length of "perm" must equal the number of levels of "x"')
   if( any( (sort(perm) - 1:nlevels(x)) != 0)) stop( '"perm" is not a valid permutation')
-  if( !methods::is(ordered,"logical") | length(ordered) !=1 ) {
+  if( !methods::is(ordered,"logical") || length(ordered) !=1 || is.na(ordered) ) {
     stop( '"ordered" must be a single logical value')
   }
-  if( !methods::is(invert,"logical") | length(invert) !=1 ) {
+  if( !methods::is(invert,"logical") || length(invert) !=1 || is.na(invert) ) {
     stop( '"invert" must be a single logical value')
   }
 

@@ -98,6 +98,17 @@
 #'
 wideToLong <- function( data, within="within", sep="_", split=TRUE) {
 
+  if( !methods::is(data, "data.frame") ) stop( '"data" must be a data frame')
+  if( !methods::is(within, "character") || length(within) == 0 ) {
+    stop( '"within" must be a non-empty character vector')
+  }
+  if( !methods::is(sep, "character") || length(sep) != 1 ) {
+    stop( '"sep" must be a single character string')
+  }
+  if( !methods::is(split, "logical") || length(split) != 1 || is.na(split) ) {
+    stop( '"split" must be a single logical value')
+  }
+
   ind <- grep(sep,names(data),fixed=TRUE) # indices of variables that are repeated
   idvar <- names(data)[-ind] # names of id variables
 

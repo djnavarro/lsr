@@ -40,3 +40,15 @@ test_that("permuteLevels errors when perm has wrong length", {
 test_that("permuteLevels errors when perm is not a valid permutation", {
   expect_error(permuteLevels(x, perm = c(1,1,3,4,5,6)), '"perm" is not a valid permutation')
 })
+
+test_that("permuteLevels errors on invalid ordered argument", {
+  expect_error(permuteLevels(x, p, ordered = NA),           '"ordered" must be a single logical value')
+  expect_error(permuteLevels(x, p, ordered = "yes"),         '"ordered" must be a single logical value')
+  expect_error(permuteLevels(x, p, ordered = c(TRUE, FALSE)),'"ordered" must be a single logical value')
+})
+
+test_that("permuteLevels errors on invalid invert argument", {
+  expect_error(permuteLevels(x, p, invert = NA),            '"invert" must be a single logical value')
+  expect_error(permuteLevels(x, p, invert = "yes"),          '"invert" must be a single logical value')
+  expect_error(permuteLevels(x, p, invert = c(TRUE, FALSE)), '"invert" must be a single logical value')
+})

@@ -30,6 +30,7 @@
 #'
 unlibrary <- function(package) {
   env.name <- deparse(substitute(package))   # allow input to drop the quote marks
+  env.name <- gsub('^"(.*)"$', '\\1', env.name)   # strip quotes if user passed a string literal
   env.name <- paste("package:", env.name, sep="")   # add the "package:" bit (TODO: this is hacky)
   detach(name = env.name, character.only = TRUE)   # now detach it
 }

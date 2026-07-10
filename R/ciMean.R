@@ -93,7 +93,7 @@ ciMean <- function(x, conf = .95, na.rm = FALSE) {
     out[1,] <- ci # insert data
     colnames(out) <- names(ci) # column names
     nn <- match.call()[[2]] # get the x argument from the call
-    if( class(nn) == "name" ) { # if there is a variable name...
+    if( is.name(nn) ) { # if there is a variable name...
       rownames(out) <- as.character(nn) # ... add it as a row
     }
     return( out )
@@ -121,7 +121,7 @@ ciMean <- function(x, conf = .95, na.rm = FALSE) {
     out <- matrix( NA, nrow=d[2], ncol=2 )
     nn <- names(x)
     for( v in 1:d[2] ) {
-      if( class(x[[v]] ) %in% c("numeric","integer") ) {
+      if( is.numeric(x[[v]]) ) {
         ci <- computeCI( x[[v]], conf, na.rm )
         out[ v, ] <- ci
       } else {

@@ -67,7 +67,7 @@ sortFrame <- function(x,..., alphabetical = TRUE){
   if( !methods::is(x,"data.frame") ) {
     stop( '"x" must be a data frame')
   }
-  if( !methods::is(alphabetical,"logical") | length(alphabetical) !=1 ) {
+  if( !methods::is(alphabetical,"logical") || length(alphabetical) !=1 || is.na(alphabetical) ) {
     stop( '"alphabetical" must be a single logical value')
   }
 

@@ -67,6 +67,16 @@ test_that("wideToLong cell values are correct for MRT in complex design", {
   expect_equal(row2$MRT, 518)
 })
 
+test_that("wideToLong errors on invalid inputs", {
+  expect_error(wideToLong(list(a = 1:3), "time"),          '"data" must be a data frame')
+  expect_error(wideToLong(wide, within = character(0)),     '"within" must be a non-empty character vector')
+  expect_error(wideToLong(wide, within = 1),               '"within" must be a non-empty character vector')
+  expect_error(wideToLong(wide, sep = 1),                   '"sep" must be a single character string')
+  expect_error(wideToLong(wide, sep = c("_","-")),          '"sep" must be a single character string')
+  expect_error(wideToLong(wide, split = NA),                '"split" must be a single logical value')
+  expect_error(wideToLong(wide, split = "yes"),             '"split" must be a single logical value')
+})
+
 test_that("wideToLong preserves between-subject variables", {
   w <- wideToLong(wide2, within = c("condition","day"))
   # gender should be preserved per participant

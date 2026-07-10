@@ -196,9 +196,10 @@ independentSamplesTTest <- function(
 
 
   # check conf.level
-  if( !methods::is(conf.level,"numeric") |
-        length( conf.level) != 1 |
-        conf.level < 0 |
+  if( !methods::is(conf.level,"numeric") ||
+        length( conf.level) != 1 ||
+        is.na(conf.level) ||
+        conf.level < 0 ||
         conf.level > 1
   ) {
     stop( '"conf.level" must be a number between 0 and 1')

@@ -63,7 +63,7 @@
 importList <- function(x, ask = TRUE ) {
 
   if( !methods::is(x,"list") & !methods::is(x,"data.frame")) stop( '"x" must be a list or data frame')
-  if( !methods::is(ask,"logical") | length(ask) !=1 ) {
+  if( !methods::is(ask,"logical") || length(ask) !=1 || is.na(ask) ) {
     stop( '"ask" must be a single logical value')
   }
 
