@@ -93,21 +93,18 @@ breaking change. One fix per PR; include or update a test for each fix.
 
 ---
 
-### Stage 4 — Release infrastructure 🔄 Current focus
+### Stage 4 — Release infrastructure ✅ Complete
 
 **Goal:** Bring the changelog and version number up to date before any
 further work.
 
-**Approach:** Single commit to `dev`; no PR needed.
+**Completed:** 2026-07-11. Single commit to `dev`; no PR needed.
 
-**Tasks:**
-- Bump `Version` in `DESCRIPTION` from `0.5.2` to `0.5.2.9000` (the
-  conventional R marker for a development version ahead of CRAN)
-- Create `NEWS.md` documenting all changes since the 0.5.2 CRAN release,
-  drawn from the Stages 1–3 work (bug fixes, hardening, expanded test suite)
-- Remove the stale `^NEWS$` line from `.Rbuildignore` (the file it was
-  guarding against never existed; `NEWS.md` is a standard R package file
-  and does not need to be ignored)
+**Outcome:**
+- `Version` in `DESCRIPTION` bumped from `0.5.2` to `0.5.2.9000`
+- `NEWS.md` created, documenting all changes since the 0.5.2 CRAN release
+  (bug fixes, hardening, expanded test suite, new `Suggests` entries)
+- The `^NEWS$` line in `.Rbuildignore` was already absent; no action needed
 
 ---
 
