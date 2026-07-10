@@ -87,7 +87,7 @@ modeOf <- function(x, na.rm = TRUE) {
     modal.cases <- freq == max.freq                   # otherwise find modal cases
     modal.values <- obs.val[modal.cases]              # and corresponding values
   }
-  if(class(x)=="factor") modal.values <- as.character(modal.values)
+  if(is.factor(x)) modal.values <- as.character(modal.values)
   return( modal.values )
 
 }

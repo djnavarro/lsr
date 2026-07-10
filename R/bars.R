@@ -77,7 +77,7 @@ bars <- function(
 
   # function checking that an input is numeric and of a specific length
   isNumbers <- function( x, n=NULL ) {
-    out <- class(x) %in% c("numeric","integer")
+    out <- inherits(x, c("numeric","integer"))
     if( !is.null(n)) out <- out && length(x)==n
     return(out)
   }
