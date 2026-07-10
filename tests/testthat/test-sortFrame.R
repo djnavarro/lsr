@@ -72,3 +72,16 @@ test_that("sortFrame errors on invalid alphabetical argument", {
   expect_error(sortFrame(dataset, txt, alphabetical = c(TRUE, FALSE)))
   expect_error(sortFrame(dataset, txt, alphabetical = NA))
 })
+
+test_that("sortFrame sorts mixed-case characters correctly (locale-stable)", {
+  # Pinning LC_COLLATE to "C" gives ASCII ordering: uppercase letters precede
+  # lowercase, so "Clare" sorts before "clare". Without pinning, results vary
+  # across platforms (reported in issue #8).
+  skip_if_not_installed("withr")
+  withr::with_locale(c(LC_COLLATE = "C"), {
+    f3 <- sortFrame(dataset, txt)
+    # Expected row order: bob(1), bob(4), Clare(2), clare(3), eve(5), eve(6)
+    expect_equal(f3$txt, c("bob", "bob", "Clare", "clare", "eve", "eve"))
+    expect_equal(f3$etc, c("not", "a", "used", "as", "sort", "term"))
+  })
+})
