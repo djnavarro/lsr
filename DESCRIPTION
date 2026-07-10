@@ -1,6 +1,6 @@
 Package: lsr
 Title: Companion to "Learning Statistics with R"
-Version: 0.5.2
+Version: 0.5.2.9000
 Authors@R: 
     person(given = "Danielle",
            family = "Navarro",
@@ -22,10 +22,10 @@ Imports:
     grDevices,
     methods,
     stats
-RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 3.0.0),
     tibble,
     withr
 Config/testthat/edition: 3
 Config/Needs/website: djnavarro/waeponwifestre
+Config/roxygen2/version: 8.0.0
