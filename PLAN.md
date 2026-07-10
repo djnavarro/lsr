@@ -207,6 +207,129 @@ each batch to verify `.Rd` files regenerate cleanly.
 
 ---
 
+### Stage 7 — Code linting 🔄 Next
+
+**Goal:** Apply tidyverse style consistently across all 29 source files in
+`R/`. All changes are cosmetic only — no logic, no API, no return-value
+changes. The existing test suite and `R CMD check` are the safety net.
+
+**Scope:**
+
+- **Formatting** (via `styler`): spaces around operators, spaces after
+  commas, no spaces after `(` or before `)`, 2-space indentation (no tabs),
+  opening `{` on same line as statement, lines ≤ 80 characters where
+  practical.
+- **Dead code removal**: two commented-out blocks left as development notes
+  will be deleted — the alternative implementation in `rowCopy.R` and the
+  commented-out colour-checking block in `bars.R`.
+- **Internal variable names**: local variables that are ambiguous or
+  cryptically abbreviated will be renamed for clarity. Public API (function
+  names, argument names, return structure) is unchanged.
+
+**Out of scope:** function names, argument names (including British-spelled
+ones like `barLineColour`), return values, roxygen comments, logic.
+
+**Approach:**
+1. Create branch `stage7/lint`
+2. Install `styler` locally (not added to `DESCRIPTION`)
+3. Run `styler::style_pkg(filetype = "R")`
+4. Review diff: confirm no logic changes, no argument-name changes, no
+   unintended reformatting of string literals
+5. Remove the two dead-code blocks manually
+6. Rename unclear internal variables file by file
+7. `devtools::test()` — all assertions must pass
+8. `R CMD check` — 0 errors, 0 warnings, 0 notes
+9. One PR into `dev`
+
+---
+
+### Stage 8 — pkgdown site 🔄 Next
+
+**Goal:** Build a polished documentation site with a well-organised
+Reference section, an updated README, and two articles covering the package
+from different angles.
+
+#### Sub-task 8a — Structured References (`_pkgdown.yml`)
+
+Replace the default alphabetical function list with four named groups:
+
+| Group | Functions |
+|---|---|
+| Hypothesis tests | `oneSampleTTest`, `independentSamplesTTest`, `pairedSamplesTTest`, `associationTest`, `goodnessOfFitTest`, `posthocPairwiseT` |
+| Effect sizes and descriptive statistics | `cohensD`, `etaSquared`, `cramersV`, `ciMean`, `correlate` |
+| Data manipulation | `wideToLong`, `longToWide`, `expandFactors`, `permuteLevels`, `quantileCut`, `sortFrame`, `tFrame`, `colCopy`, `rowCopy` |
+| Workspace utilities | `who`, `modeOf`, `maxFreq`, `aad`, `rmAll`, `unlibrary`, `importList`, `standardCoefs` |
+
+Print methods are listed at the end of their parent function's group.
+Also add an `articles:` section to `_pkgdown.yml` pointing at the two new
+articles.
+
+#### Sub-task 8b — README rewrite
+
+`README.Rmd` (which generates the pkgdown landing page) will be rewritten
+to include:
+- An orienting description (what the package is, who it is for, textbook
+  link)
+- A brief motivating example showing the beginner-friendly output format
+- A "Where to go next" section linking to the articles and Reference page
+- Installation instructions (retained from current README)
+
+`README.md` is regenerated from `README.Rmd` and committed alongside it.
+
+#### Sub-task 8c — Article 1: Guided overview (novice audience)
+
+**File:** `vignettes/articles/overview.Rmd` (pkgdown-only; not built by
+`R CMD check`)
+
+**Audience:** Introductory statistics students; readers of the accompanying
+textbook.
+
+**Tone:** Informal, first-person, encouraging.
+
+**Structure:**
+1. Why this package exists
+2. Setting up (`library(lsr)`, `who()`)
+3. Descriptive statistics (`ciMean`, `aad`, `modeOf`, `correlate`)
+4. Reshaping data (`wideToLong`, `longToWide`)
+5. Hypothesis testing — one worked example each of the six test functions
+6. Effect sizes (`cohensD`, `etaSquared`, `cramersV`)
+7. Where to go next (textbook, Article 2)
+
+A single coherent toy dataset will be used throughout.
+
+#### Sub-task 8d — Article 2: Critical commentary (intermediate audience)
+
+**File:** `vignettes/articles/commentary.Rmd` (pkgdown-only)
+
+**Audience:** Intermediate R users; those considering recommending the
+package to students, or graduating students away from it.
+
+**Tone:** Informal, first-person, candid; occasional expert asides.
+
+**Structure:**
+1. What this package is and isn't (pedagogical scaffold, not a research tool)
+2. Hypothesis test wrappers — what they add, what they give up; better
+   alternatives (`infer`, `easystats`)
+3. Effect sizes — limitations; `effectsize` package as alternative
+4. Correlation matrices — why the built-in correction may not be enough;
+   `correlation` from `easystats`
+5. Data reshaping — where the naming-convention approach breaks down;
+   `tidyr::pivot_longer` / `pivot_wider`
+6. Plotting — `bars()` limitations; `ggplot2` as the right tool
+7. Workspace utilities — why you probably don't need them in modern IDEs
+8. The bottom line — honest assessment and graduation path
+
+**PR breakdown for Stage 8:**
+
+| PR | Content |
+|---|---|
+| Stage 8a | `_pkgdown.yml` reference groups + articles config |
+| Stage 8b | `README.Rmd` rewrite + regenerated `README.md` |
+| Stage 8c | Article 1: guided overview |
+| Stage 8d | Article 2: critical commentary |
+
+---
+
 ## Guiding principles
 
 - The package is **stable and feature-frozen**. No new exported functions,
