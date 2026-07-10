@@ -26,9 +26,9 @@ areas, listed in order of priority:
 2. ~~**Internal hardening**~~ – **Complete.** 486 assertions. All five
    original targets addressed; full review of all 29 source files conducted
    and four additional groups of issues resolved. See PLAN.md for details.
-3. **Bug fixes** – only where a genuine defect exists and a fix is clearly
-   safe. **This is the current focus.** Be conservative; prefer doing nothing
-   over introducing a breaking change.
+3. ~~**Bug fixes**~~ – **Complete.** 501 assertions. All five open GitHub
+   issues resolved; three code bugs fixed, two closed as non-bugs. One
+   missed Stage 2 hardening item also fixed. See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.
@@ -97,12 +97,12 @@ Custom S3 classes with `print` methods: `TTest`, `whoList`, `correlate`,
 
 ### Current state of the test suite
 
-The test suite was overhauled in Stage 1 (PR merged into `dev`) and further
-extended during Stage 2 hardening (2026-07-10). It now has 28 test files
-and 486 assertions covering all 29 exported functions and all S3 print
-methods. Every file covers at minimum: typical usage, numeric correctness
-against a reference (base R or hand-computed), and expected
-errors/warnings.
+The test suite was overhauled in Stage 1, extended during Stage 2 hardening,
+and further extended during Stage 3 bug fixes (all completed 2026-07-10 to
+2026-07-11). It now has 28 test files and 501 assertions covering all 29
+exported functions and all S3 print methods. Every file covers at minimum:
+typical usage, numeric correctness against a reference (base R or
+hand-computed), and expected errors/warnings.
 
 When adding new tests, the existing files are a reasonable model to follow.
 
@@ -131,11 +131,13 @@ When adding new tests, the existing files are a reasonable model to follow.
 - Keep changes narrow. If hardening one function, do not refactor adjacent
   functions in the same PR unless there is a direct dependency.
 
-### Hardening work completed (Stage 2)
+### Hardening work completed (Stages 2 and 3)
 
 All five original targets and four additional groups of issues identified
-during a full-codebase review were resolved on 2026-07-10. See PLAN.md for
-the complete list. No known hardening issues remain.
+during a full-codebase review were resolved on 2026-07-10. Two further
+`class() ==` / `class() %in%` comparisons missed during Stage 2 (in `modeOf`
+and `bars`) were found and fixed during Stage 3 (PR #15, 2026-07-11). See
+PLAN.md for the complete list. No known hardening issues remain.
 
 ---
 

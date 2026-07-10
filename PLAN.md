@@ -53,14 +53,43 @@ Stage 1 are in place to verify that no existing behaviour is broken.
 
 ---
 
-### Stage 3 — Bug fixes 🔄 Current focus
+### Stage 3 — Bug fixes ✅ Complete
 
 **Goal:** Fix genuine defects where a fix is clearly safe.
 
 **Approach:** Be conservative. Prefer doing nothing over introducing a
 breaking change. One fix per PR; include or update a test for each fix.
 
-Known candidates will be identified during Stage 3 work.
+**Completed:** 2026-07-11.
+
+**Outcome:**
+- All five open GitHub issues reviewed and resolved
+- Three confirmed bugs fixed:
+  - `oneSampleTTest`: `conf.level` not forwarded to `stats::t.test()`,
+    so `$conf.int` always contained the 0.95 interval regardless of what
+    the user requested (PR #12, closes #9)
+  - Tibble compatibility: `data[, col]` returning a one-column tibble
+    instead of a vector caused false type-check failures in
+    `independentSamplesTTest`, `pairedSamplesTTest`, and
+    `associationTest`; fixed by coercing `data` to a plain data frame on
+    entry (PR #13, closes #2)
+  - `sortFrame` locale-sensitive test: the mixed-case character sort test
+    was commented out because results varied across platforms; restored
+    and stabilised by pinning `LC_COLLATE = "C"` with
+    `withr::with_locale()` (PR #14, closes #8)
+- Two issues closed as non-bugs:
+  - `cohensD` returning equal values for `method = "pooled"` and
+    `method = "unequal"` when group sizes are equal is a mathematical
+    identity, not a defect (closes #7)
+  - `methods` package failing to load under `Rscript` is resolved by the
+    existing `Imports: methods` declaration in DESCRIPTION (closes #1)
+- One missed Stage 2 hardening item fixed: `class() ==` and
+  `class() %in%` comparisons remaining in `modeOf` and `bars` replaced
+  with `is.factor()` and `inherits()`, removing an R CMD check NOTE
+  (PR #15)
+- `tibble` and `withr` added to `Suggests`; `AGENTS.md` and `PLAN.md`
+  added to `.Rbuildignore`
+- 501 assertions total (up from 486)
 
 ---
 
