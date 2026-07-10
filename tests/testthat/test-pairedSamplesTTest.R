@@ -87,6 +87,57 @@ test_that("pairedSamplesTTest works when data is a tibble (wide form)", {
   expect_equal(tt_df$conf.int,    tt_tbl$conf.int,    tolerance = 1e-6)
 })
 
+test_that("pairedSamplesTTest lme4-style formula (1|id) gives the same result as (id)", {
+  tt_paren <- pairedSamplesTTest(formula = wm ~ time + (id),    data = df1)
+  tt_lme4  <- pairedSamplesTTest(formula = wm ~ time + (1|id), data = df1)
+  expect_equal(tt_paren$t.statistic, tt_lme4$t.statistic, tolerance = 1e-6)
+  expect_equal(tt_paren$p.value,     tt_lme4$p.value,     tolerance = 1e-6)
+})
+
+test_that("pairedSamplesTTest one-sided alternatives work for wide-form data", {
+  tt_g <- pairedSamplesTTest(formula = ~wm_time1 + wm_time2, data = df2, one.sided = "wm_time1")
+  tt_l <- pairedSamplesTTest(formula = ~wm_time1 + wm_time2, data = df2, one.sided = "wm_time2")
+  expect_equal(tt_g$alternative, "greater")
+  expect_equal(tt_l$alternative, "less")
+  expect_error(
+    pairedSamplesTTest(formula = ~wm_time1 + wm_time2, data = df2, one.sided = "bad"),
+    "invalid value for 'one.sided'"
+  )
+})
+
+test_that("pairedSamplesTTest one-sided = first group gives alternative = 'greater'", {
+  # gp.names[1] = "time1"; testing the alternative = "greater" branch
+  tt <- pairedSamplesTTest(formula = wm ~ time, data = df1, id = "id", one.sided = "time1")
+  expect_equal(tt$alternative, "greater")
+})
+
+test_that("pairedSamplesTTest warns when grouping factor has unused levels", {
+  df_extra        <- df1
+  levels(df_extra$time) <- c("time1", "time2", "time3")
+  expect_warning(
+    pairedSamplesTTest(wm ~ time, df_extra, id = "id"),
+    "unused factor levels"
+  )
+})
+
+test_that("pairedSamplesTTest warns when grouping variable is not a factor", {
+  df_int      <- df1
+  df_int$time <- as.integer(df_int$time)
+  expect_warning(
+    pairedSamplesTTest(wm ~ time, df_int, id = "id"),
+    "group variable is not a factor"
+  )
+})
+
+test_that("pairedSamplesTTest warns when id variable is not a factor", {
+  df_chr    <- df1
+  df_chr$id <- as.character(df_chr$id)
+  expect_warning(
+    pairedSamplesTTest(wm ~ time, df_chr, id = "id"),
+    "id variable is not a factor"
+  )
+})
+
 test_that("pairedSamplesTTest errors on invalid conf.level", {
   expect_error(pairedSamplesTTest(wm ~ time, df1, id = "id", conf.level = c(0.9, 0.95)),
                '"conf.level" must be a number between 0 and 1')

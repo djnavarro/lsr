@@ -60,4 +60,25 @@ test_that("ciMean succeeds when passed numeric matrix", {
 
 })
 
+test_that("ciMean errors on missing or invalid x", {
+  expect_error(ciMean(),                    'argument "x" is missing')
+  expect_error(ciMean(matrix("a", 2, 2)),   "matrix input must be numeric")
+})
+
+test_that("ciMean errors on invalid conf", {
+  expect_error(ciMean(1:5, conf = "high"),    '"conf" must be numeric')
+  expect_error(ciMean(1:5, conf = c(.9, .8)), '"conf" must be a single number')
+  expect_error(ciMean(1:5, conf = 1.5),       '"conf" must be between 0 and 1')
+})
+
+test_that("ciMean errors on invalid na.rm", {
+  expect_error(ciMean(1:5, na.rm = "yes"),        '"na.rm" must be logical')
+  expect_error(ciMean(1:5, na.rm = c(TRUE,FALSE)), '"na.rm" must be of length 1')
+  expect_error(ciMean(1:5, na.rm = NA),            '"na.rm" must be TRUE or FALSE')
+})
+
+test_that("ciMean warns when data have zero variance", {
+  expect_warning(ciMean(c(1, 1, 1, 1)), "data have zero variance")
+})
+
 

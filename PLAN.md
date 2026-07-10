@@ -108,26 +108,41 @@ further work.
 
 ---
 
-### Stage 5 — Test coverage review
+### Stage 5 — Test coverage review ✅ Complete
 
 **Goal:** Identify lines not currently exercised by the test suite and write
 targeted tests for the most important gaps. The aim is not 100% coverage for
 its own sake — it is to ensure that non-trivial logic branches are actually
 tested.
 
-**Approach:**
-1. Run `covr::package_coverage()` and inspect the report with
-   `covr::zero_coverage()` to list uncovered lines.
-2. Triage gaps by importance: non-trivial logic branches (e.g. alternative
-   paths in `cohensD`, `correlate`, `etaSquared`, `pairedSamplesTTest`) are
-   high priority; hard-to-trigger error paths and the complex `bars()` plotting
-   function are lower priority.
-3. Write tests function by function, following existing conventions (pin
-   numeric results with `tolerance`; use `expect_error()` for error paths;
-   test the public interface only).
-4. If the `correlate()` loop edge case identified in Stage 3 (incorrect
-   iteration when fewer than 2 numeric variables are present) surfaces during
-   coverage work, fix the code before writing the test.
+**Completed:** 2026-07-11.
+
+**Outcome:**
+- Baseline coverage: 75.05% (501 assertions, from Stage 3)
+- Final coverage: 82.22% (556 assertions)
+- `correlate()` loop bug fixed: `1:(n.cont-1)` → `seq_len(n.cont-1)` (and
+  equivalent for the pairwise sample-size loop), preventing incorrect
+  iteration when fewer than 2 numeric variables are present
+- New tests cover: `cohensD` corrected method, `formula=` alias, paired
+  warning; `correlate` numeric vector / matrix inputs, single-vector edge
+  case, `print(test=TRUE)`, error paths; `pairedSamplesTTest` lme4-style
+  `(1|id)` formula, one-sided alternatives (both forms), unused factor levels,
+  non-factor group, non-factor id; `independentSamplesTTest` `one.sided`
+  second-group alternative, unused factor levels, non-factor group;
+  `oneSampleTTest` one-sided `"less"` alternative, all input-validation
+  errors; `ciMean` all input-validation errors, zero-variance warning,
+  non-numeric matrix; `cramersV` goodness-of-fit branch
+- Functions reaching 100%: `aad`, `colCopy`, `cramersV`, `expandFactors`,
+  `modeOf`, `oneSampleTTest`, `permuteLevels`, `posthocPairwiseT`,
+  `quantileCut`, `rowCopy`, `sortFrame`, `tFrame`, `unlibrary`
+- Remaining gaps (accepted):
+  - `bars.R` (58%): complex plotting function — not tested per plan
+  - `rmAll.R` (37%): interactive `readline` branch — untestable in CI
+  - `pairedSamplesTTest.R` (71%), `cohensD.R` (69%),
+    `independentSamplesTTest.R` (76%): remaining uncovered lines are
+    workspace-lookup paths (calling without `data=`) that require
+    parent-frame manipulation awkward in testthat, and duplicative
+    formula-alias input combinations
 
 ---
 
