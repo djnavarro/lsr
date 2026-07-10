@@ -97,6 +97,7 @@ independentSamplesTTest <- function(
     # it needs to be data frame, because a matrix can't
     # contain both factors and numeric variables
     if( !methods::is(data,"data.frame") ) stop ( "'data' is not a data frame")
+    data <- as.data.frame(data)
 
     # check that all three variables are in the data frame
     if( !( outcome %in% names(data)) ) {

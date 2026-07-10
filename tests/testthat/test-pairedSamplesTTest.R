@@ -67,6 +67,26 @@ test_that("pairedSamplesTTest effect size equals cohensD (paired method)", {
   )
 })
 
+test_that("pairedSamplesTTest works when data is a tibble (long form)", {
+  skip_if_not_installed("tibble")
+  tbl1 <- tibble::as_tibble(df1)
+  tt_df  <- pairedSamplesTTest(wm ~ time, df1,  id = "id")
+  tt_tbl <- pairedSamplesTTest(wm ~ time, tbl1, id = "id")
+  expect_equal(tt_df$t.statistic, tt_tbl$t.statistic, tolerance = 1e-6)
+  expect_equal(tt_df$p.value,     tt_tbl$p.value,     tolerance = 1e-6)
+  expect_equal(tt_df$conf.int,    tt_tbl$conf.int,    tolerance = 1e-6)
+})
+
+test_that("pairedSamplesTTest works when data is a tibble (wide form)", {
+  skip_if_not_installed("tibble")
+  tbl2 <- tibble::as_tibble(df2)
+  tt_df  <- pairedSamplesTTest(~wm_time1 + wm_time2, df2)
+  tt_tbl <- pairedSamplesTTest(~wm_time1 + wm_time2, tbl2)
+  expect_equal(tt_df$t.statistic, tt_tbl$t.statistic, tolerance = 1e-6)
+  expect_equal(tt_df$p.value,     tt_tbl$p.value,     tolerance = 1e-6)
+  expect_equal(tt_df$conf.int,    tt_tbl$conf.int,    tolerance = 1e-6)
+})
+
 test_that("pairedSamplesTTest errors on invalid conf.level", {
   expect_error(pairedSamplesTTest(wm ~ time, df1, id = "id", conf.level = c(0.9, 0.95)),
                '"conf.level" must be a number between 0 and 1')
