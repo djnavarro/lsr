@@ -54,6 +54,16 @@ test_that("oneSampleTTest effect size equals cohensD for one-sample case", {
   expect_equal(tt$effect.size, cohensD(x = likert1, mu = 4), tolerance = 1e-6)
 })
 
+test_that("oneSampleTTest conf.level is passed through to the confidence interval", {
+  base99 <- t.test(likert1, mu = 4, conf.level = 0.99)
+  tt99   <- oneSampleTTest(x = likert1, mu = 4, conf.level = 0.99)
+  expect_equal(tt99$conf.int, unname(base99$conf.int), tolerance = 1e-6)
+
+  base80 <- t.test(likert1, mu = 4, conf.level = 0.80)
+  tt80   <- oneSampleTTest(x = likert1, mu = 4, conf.level = 0.80)
+  expect_equal(tt80$conf.int, unname(base80$conf.int), tolerance = 1e-6)
+})
+
 test_that("oneSampleTTest errors on invalid conf.level", {
   expect_error(oneSampleTTest(likert1, mu = 4, conf.level = c(0.9, 0.95)),
                '"conf.level" must be a number between 0 and 1')
