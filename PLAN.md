@@ -12,7 +12,7 @@ current status of each stage. Update it as stages are completed.
 **Goal:** Build a test suite thorough enough to support safe internal
 hardening. No functional code changes.
 
-**Completed:** 2025-07-10. PR merged into `dev`.
+**Completed:** 2026-07-10. PR merged into `dev`.
 
 **Outcome:**
 - 28 test files, 448 assertions
@@ -23,39 +23,44 @@ hardening. No functional code changes.
 
 ---
 
-### Stage 2 — Internal hardening 🔄 Current focus
+### Stage 2 — Internal hardening ✅ Complete
 
 **Goal:** Improve input validation and defensive coding so the package
 continues to work reliably as R and its ecosystem evolve. Tests from
 Stage 1 are in place to verify that no existing behaviour is broken.
 
-**Approach:** One narrow PR per issue. Do not refactor adjacent functions
-unless there is a direct dependency. All changes must pass the full test
-suite and `R CMD check`.
+**Completed:** 2026-07-10.
 
-**Known targets (discovered during Stage 1):**
-
-| Priority | Location | Issue |
-|----------|----------|-------|
-| 1 | `printTTest.R` | `print.TTest` has no `return()` call; returns `NULL` instead of `invisible(x)` as documented. Every other lsr print method returns `invisible(x)`. |
-| 2 | `unlibrary.R` | `unlibrary("pkg")` (quoted string) fails because `deparse(substitute("pkg"))` produces nested quotes. Only the unquoted form works. |
-| 3 | `modeOf.R`, `colCopy.R` | `is.vector(list(...))` is `TRUE` in R, so plain list inputs slip past several `is.vector()` guards. Affects `modeOf`, `maxFreq`, `colCopy`, `rowCopy`. |
-| 4 | `importList.R` | `importList(ask = NA)` passes the `is(ask, "logical")` guard but errors later with an opaque message. Guard should also check `!is.na(ask)`. |
-| 5 | `standardCoefs.R` | `aov` objects inherit from `lm` and pass the `is(x, "lm")` guard silently. Decide whether `aov` input should be accepted or rejected with an informative message. |
-
-Each issue already has a test that will catch the fix.
+**Outcome:**
+- 486 assertions (up from 448); all new tests pass
+- All five original targets from Stage 1 addressed
+- Full review of all 29 source files conducted; four additional
+  groups of issues identified and resolved:
+  - **Group 1:** `NA` not checked for logical flag arguments — fixed in
+    `aad`, `modeOf`, `maxFreq`, `etaSquared`, `permuteLevels`,
+    `sortFrame`, `rmAll`, `who`; guards added from scratch to `rmAll`
+    and `who`
+  - **Group 2:** `|` instead of `||` in multi-condition `conf.level`
+    guards, causing opaque "condition has length > 1" errors — fixed in
+    `oneSampleTTest`, `independentSamplesTTest`, `pairedSamplesTTest`
+  - **Group 3:** Deprecated `class() ==` / `class() %in%` comparisons
+    replaced with `inherits()`, `is.name()`, `is.matrix()`,
+    `is.numeric()` in `correlate`, `associationTest`,
+    `goodnessOfFitTest`, `ciMean`
+  - **Group 4:** Missing input validation added to `longToWide`,
+    `expandFactors`, `wideToLong` (including a `split = NA` guard
+    folded in from the Group 1 pattern)
 
 ---
 
-### Stage 3 — Bug fixes ⏳ Pending
+### Stage 3 — Bug fixes 🔄 Current focus
 
-**Goal:** Fix genuine defects where a fix is clearly safe. This stage
-begins only after Stage 2 is complete.
+**Goal:** Fix genuine defects where a fix is clearly safe.
 
 **Approach:** Be conservative. Prefer doing nothing over introducing a
 breaking change. One fix per PR; include or update a test for each fix.
 
-Known candidates will be identified during Stage 2 work.
+Known candidates will be identified during Stage 3 work.
 
 ---
 

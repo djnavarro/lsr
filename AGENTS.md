@@ -23,13 +23,12 @@ areas, listed in order of priority:
 
 1. ~~**Test suite quality**~~ – **Complete.** 28 test files, 448 assertions,
    all 29 exported functions covered.
-2. **Internal hardening** – improve input validation, defensive coding, and
-   robustness of internals so the package continues to work reliably as R and
-   its ecosystem evolve. **This is the current focus.** See the Known Issues
-   table in the Internal Hardening Guidelines section for specific targets.
+2. ~~**Internal hardening**~~ – **Complete.** 486 assertions. All five
+   original targets addressed; full review of all 29 source files conducted
+   and four additional groups of issues resolved. See PLAN.md for details.
 3. **Bug fixes** – only where a genuine defect exists and a fix is clearly
-   safe. Be conservative; prefer doing nothing over introducing a breaking
-   change.
+   safe. **This is the current focus.** Be conservative; prefer doing nothing
+   over introducing a breaking change.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.
@@ -98,20 +97,14 @@ Custom S3 classes with `print` methods: `TTest`, `whoList`, `correlate`,
 
 ### Current state of the test suite
 
-The test suite was overhauled in 2025 (PR merged into `dev`). It now has
-28 test files and 448 assertions covering all 29 exported functions and all
-S3 print methods. Every file covers at minimum: typical usage, numeric
-correctness against a reference (base R or hand-computed), and expected
+The test suite was overhauled in 2025 (PR merged into `dev`) and further
+extended during Stage 2 hardening (2026-07-10). It now has 28 test files
+and 486 assertions covering all 29 exported functions and all S3 print
+methods. Every file covers at minimum: typical usage, numeric correctness
+against a reference (base R or hand-computed), and expected
 errors/warnings.
 
-**The test suite is now considered sufficient to support the internal
-hardening phase.** Hardening PRs may proceed; tests are in place to verify
-that changes do not break existing behaviour.
-
-When adding new tests, the existing files are now a reasonable model to
-follow. The old "keep both" caution still applies for any test whose
-coverage is genuinely uncertain, but most of the original tests have been
-superseded and can be removed if they are strictly redundant.
+When adding new tests, the existing files are a reasonable model to follow.
 
 ### Guidelines for writing tests
 
@@ -138,19 +131,11 @@ superseded and can be removed if they are strictly redundant.
 - Keep changes narrow. If hardening one function, do not refactor adjacent
   functions in the same PR unless there is a direct dependency.
 
-### Known issues (priority candidates for the hardening PR)
+### Hardening work completed (Stage 2)
 
-These were discovered during the test suite overhaul and are documented in
-the relevant test files. Each is a good-faith bug or validation gap, not a
-design decision, and each already has a test that will catch the fix.
-
-| Location | Issue |
-|----------|-------|
-| `printTTest.R` | `print.TTest` has no `return()` call; returns `NULL` instead of `invisible(x)` as documented and as every other lsr print method does. |
-| `unlibrary.R` | `unlibrary("pkg")` (quoted string) fails because `deparse(substitute("pkg"))` produces nested quotes. Only the bare unquoted form works. |
-| `modeOf.R`, `colCopy.R` | Several `is.vector()` guards do not catch plain lists, because `is.vector(list(...))` is `TRUE` in R. Affects `modeOf`, `maxFreq`, `colCopy`, `rowCopy`. |
-| `importList.R` | `importList(ask = NA)` passes the `is(ask, "logical")` guard (NA is logical) but errors later with an opaque message. The guard should also check `!is.na(ask)`. |
-| `standardCoefs.R` | `aov` objects inherit from `lm`, so they pass the `is(x, "lm")` guard silently. Decide whether `aov` input should be accepted or rejected with an informative message. |
+All five original targets and four additional groups of issues identified
+during a full-codebase review were resolved on 2026-07-10. See PLAN.md for
+the complete list. No known hardening issues remain.
 
 ---
 
