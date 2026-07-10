@@ -67,10 +67,10 @@ NULL
 #' @export
 modeOf <- function(x, na.rm = TRUE) {
 
-  if( !is.vector(x) & !is.factor(x) ) {
+  if( (!is.vector(x) | is.list(x)) & !is.factor(x) ) {
     stop( '"x" must be a vector or a factor')
   }
-  if( !methods::is(na.rm,"logical") | length(na.rm) !=1 ) {
+  if( !methods::is(na.rm,"logical") || length(na.rm) !=1 || is.na(na.rm) ) {
     stop( '"na.rm" must be a single logical value')
   }
 
@@ -99,10 +99,10 @@ modeOf <- function(x, na.rm = TRUE) {
 #' @export
 maxFreq <- function(x, na.rm = TRUE) {
 
-  if( !is.vector(x) & !is.factor(x) ) {
+  if( (!is.vector(x) | is.list(x)) & !is.factor(x) ) {
     stop( '"x" must be a vector or a factor')
   }
-  if( !methods::is(na.rm,"logical") | length(na.rm) !=1 ) {
+  if( !methods::is(na.rm,"logical") || length(na.rm) !=1 || is.na(na.rm) ) {
     stop( '"na.rm" must be a single logical value')
   }
 

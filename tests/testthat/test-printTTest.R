@@ -11,13 +11,9 @@ tt_output <- function(tt) capture.output(print(tt))
 likert <- c(3, 1, 4, 1, 4, 6, 7, 2, 6, 6, 7)
 tt_one <- oneSampleTTest(x = likert, mu = 4)
 
-test_that("print.TTest currently returns NULL (docstring says invisible(x) — known bug)", {
-  # BUG: print.TTest has no return() call, so it returns NULL rather than
-  # invisible(x) as documented and as every other lsr print method does.
-  # This test records the current (incorrect) behaviour so a future fix will
-  # be caught immediately.
+test_that("print.TTest returns the original object invisibly (one-sample)", {
   out <- capture.output(ret <- print(tt_one))
-  expect_null(ret)
+  expect_identical(ret, tt_one)
 })
 
 test_that("print.TTest one-sample output contains expected section headings", {
@@ -55,9 +51,9 @@ df <- data.frame(
 )
 tt_ind <- independentSamplesTTest(rt ~ cond, df)
 
-test_that("print.TTest returns NULL for independent-samples (known bug: should be invisible(x))", {
+test_that("print.TTest returns the original object invisibly (independent-samples)", {
   out <- capture.output(ret <- print(tt_ind))
-  expect_null(ret)
+  expect_identical(ret, tt_ind)
 })
 
 test_that("print.TTest independent-samples output contains expected section headings", {
@@ -84,9 +80,9 @@ df_long <- data.frame(
 )
 tt_paired <- pairedSamplesTTest(formula = wm ~ time, data = df_long, id = "id")
 
-test_that("print.TTest returns NULL for paired-samples (known bug: should be invisible(x))", {
+test_that("print.TTest returns the original object invisibly (paired-samples)", {
   out <- capture.output(ret <- print(tt_paired))
-  expect_null(ret)
+  expect_identical(ret, tt_paired)
 })
 
 test_that("print.TTest paired-samples output contains expected section headings", {

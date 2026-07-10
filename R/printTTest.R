@@ -153,4 +153,6 @@ print.TTest <- function( x, ... ) {
   cat( "   estimated effect size (Cohen's d): ", round( x$effect.size, nDigits), "\n" )
   cat( "\n")
 
+  invisible(x)
+
 }

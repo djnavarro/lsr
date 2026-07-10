@@ -59,6 +59,7 @@
 #'
 standardCoefs <- function( x ) {
 
+  if( methods::is(x,"aov") ) {stop( '"x" must be a linear model object (aov models are not supported)')}
   if( !methods::is(x,"lm") ) {stop( '"x" must be a linear model object')}
 
   # read off the useful info
