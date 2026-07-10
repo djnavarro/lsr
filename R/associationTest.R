@@ -51,6 +51,7 @@ associationTest <- function( formula, data=NULL ) {
     # it needs to be data frame, because a matrix can't
     # contain actors
     if( !methods::is(data,"data.frame") ) stop ( "'data' argument must be a data frame")
+    data <- as.data.frame(data)
 
     # check that both variables are in the data frame
     if( !( vars[1] %in% names(data)) ) {

@@ -71,6 +71,16 @@ test_that("independentSamplesTTest group means match tapply result", {
   expect_equal(unname(tt$mean), as.vector(ref), tolerance = 1e-10)
 })
 
+test_that("independentSamplesTTest works when data is a tibble", {
+  skip_if_not_installed("tibble")
+  dft <- tibble::as_tibble(df)
+  tt_df  <- independentSamplesTTest(rt ~ cond, df)
+  tt_tbl <- independentSamplesTTest(rt ~ cond, dft)
+  expect_equal(tt_df$t.statistic, tt_tbl$t.statistic, tolerance = 1e-6)
+  expect_equal(tt_df$p.value,     tt_tbl$p.value,     tolerance = 1e-6)
+  expect_equal(tt_df$conf.int,    tt_tbl$conf.int,    tolerance = 1e-6)
+})
+
 test_that("independentSamplesTTest errors on invalid conf.level", {
   expect_error(independentSamplesTTest(rt ~ cond, df, conf.level = c(0.9, 0.95)),
                '"conf.level" must be a number between 0 and 1')

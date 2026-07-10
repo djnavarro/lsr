@@ -48,6 +48,15 @@ test_that("associationTest print method returns original object", {
 })
 
 
+test_that("associationTest works when data is a tibble", {
+  skip_if_not_installed("tibble")
+  dft <- tibble::as_tibble(df)
+  at_df  <- associationTest(~ gender + answer, df)
+  at_tbl <- associationTest(~ gender + answer, dft)
+  expect_equal(at_df$statistic, at_tbl$statistic, tolerance = 1e-6)
+  expect_equal(at_df$p.value,   at_tbl$p.value,   tolerance = 1e-6)
+})
+
 test_that("associationTest print method contains expected lines", {
   tst <- associationTest(~gender + answer, df)
   out <- capture.output(print(tst))
