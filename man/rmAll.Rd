@@ -26,12 +26,12 @@ before anything is deleted. This is similar to \code{rm(list = objects())},
 but with an interactive safety check.
 }
 \examples{
-\dontrun{
-# interactive: displays workspace contents and asks for confirmation
-rmAll()
+if (FALSE) {
+  # interactive: displays workspace contents and asks for confirmation
+  rmAll()
 
-# non-interactive: deletes immediately without prompting
-rmAll(ask = FALSE)
+  # non-interactive: deletes immediately without prompting
+  rmAll(ask = FALSE)
 }
 }
 \seealso{

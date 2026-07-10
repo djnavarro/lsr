@@ -27,12 +27,12 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # interactive: displays workspace contents and asks for confirmation
-#' rmAll()
+#' if (FALSE) {
+#'   # interactive: displays workspace contents and asks for confirmation
+#'   rmAll()
 #'
-#' # non-interactive: deletes immediately without prompting
-#' rmAll(ask = FALSE)
+#'   # non-interactive: deletes immediately without prompting
+#'   rmAll(ask = FALSE)
 #' }
 rmAll <- function(ask = TRUE) {
 

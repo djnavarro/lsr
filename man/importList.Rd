@@ -38,9 +38,9 @@ grp_list <- split(values, group)
 # import silently (no confirmation prompt)
 importList(grp_list, ask = FALSE)
 
-\dontrun{
-# interactive: shows variable names and asks for confirmation
-importList(grp_list)
+if (FALSE) {
+  # interactive: shows variable names and asks for confirmation
+  importList(grp_list)
 }
 
 }

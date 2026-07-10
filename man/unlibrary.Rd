@@ -25,9 +25,9 @@ matching the syntax of \code{\link{library}}. Only the named package is
 unloaded; dependencies are not affected.
 }
 \examples{
-\dontrun{
-library(MASS)
-unlibrary(MASS)
+if (FALSE) {
+  # after loading a package with library(), unload it with unlibrary()
+  unlibrary(MASS)
 }
 
 }

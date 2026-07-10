@@ -20,8 +20,8 @@ Calculates the mean absolute deviation from the sample mean.
 }
 \details{
 Computes the average of the absolute differences between each
-observation and the sample mean of \code{x}:
-\deqn{\frac{1}{n} \sum_{i=1}^{n} |x_i - \bar{x}|}{mean(|x - mean(x)|)}
+observation and the sample mean of \code{x}, i.e.
+\code{mean(abs(x - mean(x)))}.
 }
 \examples{
 x <- c(1, 3, 6)

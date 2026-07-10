@@ -9,8 +9,8 @@
 #'   the deviation. Defaults to \code{FALSE}.
 #'
 #' @details Computes the average of the absolute differences between each
-#' observation and the sample mean of \code{x}:
-#' \deqn{\frac{1}{n} \sum_{i=1}^{n} |x_i - \bar{x}|}{mean(|x - mean(x)|)}
+#' observation and the sample mean of \code{x}, i.e.
+#' \code{mean(abs(x - mean(x)))}.
 #'
 #' @return A single number giving the mean absolute deviation.
 #'

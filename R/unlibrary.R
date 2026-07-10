@@ -25,9 +25,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(MASS)
-#' unlibrary(MASS)
+#' if (FALSE) {
+#'   # after loading a package with library(), unload it with unlibrary()
+#'   unlibrary(MASS)
 #' }
 #'
 unlibrary <- function(package) {
