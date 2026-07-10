@@ -9,43 +9,33 @@
 
 #' Transpose a data frame
 #'
-#' @description Transposes a data frame, converting variables to cases and vice versa
+#' @description Transposes a data frame, swapping rows and columns, and returns
+#' the result as a data frame.
 #'
-#' @param x The data frame to be transposed.
+#' @param x A data frame to be transposed.
 #'
-#' @details The \code{tFrame} function is a convenience function that simply
-#' transposes the input data frame and coerces the result back to a data frame.
-#' Apart from a very small amount of exception handling, it is equivalent to
-#' \code{as.data.frame(t(x))}. It exists simply because I sometimes find it
-#' convenient when teaching statistics to discuss simple data handling before
-#' going into details regarding coercion; similarly, since I generally have
-#' students work with data frames before exposing them to matrices, it is
-#' convenient to have a transpose function that returns a data frame as output.
+#' @details Equivalent to \code{as.data.frame(t(x))}. Unlike applying
+#' \code{\link{t}} directly, \code{tFrame} ensures the result is a data frame
+#' rather than a matrix. This makes sense when the rows of \code{x} can be
+#' meaningfully treated as variables — for example, when each row represents a
+#' measurement type and each column represents a participant.
 #'
-#' Naturally, the \code{tFrame} function should only be used when it is
-#' actually sensible to think of the cases of \code{x} as variables in their
-#' own right. In real life I expect that this maps almost perfectly onto those
-#' cases where \code{x} could be a matrix just as easily as a data frame, so
-#' I don't believe that \code{tFrame} is useful in real world data analysis. It
-#' is intended as a teaching tool.
-#'
-#' @return The transposed data frame
+#' @return The transposed data frame.
 #'
 #' @seealso \code{\link{t}}
 #'
 #' @export
 #'
 #' @examples
-#' # Create a data frame that could sensibly be transposed...
-#' Gf <- c(105, 119, 121, 98)   # fluid intelligence for 4 people
-#' Gc <- c(110, 115, 119, 103)  # crystallised intelligence
-#' Gs <- c(112, 102, 108, 99)   # speed of processing
-#' dataset <- data.frame( Gf, Gc, Gs )
-#' rownames(dataset) <- paste( "person", 1:4, sep="" )
-#' print(dataset)
+#' dataset <- data.frame(
+#'   Gf = c(105, 119, 121, 98),   # fluid intelligence
+#'   Gc = c(110, 115, 119, 103),  # crystallised intelligence
+#'   Gs = c(112, 102, 108, 99)    # processing speed
+#' )
+#' rownames(dataset) <- paste0("person", 1:4)
+#' dataset
 #'
-#' # Now transpose it...
-#' tFrame( dataset )
+#' tFrame(dataset)
 #'
 tFrame <- function(x) {
   if (!methods::is(x,"data.frame")) {
