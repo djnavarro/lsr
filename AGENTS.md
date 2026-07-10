@@ -97,7 +97,7 @@ Custom S3 classes with `print` methods: `TTest`, `whoList`, `correlate`,
 
 ### Current state of the test suite
 
-The test suite was overhauled in 2025 (PR merged into `dev`) and further
+The test suite was overhauled in Stage 1 (PR merged into `dev`) and further
 extended during Stage 2 hardening (2026-07-10). It now has 28 test files
 and 486 assertions covering all 29 exported functions and all S3 print
 methods. Every file covers at minimum: typical usage, numeric correctness
