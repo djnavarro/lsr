@@ -6,52 +6,45 @@
 
 #' Permute the levels of a factor
 #'
-#' @description Apply an arbitrary permutation to the ordering of levels
-#' within a factor
+#' @description Reorder the levels of a factor into any order you specify.
 #'
-#' @param x The factor to be permuted
-#' @param perm A vector specifying the permutation
-#' @param ordered Should the output be an ordered factor?
-#' @param invert Use the inverse of \code{perm} to specify the permutation
+#' @param x A factor.
+#' @param perm An integer vector of the same length as \code{nlevels(x)}.
+#'   When \code{invert = FALSE} (the default), \code{perm[k]} gives the
+#'   index of the old level that should appear in position \code{k} of
+#'   the new ordering. When \code{invert = TRUE}, \code{perm[k]} gives
+#'   the new position to assign to the \code{k}-th old level.
+#' @param ordered Set to \code{TRUE} to return an ordered factor. Defaults
+#'   to \code{is.ordered(x)}, preserving the ordered status of the input.
+#' @param invert Set to \code{TRUE} to apply the inverse of \code{perm}.
+#'   See the \code{perm} description above and the examples below.
 #'
-#' @details This is a convenience function used to shuffle the order in
-#' which the levels of a factor are specified. It is similar in spirit to
-#' the \code{relevel} function, but more general. The \code{relevel}
-#' function only changes the first level of the factor, whereas
-#' \code{permuteLevels} can apply an arbitrary permutation. This can be
-#' useful for plotting data, because some plotting functions will display
-#' the factor levels in the same order that they appear within the factor.
+#' @details Similar to \code{\link{relevel}}, but more general:
+#' \code{relevel} can only move one level to the front, whereas
+#' \code{permuteLevels} can place the levels in any order. This is useful
+#' when you want to control the order in which levels appear on a plot axis
+#' or in a table.
 #'
-#' The \code{perm} argument is a vector of the same length as \code{levels(x)},
-#' such that \code{perm[k]} is an integer that indicates which of the old
-#' levels should be moved to position k. However, if \code{invert=TRUE}, the
-#' inverse permutation is applied: that is, \code{perm[k]} is an integer
-#' specifying where to move the k-th level of the original factor. See the
-#' examples for more details.
-#'
-#' @return Returns a factor with identical values, but with the ordering
-#' of the factor levels shuffled.
+#' @return A factor with the same values as \code{x} but with the levels
+#' in the new order specified by \code{perm}.
 #'
 #' @export
 #'
 #' @seealso
 #' \code{\link{factor}},
-#' \code{\link{order}},
-#' \code{\link{relevel}}
+#' \code{\link{relevel}},
+#' \code{\link{order}}
 #'
 #' @examples
+#' # factor with levels a, b, c, d, e, f (in that order)
+#' x <- factor(c(1, 4, 2, 2, 3, 3, 5, 5, 6, 6), labels = letters[1:6])
+#' levels(x)
 #'
-#' # original factor specifies the levels in order: a,b,c,d,e,f
-#' x <- factor( c(1,4,2,2,3,3,5,5,6,6), labels=letters[1:6] )
-#' print(x)
+#' # move level e to position 1, c to position 2, b to 3, a to 4, d to 5, f to 6
+#' permuteLevels(x, perm = c(5, 3, 2, 1, 4, 6))
 #'
-#' # apply permutation (5 3 2 1 4 6)... i.e., move 5th factor level (e)
-#' # into position 1, move 3rd factor level (c) into position 2, etc
-#' permuteLevels(x,perm = c(5,3,2,1,4,6))
-#'
-#' # apply the inverse of permutation (5 3 2 1 4 6)... i.e., move 1st
-#' # level (a) into position 5, move 2nd level (b) into position 3, etc
-#' permuteLevels(x,perm = c(5,3,2,1,4,6),invert=TRUE)
+#' # using invert = TRUE: move level a to position 5, b to 3, c to 2, etc.
+#' permuteLevels(x, perm = c(5, 3, 2, 1, 4, 6), invert = TRUE)
 #'
 permuteLevels <- function(x,perm,ordered = is.ordered(x),invert=FALSE) {
 

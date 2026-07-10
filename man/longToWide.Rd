@@ -7,57 +7,39 @@
 longToWide(data, formula, sep = "_")
 }
 \arguments{
-\item{data}{The data frame.}
+\item{data}{A long-form data frame with one row per observation.}
 
-\item{formula}{A two-sided formula specifying measure variables and within-subject variables}
+\item{formula}{A two-sided formula of the form \code{measure ~ within},
+listing the measured variable(s) on the left and the within-subject
+variable(s) on the right. All other variables in \code{data} are treated
+as between-subject variables. Multiple variables are supported on each
+side, e.g. \code{rt + accuracy ~ day + session}.}
 
-\item{sep}{Separator string used in wide-form variable names}
+\item{sep}{The separator string used to construct wide-form variable names.
+Defaults to \code{"_"}. For example, with \code{sep = "_"} and a measure
+called \code{accuracy} at levels \code{t1} and \code{t2}, the output
+columns are named \code{accuracy_t1} and \code{accuracy_t2}.}
 }
 \value{
-The output is a "wide form" data frame in containing one row per
-subject (or experimental unit, more generally), with each observation of
-that subject corresponding to a separate variable. The naming scheme for
-these variables places the name of the measured variable first, followed
-by the levels of within-subjects variable(s), separated by the separator
-string \code{sep}. In the example above where the reshaping formula was
-\code{accuracy ~ time}, if the default separator of \code{sep="_"} was
-used, and the levels of the \code{time} variable are \code{t1}, \code{t2}
-and \code{t3}, then the output would include the variables
-\code{accuracy_t1}, \code{accuracy_t2} and \code{accuracy_t3}.
-
-In the second example listed above, where the reshaping formula was
-\code{rt + accuracy ~ days + sessions}, the output variables would refer
-to levels of both within-subjects variables. For instance,
-\code{rt_day1_session1}, and \code{accuracy_day2_session1} might be the
-names of two of the variables in the wide form data frame.
+A wide-form data frame with one row per subject (or experimental
+unit). Column names for the repeated measures follow the naming convention
+used by \code{\link{wideToLong}}: the measure name followed by the
+within-subject factor level(s), separated by \code{sep}.
 }
 \description{
-Reshape a data frame from long form to wide form
+Reshapes a data frame from long form (one row per observation)
+to wide form (one row per subject), using a formula to specify the structure.
 }
 \details{
-The \code{longToWide} function is the companion function to
-\code{wideToLong}. The \code{data} argument is a "long form" data frame,
-in which each row corresponds to a single observation. The output is a
-"wide form" data frame, in which each row corresponds to a single
-experimental unit (e.g., a single subject).
-
-The reshaping formula should list all of the measure variables on the
-left hand side, and all of the within-subject variables on the right
-hand side. All other variables are assumed to be between-subject variables.
-For example, if the \code{accuracy} of a participant's performance is
-measured at multiple \code{time} points, then the formula would be
-\code{accuracy ~ time}.
-
-Multiple variables are supported on both sides of the formula. For example,
-suppose we measured the response time \code{rt} and \code{accuracy} of
-participants, across three separate \code{days}, and across three separate
-\code{sessions} within each day. In this case the formula would be
-\code{rt + accuracy ~ days + sessions}.
+This function is the companion to \code{\link{wideToLong}}. It
+reshapes a long-form data frame into wide form by spreading the within-subject
+observations across columns, with column names constructed from the measure
+name and factor level(s) joined by \code{sep}.
 }
 \examples{
 long <- data.frame(
-  id = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
-  time = c("t1", "t1", "t1", "t2", "t2", "t2", "t3", "t3", "t3"),
+  id       = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
+  time     = c("t1", "t1", "t1", "t2", "t2", "t2", "t3", "t3", "t3"),
   accuracy = c(.50, .03, .72, .94, .63, .49, .78, .71, .16)
 )
 
@@ -65,5 +47,5 @@ longToWide(long, accuracy ~ time)
 
 }
 \seealso{
-\code{\link{wideToLong}}
+\code{\link{wideToLong}}, \code{\link{reshape}}
 }

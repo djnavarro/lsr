@@ -6,31 +6,39 @@
 
 #' Expand factors to a set of contrasts
 #'
-#' @description Substitutes all factors in a data frame with the set of
-#' contrasts with which that factor is associated
+#' @description Replaces each factor variable in a data frame with its
+#' contrast-coded columns, leaving numeric variables unchanged.
 #'
 #' @param data A data frame.
-#' @param ... Additional arguments to be passed to model.matrix
+#' @param ... Additional arguments passed to \code{\link{model.matrix}}, such
+#'   as \code{contrasts.arg} for specifying non-default contrast schemes.
 #'
-#' @details The \code{expandFactors} function replaces all of the factors
-#' in a data frame with the set of contrasts output by the \code{contrasts}
-#' function or \code{model.matrix}. It may be useful for teaching purposes
-#' when explaining relationship between ANOVA and regression.
+#' @details Each factor in \code{data} is replaced by the numeric contrast
+#' columns that \code{\link{model.matrix}} would generate for that factor
+#' (using treatment contrasts by default). Numeric variables pass through
+#' unchanged. This can be helpful when illustrating the connection between
+#' ANOVA and regression.
 #'
-#' @return A data frame.
+#' @return A data frame with factor columns replaced by numeric contrast
+#' columns.
+#'
+#' @seealso \code{\link{model.matrix}}, \code{\link{contrasts}}
+#'
 #' @export
 #'
 #' @examples
-#' grading <- data.frame( teacher = factor( c("Amy","Amy","Ben","Ben","Cat") ),
-#'                        gender = factor( c("male","female","female","male","male") ),
-#'                        grade = c(75,80,45,50,65) )
+#' grading <- data.frame(
+#'   teacher = factor(c("Amy", "Amy", "Ben", "Ben", "Cat")),
+#'   gender  = factor(c("male", "female", "female", "male", "male")),
+#'   grade   = c(75, 80, 45, 50, 65)
+#' )
 #'
-#' # expand factors using the default contrasts (usually treatment contrasts)
-#' expandFactors( grading )
+#' # expand using the default contrasts (treatment contrasts)
+#' expandFactors(grading)
 #'
-#' # specify the contrasts using the contrasts.arg argument to model.matrix
-#' my.contrasts <- list( teacher = "contr.helmert", gender = "contr.treatment" )
-#' expandFactors( grading, contrasts.arg = my.contrasts )
+#' # specify different contrasts via contrasts.arg
+#' my.contrasts <- list(teacher = "contr.helmert", gender = "contr.treatment")
+#' expandFactors(grading, contrasts.arg = my.contrasts)
 #'
 expandFactors <- function( data, ... ) {
 
