@@ -163,7 +163,8 @@ reflect this:
   "returns an object of class X".
 - **`@examples` should be self-contained, immediately runnable, and use
   consistent code style** (spaces around `=`, spaces after commas, no
-  extra spaces after `(` or before `)`).
+  extra spaces after `(` or before `)`). Fixing both the content and the
+  code style of existing examples is explicitly within scope.
 
 **Specific checks per file:**
 - `@description` — one clear sentence; remove redundant hedges like
@@ -173,6 +174,9 @@ reflect this:
 - `@return` — highest priority for revision; describe what the user sees.
 - `@details` — verify accuracy after Stages 1–3 changes.
 - `@seealso` — cross-references relevant and complete.
+- `@examples` — self-contained, runnable, and consistent code style; add
+  examples where missing; improve existing examples where style or clarity
+  falls short.
 - Print methods — minimal but plain-English documentation; note they are
   called automatically when the object is printed, without using the word
   "dispatch".
@@ -185,13 +189,13 @@ each batch to verify `.Rd` files regenerate cleanly.
 `oneSampleTTest`, `independentSamplesTTest`, `pairedSamplesTTest`,
 `cohensD`, `print.TTest`
 
-#### Group 2 — Hypothesis tests and effect sizes 🔄 Next
+#### Group 2 — Hypothesis tests and effect sizes ✅ Complete (PR #18, 2026-07-11)
 
 `associationTest`, `goodnessOfFitTest`, `etaSquared`, `cramersV`,
 `ciMean`, `correlate`, `posthocPairwiseT`, `bars`,
 `print.assocTest`, `print.gofTest`, `print.correlate`
 
-#### Group 3 — Data manipulation
+#### Group 3 — Data manipulation 🔄 Next
 
 `wideToLong`, `longToWide`, `expandFactors`, `permuteLevels`,
 `quantileCut`, `sortFrame`, `tFrame`, `colCopy`, `rowCopy`
