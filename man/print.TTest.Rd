@@ -2,18 +2,22 @@
 % Please edit documentation in R/printTTest.R
 \name{print.TTest}
 \alias{print.TTest}
-\title{Print method for lsr t-tests}
+\title{Print t-test results}
 \usage{
 \method{print}{TTest}(x, ...)
 }
 \arguments{
-\item{x}{An object of class 'TTest'}
+\item{x}{A t-test result, as returned by \code{\link{oneSampleTTest}},
+\code{\link{independentSamplesTTest}}, or \code{\link{pairedSamplesTTest}}.}
 
-\item{...}{For consistency with the generic (unused)}
+\item{...}{Additional arguments (unused, included for compatibility).}
 }
 \value{
-Invisibly returns the original object
+Invisibly returns \code{x} unchanged.
 }
 \description{
-Print method for lsr t-tests
+Prints the results of a t-test in a readable, beginner-friendly
+format. This function is called automatically whenever a result from
+\code{\link{oneSampleTTest}}, \code{\link{independentSamplesTTest}}, or
+\code{\link{pairedSamplesTTest}} is displayed.
 }
