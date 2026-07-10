@@ -25,6 +25,7 @@ Imports:
 RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 3.0.0),
-    tibble
+    tibble,
+    withr
 Config/testthat/edition: 3
 Config/Needs/website: djnavarro/waeponwifestre
