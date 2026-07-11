@@ -2,35 +2,37 @@
 % Please edit documentation in R/aad.R
 \name{aad}
 \alias{aad}
-\title{Mean (average) absolute deviation from the mean}
+\title{Mean absolute deviation}
 \usage{
 aad(x, na.rm = FALSE)
 }
 \arguments{
-\item{x}{A vector containing the observations.}
+\item{x}{A numeric vector containing the observations.}
 
-\item{na.rm}{A logical value indicating whether or not missing values should be removed. Defaults to \code{FALSE}}
+\item{na.rm}{Set to \code{TRUE} to remove missing values before computing
+the deviation. Defaults to \code{FALSE}.}
 }
 \value{
-Numeric
+A single number giving the mean absolute deviation.
 }
 \description{
-Calculates the mean absolute deviation from the sample mean
+Calculates the mean absolute deviation from the sample mean.
 }
 \details{
-The \code{aad} function calculates the average (i.e. mean)
-absolute deviation from the mean value of \code{x}, removing \code{NA}
-values if requested by the user. It exists primarily to simplify the
-discussion of descriptive statistics during an introductory stats class.
+Computes the average of the absolute differences between each
+observation and the sample mean of \code{x}, i.e.
+\code{mean(abs(x - mean(x)))}.
 }
 \examples{
-# basic usage
-X <- c(1, 3, 6)  # data
-aad(X)           # returns a value of 1.777
+x <- c(1, 3, 6)
+aad(x)
 
-# removing missing data
-X <- c(1, 3, NA, 6)   # data
-aad(X)                # returns NA
-aad(X, na.rm = TRUE)  # returns 1.777
+# missing values
+x <- c(1, 3, NA, 6)
+aad(x)                 # returns NA
+aad(x, na.rm = TRUE)   # ignores the missing value
 
+}
+\seealso{
+\code{\link{mean}}, \code{\link{sd}}, \code{\link{var}}
 }

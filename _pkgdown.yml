@@ -2,3 +2,73 @@ url: https://lsr.djnavarro.net/
 template:
   package: waeponwifestre
 
+reference:
+  - title: Hypothesis tests
+    desc: >
+      Wrapper functions for common statistical tests used in introductory
+      courses, with output designed to be readable by beginners.
+    contents:
+      - oneSampleTTest
+      - independentSamplesTTest
+      - pairedSamplesTTest
+      - associationTest
+      - goodnessOfFitTest
+      - posthocPairwiseT
+      - print.TTest
+      - print.assocTest
+      - print.gofTest
+
+  - title: Effect sizes and descriptive statistics
+    desc: >
+      Functions for computing effect sizes and summarising data, intended
+      as companions to the hypothesis test functions above.
+    contents:
+      - cohensD
+      - etaSquared
+      - cramersV
+      - ciMean
+      - correlate
+      - print.correlate
+
+  - title: Data manipulation
+    desc: >
+      Functions for reshaping, reordering, and recoding data frames and
+      factors.
+    contents:
+      - wideToLong
+      - longToWide
+      - expandFactors
+      - permuteLevels
+      - quantileCut
+      - sortFrame
+      - tFrame
+      - colCopy
+      - rowCopy
+
+  - title: Visualisation
+    desc: >
+      A simple plotting function for displaying frequency and proportion
+      data as bar charts.
+    contents:
+      - bars
+
+  - title: Workspace utilities
+    desc: >
+      Helper functions for inspecting and managing the R workspace, and
+      for miscellaneous statistical tasks not covered elsewhere.
+    contents:
+      - who
+      - modeOf
+      - maxFreq
+      - aad
+      - rmAll
+      - unlibrary
+      - importList
+      - standardCoefs
+      - print.whoList
+
+articles:
+  - title: "Learning lsr"
+    contents:
+      - articles/overview
+      - articles/commentary

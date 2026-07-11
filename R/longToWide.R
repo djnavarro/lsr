@@ -1,5 +1,3 @@
-
-
 # longToWide() takes a long-form data frame and converts it to a wide-form data frame.
 # Like it's companion function wideToLong() it's not as flexible as cast() and melt(),
 # but it is easier to use.
@@ -7,79 +5,67 @@
 
 #' Reshape from long to wide
 #'
-#' @description Reshape a data frame from long form to wide form
+#' @description Reshapes a data frame from long form (one row per observation)
+#' to wide form (one row per subject), using a formula to specify the structure.
 #'
-#' @param data The data frame.
-#' @param formula A two-sided formula specifying measure variables and within-subject variables
-#' @param sep Separator string used in wide-form variable names
+#' @param data A long-form data frame with one row per observation.
+#' @param formula A two-sided formula of the form \code{measure ~ within},
+#'   listing the measured variable(s) on the left and the within-subject
+#'   variable(s) on the right. All other variables in \code{data} are treated
+#'   as between-subject variables. Multiple variables are supported on each
+#'   side, e.g. \code{rt + accuracy ~ day + session}.
+#' @param sep The separator string used to construct wide-form variable names.
+#'   Defaults to \code{"_"}. For example, with \code{sep = "_"} and a measure
+#'   called \code{accuracy} at levels \code{t1} and \code{t2}, the output
+#'   columns are named \code{accuracy_t1} and \code{accuracy_t2}.
 #'
-#' @details The \code{longToWide} function is the companion function to
-#' \code{wideToLong}. The \code{data} argument is a "long form" data frame,
-#' in which each row corresponds to a single observation. The output is a
-#' "wide form" data frame, in which each row corresponds to a single
-#' experimental unit (e.g., a single subject).
+#' @details This function is the companion to \code{\link{wideToLong}}. It
+#' reshapes a long-form data frame into wide form by spreading the within-subject
+#' observations across columns, with column names constructed from the measure
+#' name and factor level(s) joined by \code{sep}.
 #'
-#' The reshaping formula should list all of the measure variables on the
-#' left hand side, and all of the within-subject variables on the right
-#' hand side. All other variables are assumed to be between-subject variables.
-#' For example, if the \code{accuracy} of a participant's performance is
-#' measured at multiple \code{time} points, then the formula would be
-#' \code{accuracy ~ time}.
+#' @return A wide-form data frame with one row per subject (or experimental
+#' unit). Column names for the repeated measures follow the naming convention
+#' used by \code{\link{wideToLong}}: the measure name followed by the
+#' within-subject factor level(s), separated by \code{sep}.
 #'
-#' Multiple variables are supported on both sides of the formula. For example,
-#' suppose we measured the response time \code{rt} and \code{accuracy} of
-#' participants, across three separate \code{days}, and across three separate
-#' \code{sessions} within each day. In this case the formula would be
-#' \code{rt + accuracy ~ days + sessions}.
-#'
-#' @return The output is a "wide form" data frame in containing one row per
-#' subject (or experimental unit, more generally), with each observation of
-#' that subject corresponding to a separate variable. The naming scheme for
-#' these variables places the name of the measured variable first, followed
-#' by the levels of within-subjects variable(s), separated by the separator
-#' string \code{sep}. In the example above where the reshaping formula was
-#' \code{accuracy ~ time}, if the default separator of \code{sep="_"} was
-#' used, and the levels of the \code{time} variable are \code{t1}, \code{t2}
-#' and \code{t3}, then the output would include the variables
-#' \code{accuracy_t1}, \code{accuracy_t2} and \code{accuracy_t3}.
-#'
-#' In the second example listed above, where the reshaping formula was
-#' \code{rt + accuracy ~ days + sessions}, the output variables would refer
-#' to levels of both within-subjects variables. For instance,
-#' \code{rt_day1_session1}, and \code{accuracy_day2_session1} might be the
-#' names of two of the variables in the wide form data frame.
+#' @seealso \code{\link{wideToLong}}, \code{\link{reshape}}
 #'
 #' @export
 #'
-#' @seealso \code{\link{wideToLong}}
-#'
 #' @examples
 #' long <- data.frame(
-#'   id = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
-#'   time = c("t1", "t1", "t1", "t2", "t2", "t2", "t3", "t3", "t3"),
+#'   id       = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
+#'   time     = c("t1", "t1", "t1", "t2", "t2", "t2", "t3", "t3", "t3"),
 #'   accuracy = c(.50, .03, .72, .94, .63, .49, .78, .71, .16)
 #' )
 #'
 #' longToWide(long, accuracy ~ time)
 #'
-longToWide <- function( data, formula, sep="_") {
+longToWide <- function(data, formula, sep = "_") {
+  if (!methods::is(data, "data.frame")) stop('"data" must be a data frame')
+  if (missing(formula)) stop('"formula" argument is missing, with no default')
+  if (!methods::is(formula, "formula")) stop('"formula" must be a formula')
+  if (length(formula) != 3) stop('"formula" must be a two-sided formula')
+  if (!methods::is(sep, "character") || length(sep) != 1) {
+    stop('"sep" must be a single character string')
+  }
 
   within <- all.vars(formula[-2])
   v.names <- all.vars(formula[-3])
-  idvar <- setdiff(names(data),c(within,v.names))
+  idvar <- setdiff(names(data), c(within, v.names))
 
-  if( length(within)>1 ) {
-    collapsed.treatments <- apply(as.matrix(data[,within]),1,paste,collapse=sep)
-    data <- data[,setdiff(names(data),within)] # delete split treatments
+  if (length(within) > 1) {
+    collapsed.treatments <- apply(as.matrix(data[, within]), 1, paste, collapse = sep)
+    data <- data[, setdiff(names(data), within)] # delete split treatments
     data$within <- collapsed.treatments # append collapsed treatment
     within <- "within"
   }
-  times <- unique( data[,within]) # measure 'time' names
+  times <- unique(data[, within]) # measure 'time' names
   varying <- list()
-  for( i in seq_along(v.names) ) varying[[i]] <- paste(v.names[i],times, sep=sep)
+  for (i in seq_along(v.names)) varying[[i]] <- paste(v.names[i], times, sep = sep)
 
-  x<-stats::reshape( data, idvar=idvar, varying=varying, direction="wide", times=times, v.names=v.names, timevar=within)
+  x <- stats::reshape(data, idvar = idvar, varying = varying, direction = "wide", times = times, v.names = v.names, timevar = within)
   rownames(x) <- NULL
   return(x)
-
 }

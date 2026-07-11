@@ -4,3 +4,6 @@
 .httr-oauth
 .DS_Store
 docs
+README.html
+vignettes/articles/*.html
+revdep/

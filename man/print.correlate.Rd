@@ -2,18 +2,20 @@
 % Please edit documentation in R/correlate.R
 \name{print.correlate}
 \alias{print.correlate}
-\title{Print method for correlate objects}
+\title{Print correlation matrix results}
 \usage{
 \method{print}{correlate}(x, ...)
 }
 \arguments{
-\item{x}{An object of class 'correlate'}
+\item{x}{A correlation result, as returned by \code{\link{correlate}}.}
 
-\item{...}{For consistency with the generic (unused)}
+\item{...}{Additional arguments (unused, included for compatibility).}
 }
 \value{
-Invisibly returns the original object
+Invisibly returns \code{x} unchanged.
 }
 \description{
-Print method for correlate objects
+Prints the results of a correlation analysis in a readable
+format. This function is called automatically whenever a result from
+\code{\link{correlate}} is displayed.
 }

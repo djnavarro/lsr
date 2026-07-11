@@ -7,36 +7,43 @@
 associationTest(formula, data = NULL)
 }
 \arguments{
-\item{formula}{One-sided formula specifying the two variables (required).}
+\item{formula}{A one-sided formula of the form \code{~var1 + var2},
+specifying the two variables to be tested. Both variables must be factors.}
 
-\item{data}{Optional data frame containing the variables.}
+\item{data}{An optional data frame containing the variables named in
+\code{formula}. If omitted, the variables are looked up in the workspace.}
 }
 \value{
-An object of class 'assocTest'. When printed, the output is
-organised into six short sections. The first section lists the name
-of the test and the variables included. The second lists the null and
-alternative hypotheses for the test. The third shows the observed
-contingency table, and the fourth shows the expected contingency
-table under the null. The fifth prints out the test results, and the
-sixth reports an estimate of effect size.
+Prints a summary of the test showing the variable names, null and
+alternative hypotheses, observed and expected frequency tables, test results
+(chi-square statistic, degrees of freedom, p-value), and Cramer's V as a
+measure of effect size. The underlying results are also returned as a list,
+so the output can be assigned to a variable and inspected if needed.
 }
 \description{
-Convenience function that runs a chi-square test of
-association/independence. This is a wrapper function intended to
-be used for pedagogical purposes only.
+Runs a chi-square test to check whether two categorical
+variables are independent of one another.
 }
 \details{
-The \code{associationTest} function runs the chi-square test
-of association on the variables specified in the \code{formula} argument.
-The formula must be a one-sided formula of the form
-\code{~variable1 + variable2}, and both variables must be factors.
+The test checks whether two categorical variables are statistically
+independent. Both variables must be factors, and the formula must be
+one-sided with exactly two variables, e.g. \code{~gender + answer}.
+
+Missing values are removed before the test is run, and a warning is issued
+if any cases are dropped. When both variables have only two levels, Yates'
+continuity correction is applied automatically.
 }
 \examples{
 df <- data.frame(
-gender=factor(c("male","male","male","male","female","female","female")),
-answer=factor(c("heads","heads","heads","heads","tails","tails","heads"))
+  gender = factor(c("male", "male", "male", "male", "female", "female", "female")),
+  answer = factor(c("heads", "heads", "heads", "heads", "tails", "tails", "heads"))
 )
 
-associationTest( ~ gender + answer, df )
+associationTest(~gender + answer, df)
 
+}
+\seealso{
+\code{\link{chisq.test}},
+\code{\link{goodnessOfFitTest}},
+\code{\link{cramersV}}
 }

@@ -2,18 +2,21 @@
 % Please edit documentation in R/goodnessOfFitTest.R
 \name{print.gofTest}
 \alias{print.gofTest}
-\title{Print method for lsr goodness-of-fit tests}
+\title{Print goodness of fit test results}
 \usage{
 \method{print}{gofTest}(x, ...)
 }
 \arguments{
-\item{x}{An object of class 'gofTest'}
+\item{x}{A goodness of fit test result, as returned by
+\code{\link{goodnessOfFitTest}}.}
 
-\item{...}{For consistency with the generic (unused)}
+\item{...}{Additional arguments (unused, included for compatibility).}
 }
 \value{
-Invisibly returns the original object
+Invisibly returns \code{x} unchanged.
 }
 \description{
-Print method for lsr goodness-of-fit tests
+Prints the results of a chi-square goodness of fit test in a
+readable format. This function is called automatically whenever a result
+from \code{\link{goodnessOfFitTest}} is displayed.
 }

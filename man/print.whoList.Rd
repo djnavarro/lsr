@@ -2,18 +2,20 @@
 % Please edit documentation in R/who.R
 \name{print.whoList}
 \alias{print.whoList}
-\title{Print method for whoList objects}
+\title{Print workspace summary}
 \usage{
 \method{print}{whoList}(x, ...)
 }
 \arguments{
-\item{x}{An object of class 'whoList'}
+\item{x}{A workspace summary, as returned by \code{\link{who}}.}
 
-\item{...}{For consistency with the generic (unused)}
+\item{...}{Additional arguments (unused, included for compatibility).}
 }
 \value{
-Invisibly returns the original object
+Invisibly returns \code{x} unchanged.
 }
 \description{
-Print method for whoList objects
+Prints a workspace summary in a readable format. This function
+is called automatically whenever a result from \code{\link{who}} is
+displayed.
 }
