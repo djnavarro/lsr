@@ -2,6 +2,8 @@
 
 ## lsr 1.0.0
 
+CRAN release: 2026-07-11
+
 ### Bug fixes
 
 - [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md):
