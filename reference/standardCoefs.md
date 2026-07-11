@@ -33,6 +33,7 @@ is not entirely unproblematic.
 ## Examples
 
 ``` r
+
 # Example 1: simple linear regression
 
 # data

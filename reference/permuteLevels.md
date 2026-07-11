@@ -57,6 +57,7 @@ for more details.
 ## Examples
 
 ``` r
+
 # original factor specifies the levels in order: a,b,c,d,e,f
 x <- factor( c(1,4,2,2,3,3,5,5,6,6), labels=letters[1:6] )
 print(x)

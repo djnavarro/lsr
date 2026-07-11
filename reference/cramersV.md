@@ -29,6 +29,7 @@ should have the same format.
 ## Examples
 
 ``` r
+
 # Consider an experiment with two conditions, each with 100
 # participants. Each participant chooses between one of three
 # options. Possible data for this experiment:

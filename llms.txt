@@ -11,12 +11,14 @@ You can install the released version of lsr from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
+
 install.packages("lsr")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("djnavarro/lsr")
 ```

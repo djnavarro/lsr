@@ -52,6 +52,7 @@ printed.
 ## Examples
 
 ``` r
+
 cats <- 4
 mood <- "happy"
 who()

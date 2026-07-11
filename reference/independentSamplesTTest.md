@@ -77,6 +77,7 @@ specified by `one.sided = "group2"`.
 ## Examples
 
 ``` r
+
 df <- data.frame(
   rt = c(451, 562, 704, 324, 505, 600, 829),
   cond = factor( x=c(1,1,1,2,2,2,2), labels=c("group1","group2")))

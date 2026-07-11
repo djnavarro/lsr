@@ -62,6 +62,7 @@ than `mu`, the input must be `one.sided = "greater"`. Similarly, if
 ## Examples
 
 ``` r
+
 likert <- c(3,1,4,1,4,6,7,2,6,6,7)
 
 oneSampleTTest( x = likert, mu = 4 )

@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/djnavarro/lsr/blob/master/inst/CITATION)
+[`inst/CITATION`](https://github.com/djnavarro/lsr/blob/main/inst/CITATION)
 
 Navarro, D. J. (2015) Learning statistics with R: A tutorial for
 psychology students and other beginners. (Version 0.6) University of New

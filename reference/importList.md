@@ -42,6 +42,7 @@ valid variables names.
 ## Examples
 
 ``` r
+
 # data set organised into two groups
 data <- c(1,2,3,4,5)
 group <- c("group A","group A","group B","group B","group B")

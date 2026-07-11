@@ -42,6 +42,7 @@ number of `times` that the vector should be copied.
 ## Examples
 
 ``` r
+
 #Example 1: basic usage
 data <- c(3,1,4,1,5)
 rowCopy( data, 4 )
