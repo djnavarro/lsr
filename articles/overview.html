@@ -394,8 +394,6 @@ variables are independent of one another. Here we ask whether passing
 rates differ between female and male students:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/associationTest.html">associationTest</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">passed</span>, data <span class="op">=</span> <span class="va">students</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in associationTest(formula = ~gender + passed, data = students):</span></span>
-<span><span class="co">#&gt; Expected frequencies too small: chi-squared approximation may be incorrect</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;      Chi-square test of categorical association</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -423,7 +421,7 @@ rates differ between female and male students:</p>
 <span><span class="co">#&gt;    p-value:  0.838 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Other information: </span></span>
-<span><span class="co">#&gt;    estimated effect size (Cramer's v):  0.037 </span></span>
+<span><span class="co">#&gt;    estimated effect size (Cramer's v):  0.107 </span></span>
 <span><span class="co">#&gt;    Yates' continuity correction has been applied</span></span>
 <span><span class="co">#&gt;    warning: expected frequencies too small, results may be inaccurate</span></span></code></pre></div>
 <p>The output shows both the observed and expected contingency tables,
@@ -538,8 +536,9 @@ association. It runs from 0 (no association) to 1 (perfect association).
 Pass a contingency table:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cramersV.html">cramersV</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">students</span><span class="op">$</span><span class="va">gender</span>, <span class="va">students</span><span class="op">$</span><span class="va">passed</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect</span></span>
-<span><span class="co">#&gt; [1] 0.0372238</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in stats::chisq.test(..., correct = FALSE): Chi-squared approximation</span></span>
+<span><span class="co">#&gt; may be incorrect</span></span>
+<span><span class="co">#&gt; [1] 0.1070184</span></span></code></pre></div>
 <p>A value of 0.33 suggests a moderate association between gender and
 passing status, consistent with the pattern we saw in the contingency
 table earlier — even though the chi-square test itself did not reach

@@ -366,8 +366,6 @@ students:
 ``` r
 
 associationTest(formula = ~ gender + passed, data = students)
-#> Warning in associationTest(formula = ~gender + passed, data = students):
-#> Expected frequencies too small: chi-squared approximation may be incorrect
 #> 
 #>      Chi-square test of categorical association
 #> 
@@ -395,7 +393,7 @@ associationTest(formula = ~ gender + passed, data = students)
 #>    p-value:  0.838 
 #> 
 #> Other information: 
-#>    estimated effect size (Cramer's v):  0.037 
+#>    estimated effect size (Cramer's v):  0.107 
 #>    Yates' continuity correction has been applied
 #>    warning: expected frequencies too small, results may be inaccurate
 ```
@@ -523,8 +521,9 @@ contingency table:
 ``` r
 
 cramersV(table(students$gender, students$passed))
-#> Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
-#> [1] 0.0372238
+#> Warning in stats::chisq.test(..., correct = FALSE): Chi-squared approximation
+#> may be incorrect
+#> [1] 0.1070184
 ```
 
 A value of 0.33 suggests a moderate association between gender and

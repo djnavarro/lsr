@@ -5,6 +5,62 @@
 ### Bug fixes
 
 - [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md):
+  when a pair of variables had too few complete observations for
+  [`cor.test()`](https://rdrr.io/r/stats/cor.test.html) to run, the
+  entire call would abort. The affected cell is now left as `NA` and the
+  remaining pairs are computed normally.
+
+- [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md),
+  [`goodnessOfFitTest()`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md),
+  [`associationTest()`](https://lsr.djnavarro.net/reference/associationTest.md):
+  the internal `options(warn = 2)` used to intercept warnings was not
+  guarded with [`on.exit()`](https://rdrr.io/r/base/on.exit.html), so an
+  unexpected error could leave the session’s global warn level
+  permanently elevated. All three functions now use
+  [`on.exit()`](https://rdrr.io/r/base/on.exit.html) to guarantee
+  restoration.
+
+- [`cramersV()`](https://lsr.djnavarro.net/reference/cramersV.md):
+  Yates’ continuity correction was applied by default for 2×2 tables
+  (inherited from
+  [`chisq.test()`](https://rdrr.io/r/stats/chisq.test.html)), causing V
+  to be less than 1 even for perfectly associated tables. Cramér’s V is
+  now always computed from the Pearson chi-squared (no continuity
+  correction), giving results on the correct 0-to-1 scale.
+
+- [`goodnessOfFitTest()`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md),
+  [`associationTest()`](https://lsr.djnavarro.net/reference/associationTest.md):
+  when a factor variable had unused levels, the extra levels were
+  silently included in the test with zero observed cases, changing
+  degrees of freedom and p-values without any indication. Both functions
+  now issue an informative warning when unused levels are detected, with
+  a suggestion to call
+  [`droplevels()`](https://rdrr.io/r/base/droplevels.html).
+
+- [`modeOf()`](https://lsr.djnavarro.net/reference/mode.md),
+  [`maxFreq()`](https://lsr.djnavarro.net/reference/mode.md): all-`NA`
+  or zero-length input produced a cryptic base-R
+  `"no non-missing arguments to max"` warning and returned empty output.
+  Both functions now issue an informative warning and return `NA`.
+
+- [`wideToLong()`](https://lsr.djnavarro.net/reference/wideToLong.md):
+  when no column names contained the separator string, the error came
+  from deep inside
+  [`stats::reshape()`](https://rdrr.io/r/stats/reshape.html) with no
+  hint that the cause was a naming-convention mismatch. The function now
+  checks for this condition early and stops with a plain-English
+  message.
+
+- [`importList()`](https://lsr.djnavarro.net/reference/importList.md):
+  passing an unnamed or partially-named list produced a cryptic
+  `"'names' must be a character vector"` error from base R. The function
+  now checks for missing names before proceeding and stops with an
+  informative message. Passing an empty list now also produces a message
+  rather than silently doing nothing.
+
+### Bug fixes
+
+- [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md):
   when fewer than 2 numeric variables were present in the input, the
   function could iterate incorrectly due to `1:(n-1)` evaluating to
   `c(1, 0)` rather than an empty sequence. Fixed with `seq_len(n-1)`.

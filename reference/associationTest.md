@@ -55,7 +55,6 @@ df <- data.frame(
 )
 
 associationTest(~gender + answer, df)
-#> Warning: Expected frequencies too small: chi-squared approximation may be incorrect
 #> 
 #>      Chi-square test of categorical association
 #> 
@@ -83,7 +82,7 @@ associationTest(~gender + answer, df)
 #>    p-value:  0.277 
 #> 
 #> Other information: 
-#>    estimated effect size (Cramer's v):  0.411 
+#>    estimated effect size (Cramer's v):  0.73 
 #>    Yates' continuity correction has been applied
 #>    warning: expected frequencies too small, results may be inaccurate
 #> 

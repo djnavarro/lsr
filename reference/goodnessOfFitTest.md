@@ -81,7 +81,6 @@ goodnessOfFitTest( gender )
 # goodness of fit test against the hypothesis that males appear
 # with probability .6 and females with probability .4.
 goodnessOfFitTest( gender, p=c(.4,.6) )
-#> Warning: Expected frequencies too small: chi-squared approximation may be incorrect
 #> 
 #>      Chi-square test against specified probabilities
 #> 
@@ -103,7 +102,6 @@ goodnessOfFitTest( gender, p=c(.4,.6) )
 #>    warning: expected frequencies too small, results may be inaccurate
 #> 
 goodnessOfFitTest( gender, p=c(female=.4,male=.6) )
-#> Warning: Expected frequencies too small: chi-squared approximation may be incorrect
 #> 
 #>      Chi-square test against specified probabilities
 #> 
@@ -125,7 +123,6 @@ goodnessOfFitTest( gender, p=c(female=.4,male=.6) )
 #>    warning: expected frequencies too small, results may be inaccurate
 #> 
 goodnessOfFitTest( gender, p=c(male=.6,female=.4) )
-#> Warning: Expected frequencies too small: chi-squared approximation may be incorrect
 #> 
 #>      Chi-square test against specified probabilities
 #> 
