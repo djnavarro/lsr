@@ -20,8 +20,10 @@ possible modal value (see Details).}
 \value{
 \code{modeOf} returns the most frequently observed value. If
 multiple values are tied for the highest frequency, all of them are
-returned as a vector. \code{maxFreq} returns the modal frequency as a
-single number.
+returned as a vector. If the input has no non-missing values, \code{modeOf}
+issues a warning and returns \code{NA}. \code{maxFreq} returns the modal
+frequency as a single number, or \code{NA} with a warning if the input has
+no non-missing values.
 }
 \description{
 Calculate the most frequently occurring value(s) in a sample
@@ -38,8 +40,8 @@ most other functions in this package.
 }
 \examples{
 eyes <- c("green", "green", "brown", "brown", "blue")
-modeOf(eyes)   # returns c("green", "brown") -- a tie
-maxFreq(eyes)  # returns 2
+modeOf(eyes) # returns c("green", "brown") -- a tie
+maxFreq(eyes) # returns 2
 
 # with missing data
 eyes <- c("green", "green", "brown", "brown", "blue", NA, NA, NA)

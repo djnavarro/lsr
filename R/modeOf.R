@@ -20,8 +20,10 @@
 #'
 #' @return \code{modeOf} returns the most frequently observed value. If
 #' multiple values are tied for the highest frequency, all of them are
-#' returned as a vector. \code{maxFreq} returns the modal frequency as a
-#' single number.
+#' returned as a vector. If the input has no non-missing values, \code{modeOf}
+#' issues a warning and returns \code{NA}. \code{maxFreq} returns the modal
+#' frequency as a single number, or \code{NA} with a warning if the input has
+#' no non-missing values.
 #'
 #' @name mode
 #'

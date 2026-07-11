@@ -8,7 +8,8 @@ cramersV(...)
 }
 \arguments{
 \item{...}{Arguments passed to \code{\link{chisq.test}}, in the same format
-accepted by that function.}
+accepted by that function. The \code{correct} argument is always set to
+\code{FALSE} internally and cannot be overridden.}
 }
 \value{
 A single number giving the value of Cramer's V.
@@ -22,8 +23,13 @@ Cramer's V summarises the strength of association from a chi-square
 test. It is appropriate for both tests of association (two categorical
 variables) and goodness of fit tests (one variable versus hypothesised
 probabilities). Values range from 0 (no association) to 1 (perfect
-association). The arguments are passed directly to \code{\link{chisq.test}},
-so the input format is the same.
+association).
+
+Yates' continuity correction is never applied, regardless of the table
+dimensions. This is intentional: applying the correction reduces the
+chi-squared statistic, which causes V to fall below 1 even for perfectly
+associated 2x2 tables — inconsistent with its definition as an effect size
+on the [0, 1] scale.
 }
 \examples{
 # frequency table for two groups, each choosing from three options

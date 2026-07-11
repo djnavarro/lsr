@@ -31,7 +31,13 @@ one-sided with exactly two variables, e.g. \code{~gender + answer}.
 
 Missing values are removed before the test is run, and a warning is issued
 if any cases are dropped. When both variables have only two levels, Yates'
-continuity correction is applied automatically.
+continuity correction is applied automatically to the chi-squared statistic
+(though not to the Cramer's V effect size).
+
+If either variable has unused factor levels (levels with zero observed
+cases), a warning is issued. Those levels are included in the contingency
+table with zero observed cases, which may give misleading results. Call
+\code{\link{droplevels}} on the data first if this is not intended.
 }
 \examples{
 df <- data.frame(
@@ -39,7 +45,7 @@ df <- data.frame(
   answer = factor(c("heads", "heads", "heads", "heads", "tails", "tails", "heads"))
 )
 
-associationTest(~gender + answer, df)
+associationTest(~ gender + answer, df)
 
 }
 \seealso{

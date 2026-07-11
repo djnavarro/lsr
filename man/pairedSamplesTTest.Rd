@@ -86,7 +86,7 @@ df2 <- longToWide(df, wm ~ time)
 # three equivalent ways to run the same test
 pairedSamplesTTest(formula = wm ~ time, data = df, id = "id")
 pairedSamplesTTest(formula = wm ~ time + (id), data = df)
-pairedSamplesTTest(formula = ~wm_time1 + wm_time2, data = df2)
+pairedSamplesTTest(formula = ~ wm_time1 + wm_time2, data = df2)
 
 # one-sided test: is time2 larger than time1?
 pairedSamplesTTest(formula = wm ~ time, data = df, id = "id", one.sided = "time2")

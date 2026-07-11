@@ -33,8 +33,8 @@ Non-numeric columns in a data frame produce \code{NA} rows in the output.
 }
 \examples{
 x <- c(1, 3, 6)
-ciMean(x)                  # 95\% confidence interval
-ciMean(x, conf = 0.80)     # 80\% confidence interval
+ciMean(x) # 95\% confidence interval
+ciMean(x, conf = 0.80) # 80\% confidence interval
 
 # for comparison: equivalent result via lm
 confint(lm(x ~ 1))
