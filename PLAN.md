@@ -407,20 +407,18 @@ the release on GitHub.
   - Retry `devtools::check_mac_release()` (was returning HTTP 502 during
     Stage 9)
   - Update `cran-comments.md` with the clean results
-- **10c — Submit to CRAN**
-  - Submit via `devtools::submit_cran()` (runs `R CMD check --as-cran`
-    one final time and uploads to CRAN’s web form)
-  - Watch for the automatic confirmation email; respond if CRAN sends
-    further questions
+- **10c — Submit to CRAN** ✅ Done (2026-07-12)
+  - Submitted via `devtools::submit_cran()`. All pre-submission checks
+    clean: local `R CMD check --as-cran` (0/0/0), rhub on four
+    platforms, win-builder devel and release (both 0/0/0).
 - **10d — Handle CRAN reviewer feedback (if any)**
   - Address any notes or requests from the CRAN team promptly
-  - Small fixes go into a follow-up commit on the same branch (or a new
-    `stage-9-cran-prep-v2` branch)
-  - Do not merge into `main` until CRAN confirms acceptance
+  - Small fixes go into a follow-up commit on a new branch targeting
+    `dev`, then merge to `main` before resubmitting
+  - Do not tag or reopen `dev` until CRAN confirms acceptance
 - **10e — Post-acceptance: tag and reopen dev**
   - Create a GitHub release tagged `v1.0.0`, with release notes drawn
     from the `NEWS.md` entry
-- **10f — Re-open `dev` for future work**
   - Bump `Version` in `DESCRIPTION` to `1.0.0.9000`
   - Add a new `# lsr 1.0.0.9000` heading at the top of `NEWS.md`
   - Commit as “open dev for post-1.0.0 work”

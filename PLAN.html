@@ -250,23 +250,19 @@
 <li>Update <code>cran-comments.md</code> with the clean results</li>
 </ul></li>
 <li>
-<strong>10c — Submit to CRAN</strong>
-<ul><li>Submit via <code>devtools::submit_cran()</code> (runs <code>R CMD check --as-cran</code> one final time and uploads to CRAN’s web form)</li>
-<li>Watch for the automatic confirmation email; respond if CRAN sends further questions</li>
+<strong>10c — Submit to CRAN</strong> ✅ Done (2026-07-12)
+<ul><li>Submitted via <code>devtools::submit_cran()</code>. All pre-submission checks clean: local <code>R CMD check --as-cran</code> (0/0/0), rhub on four platforms, win-builder devel and release (both 0/0/0).</li>
 </ul></li>
 <li>
 <strong>10d — Handle CRAN reviewer feedback (if any)</strong>
 <ul><li>Address any notes or requests from the CRAN team promptly</li>
-<li>Small fixes go into a follow-up commit on the same branch (or a new <code>stage-9-cran-prep-v2</code> branch)</li>
-<li>Do not merge into <code>main</code> until CRAN confirms acceptance</li>
+<li>Small fixes go into a follow-up commit on a new branch targeting <code>dev</code>, then merge to <code>main</code> before resubmitting</li>
+<li>Do not tag or reopen <code>dev</code> until CRAN confirms acceptance</li>
 </ul></li>
 <li>
 <strong>10e — Post-acceptance: tag and reopen dev</strong>
 <ul><li>Create a GitHub release tagged <code>v1.0.0</code>, with release notes drawn from the <code>NEWS.md</code> entry</li>
-</ul></li>
-<li>
-<strong>10f — Re-open <code>dev</code> for future work</strong>
-<ul><li>Bump <code>Version</code> in <code>DESCRIPTION</code> to <code>1.0.0.9000</code>
+<li>Bump <code>Version</code> in <code>DESCRIPTION</code> to <code>1.0.0.9000</code>
 </li>
 <li>Add a new <code># lsr 1.0.0.9000</code> heading at the top of <code>NEWS.md</code>
 </li>

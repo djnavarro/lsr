@@ -58,15 +58,17 @@ six stages, listed in order of priority:
     critical assessment, historical context, alternatives). `knitr` and
     `rmarkdown` added to `Suggests`. Four PRs (#22–#23, plus \#20a for
     `_pkgdown.yml` and README). See PLAN.md for details.
-9.  **CRAN submission preparation** – Version bump to **1.0.0**
-    (signalling the package is mature and stable); remove deprecated
-    `LazyLoad` from DESCRIPTION; finalise NEWS.md; spelling check; URL
-    check; local `R CMD check --as-cran`; rhub checks on additional
-    platforms; reverse- dependency check; `cran-comments.md`. Single PR
-    (`stage-9-cran-prep`) targeting `dev`. See PLAN.md for details.
-10. **CRAN submission and post-release** – Submit to CRAN; handle any
-    reviewer feedback; after acceptance merge `dev` → `main`, tag
-    `v1.0.0`, and open `dev` at `1.0.0.9000`. See PLAN.md for details.
+9.  ~~**CRAN submission preparation**~~ – **Complete.** Version bumped
+    to 1.0.0; `LazyLoad` removed; `Language: en-GB` added; Description
+    rewritten; `inst/CITATION` removed; `inst/WORDLIST` added; NEWS.md
+    finalised; spelling, URL, `R CMD check --as-cran`, rhub,
+    win-builder, and reverse-dependency checks all passed. Seven
+    additional bugs fixed after a release-candidate stress test (PRs
+    \#25, \#27). Single PR (`stage-9-cran-prep`) targeting `dev`. See
+    PLAN.md for details.
+10. **CRAN submission and post-release** – Package submitted to CRAN on
+    2026-07-12. Awaiting review. After acceptance: tag `v1.0.0`, open
+    `dev` at `1.0.0.9000`. See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always
 preferable to a broad refactor.
