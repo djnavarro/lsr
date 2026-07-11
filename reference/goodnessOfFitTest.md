@@ -41,6 +41,13 @@ Missing values in `x` are removed before the test is run, and a warning
 is issued if any cases are dropped. If the probabilities in `p` do not
 sum exactly to 1, they are rescaled with a warning.
 
+If `x` has unused factor levels (levels with zero observed cases), a
+warning is issued. Those levels are included in the test with zero
+observed cases, which changes the degrees of freedom and may give
+misleading results. Call
+[`droplevels`](https://rdrr.io/r/base/droplevels.html) on the data first
+if this is not intended.
+
 ## See also
 
 [`chisq.test`](https://rdrr.io/r/stats/chisq.test.html),
@@ -52,12 +59,15 @@ sum exactly to 1, they are rescaled with a warning.
 ``` r
 # raw data
 gender <- factor(
-  c( "male","male","male","male","female","female",
-     "female","male","male","male" ))
+  c(
+    "male", "male", "male", "male", "female", "female",
+    "female", "male", "male", "male"
+  )
+)
 
 # goodness of fit test against the hypothesis that males and
 # females occur with equal frequency
-goodnessOfFitTest( gender )
+goodnessOfFitTest(gender)
 #> 
 #>      Chi-square test against specified probabilities
 #> 
@@ -80,7 +90,7 @@ goodnessOfFitTest( gender )
 
 # goodness of fit test against the hypothesis that males appear
 # with probability .6 and females with probability .4.
-goodnessOfFitTest( gender, p=c(.4,.6) )
+goodnessOfFitTest(gender, p = c(.4, .6))
 #> 
 #>      Chi-square test against specified probabilities
 #> 
@@ -101,7 +111,7 @@ goodnessOfFitTest( gender, p=c(.4,.6) )
 #>    p-value:  0.519 
 #>    warning: expected frequencies too small, results may be inaccurate
 #> 
-goodnessOfFitTest( gender, p=c(female=.4,male=.6) )
+goodnessOfFitTest(gender, p = c(female = .4, male = .6))
 #> 
 #>      Chi-square test against specified probabilities
 #> 
@@ -122,7 +132,7 @@ goodnessOfFitTest( gender, p=c(female=.4,male=.6) )
 #>    p-value:  0.519 
 #>    warning: expected frequencies too small, results may be inaccurate
 #> 
-goodnessOfFitTest( gender, p=c(male=.6,female=.4) )
+goodnessOfFitTest(gender, p = c(male = .6, female = .4))
 #> 
 #>      Chi-square test against specified probabilities
 #> 

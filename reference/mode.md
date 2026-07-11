@@ -27,7 +27,10 @@ maxFreq(x, na.rm = TRUE)
 
 `modeOf` returns the most frequently observed value. If multiple values
 are tied for the highest frequency, all of them are returned as a
-vector. `maxFreq` returns the modal frequency as a single number.
+vector. If the input has no non-missing values, `modeOf` issues a
+warning and returns `NA`. `maxFreq` returns the modal frequency as a
+single number, or `NA` with a warning if the input has no non-missing
+values.
 
 ## Details
 
@@ -49,9 +52,9 @@ other functions in this package.
 
 ``` r
 eyes <- c("green", "green", "brown", "brown", "blue")
-modeOf(eyes)   # returns c("green", "brown") -- a tie
+modeOf(eyes) # returns c("green", "brown") -- a tie
 #> [1] "green" "brown"
-maxFreq(eyes)  # returns 2
+maxFreq(eyes) # returns 2
 #> [1] 2
 
 # with missing data

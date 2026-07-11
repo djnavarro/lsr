@@ -157,7 +157,7 @@ pairedSamplesTTest(formula = wm ~ time + (id), data = df)
 #>    two-sided 95% confidence interval:  [-3.554, 0.554] 
 #>    estimated effect size (Cohen's d):  1.162 
 #> 
-pairedSamplesTTest(formula = ~wm_time1 + wm_time2, data = df2)
+pairedSamplesTTest(formula = ~ wm_time1 + wm_time2, data = df2)
 #> 
 #>    Paired samples t-test 
 #> 

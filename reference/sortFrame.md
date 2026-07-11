@@ -56,13 +56,13 @@ other than `-` are used.
 
 ``` r
 dataset <- data.frame(
-  txt  = c("bob", "Clare", "clare", "bob", "eve", "eve"),
+  txt = c("bob", "Clare", "clare", "bob", "eve", "eve"),
   num1 = c(3, 1, 2, 0, 0, 2),
   num2 = c(1, 1, 3, 0, 3, 2),
   stringsAsFactors = FALSE
 )
 
-sortFrame(dataset, num1)           # sort by num1 ascending
+sortFrame(dataset, num1) # sort by num1 ascending
 #>     txt num1 num2
 #> 4   bob    0    0
 #> 5   eve    0    3
@@ -70,7 +70,7 @@ sortFrame(dataset, num1)           # sort by num1 ascending
 #> 3 clare    2    3
 #> 6   eve    2    2
 #> 1   bob    3    1
-sortFrame(dataset, num1, num2)     # sort by num1 then num2
+sortFrame(dataset, num1, num2) # sort by num1 then num2
 #>     txt num1 num2
 #> 4   bob    0    0
 #> 5   eve    0    3
@@ -78,7 +78,7 @@ sortFrame(dataset, num1, num2)     # sort by num1 then num2
 #> 6   eve    2    2
 #> 3 clare    2    3
 #> 1   bob    3    1
-sortFrame(dataset, -num1)          # sort by num1 descending
+sortFrame(dataset, -num1) # sort by num1 descending
 #>     txt num1 num2
 #> 1   bob    3    1
 #> 3 clare    2    3
@@ -86,7 +86,7 @@ sortFrame(dataset, -num1)          # sort by num1 descending
 #> 2 Clare    1    1
 #> 4   bob    0    0
 #> 5   eve    0    3
-sortFrame(dataset, txt)            # sort alphabetically (case-insensitive)
+sortFrame(dataset, txt) # sort alphabetically (case-insensitive)
 #>     txt num1 num2
 #> 1   bob    3    1
 #> 4   bob    0    0

@@ -38,7 +38,14 @@ one-sided with exactly two variables, e.g. `~gender + answer`.
 
 Missing values are removed before the test is run, and a warning is
 issued if any cases are dropped. When both variables have only two
-levels, Yates' continuity correction is applied automatically.
+levels, Yates' continuity correction is applied automatically to the
+chi-squared statistic (though not to the Cramer's V effect size).
+
+If either variable has unused factor levels (levels with zero observed
+cases), a warning is issued. Those levels are included in the
+contingency table with zero observed cases, which may give misleading
+results. Call [`droplevels`](https://rdrr.io/r/base/droplevels.html) on
+the data first if this is not intended.
 
 ## See also
 
@@ -54,7 +61,7 @@ df <- data.frame(
   answer = factor(c("heads", "heads", "heads", "heads", "tails", "tails", "heads"))
 )
 
-associationTest(~gender + answer, df)
+associationTest(~ gender + answer, df)
 #> 
 #>      Chi-square test of categorical association
 #> 

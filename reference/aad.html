@@ -85,9 +85,9 @@ observation and the sample mean of <code>x</code>, i.e.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># missing values</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="cn">NA</span>, <span class="fl">6</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">aad</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>                 <span class="co"># returns NA</span></span></span>
+<span class="r-in"><span><span class="fu">aad</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># returns NA</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
-<span class="r-in"><span><span class="fu">aad</span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   <span class="co"># ignores the missing value</span></span></span>
+<span class="r-in"><span><span class="fu">aad</span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># ignores the missing value</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.777778</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

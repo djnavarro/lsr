@@ -43,8 +43,8 @@ aad(x)
 
 # missing values
 x <- c(1, 3, NA, 6)
-aad(x)                 # returns NA
+aad(x) # returns NA
 #> [1] NA
-aad(x, na.rm = TRUE)   # ignores the missing value
+aad(x, na.rm = TRUE) # ignores the missing value
 #> [1] 1.777778
 ```

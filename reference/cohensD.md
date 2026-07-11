@@ -107,7 +107,7 @@ Cohen, J. (1988). Statistical power analysis for the behavioral sciences
 ``` r
 # two independent groups supplied as separate vectors
 gradesA <- c(55, 65, 65, 68, 70) # 5 students with teacher A
-gradesB <- c(56, 60, 62, 66)     # 4 students with teacher B
+gradesB <- c(56, 60, 62, 66) # 4 students with teacher B
 cohensD(gradesA, gradesB)
 #> [1] 0.699892
 
@@ -118,7 +118,7 @@ cohensD(grade ~ teacher)
 #> [1] 0.699892
 
 # paired samples: use method = "paired" (SD of within-person differences)
-pre  <- c(100, 122, 97, 25, 274)
+pre <- c(100, 122, 97, 25, 274)
 post <- c(104, 125, 99, 29, 277)
 cohensD(pre, post, method = "paired")
 #> [1] 3.824732

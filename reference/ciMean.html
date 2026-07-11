@@ -93,10 +93,10 @@ Non-numeric columns in a data frame produce <code>NA</code> rows in the output.<
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">ciMean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>                  <span class="co"># 95% confidence interval</span></span></span>
+<span class="r-in"><span><span class="fu">ciMean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># 95% confidence interval</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        2.5%    97.5%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x -2.918276 9.584943</span>
-<span class="r-in"><span><span class="fu">ciMean</span><span class="op">(</span><span class="va">x</span>, conf <span class="op">=</span> <span class="fl">0.80</span><span class="op">)</span>     <span class="co"># 80% confidence interval</span></span></span>
+<span class="r-in"><span><span class="fu">ciMean</span><span class="op">(</span><span class="va">x</span>, conf <span class="op">=</span> <span class="fl">0.80</span><span class="op">)</span> <span class="co"># 80% confidence interval</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         10%      90%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x 0.5935938 6.073073</span>
 <span class="r-in"><span></span></span>

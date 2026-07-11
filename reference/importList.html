@@ -76,8 +76,11 @@ if the user declined.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Creates one variable per list element in the calling environment
-(usually the global workspace). Element names that are not valid R variable
-names are automatically converted using <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></code>.</p>
+(usually the global workspace). All elements of <code>x</code> must be named;
+passing an unnamed or partially-named list is an error. Element names that
+are not valid R variable names are automatically converted using
+<code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></code>. An empty list produces a message and returns
+invisibly without creating any variables.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -87,7 +90,7 @@ names are automatically converted using <code><a href="https://rdrr.io/r/base/ma
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">group</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group A"</span>, <span class="st">"group A"</span>, <span class="st">"group B"</span>, <span class="st">"group B"</span>, <span class="st">"group B"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group A"</span>, <span class="st">"group A"</span>, <span class="st">"group B"</span>, <span class="st">"group B"</span>, <span class="st">"group B"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># split() returns a named list: one element per group</span></span></span>
 <span class="r-in"><span><span class="va">grp_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">values</span>, <span class="va">group</span><span class="op">)</span></span></span>

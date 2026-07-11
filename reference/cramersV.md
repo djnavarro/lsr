@@ -15,7 +15,8 @@ cramersV(...)
 
   Arguments passed to
   [`chisq.test`](https://rdrr.io/r/stats/chisq.test.html), in the same
-  format accepted by that function.
+  format accepted by that function. The `correct` argument is always set
+  to `FALSE` internally and cannot be overridden.
 
 ## Value
 
@@ -27,9 +28,13 @@ Cramer's V summarises the strength of association from a chi-square
 test. It is appropriate for both tests of association (two categorical
 variables) and goodness of fit tests (one variable versus hypothesised
 probabilities). Values range from 0 (no association) to 1 (perfect
-association). The arguments are passed directly to
-[`chisq.test`](https://rdrr.io/r/stats/chisq.test.html), so the input
-format is the same.
+association).
+
+Yates' continuity correction is never applied, regardless of the table
+dimensions. This is intentional: applying the correction reduces the
+chi-squared statistic, which causes V to fall below 1 even for perfectly
+associated 2x2 tables — inconsistent with its definition as an effect
+size on the \[0, 1\] scale.
 
 ## See also
 

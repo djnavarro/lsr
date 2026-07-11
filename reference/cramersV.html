@@ -58,7 +58,8 @@ for chi-square tests.</p>
 
 <dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed to <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></code>, in the same format
-accepted by that function.</p></dd>
+accepted by that function. The <code>correct</code> argument is always set to
+<code>FALSE</code> internally and cannot be overridden.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -71,8 +72,12 @@ accepted by that function.</p></dd>
 test. It is appropriate for both tests of association (two categorical
 variables) and goodness of fit tests (one variable versus hypothesised
 probabilities). Values range from 0 (no association) to 1 (perfect
-association). The arguments are passed directly to <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></code>,
-so the input format is the same.</p>
+association).</p>
+<p>Yates' continuity correction is never applied, regardless of the table
+dimensions. This is intentional: applying the correction reduces the
+chi-squared statistic, which causes V to fall below 1 even for perfectly
+associated 2x2 tables — inconsistent with its definition as an effect size
+on the [0, 1] scale.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

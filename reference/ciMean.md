@@ -46,10 +46,10 @@ Non-numeric columns in a data frame produce `NA` rows in the output.
 
 ``` r
 x <- c(1, 3, 6)
-ciMean(x)                  # 95% confidence interval
+ciMean(x) # 95% confidence interval
 #>        2.5%    97.5%
 #> x -2.918276 9.584943
-ciMean(x, conf = 0.80)     # 80% confidence interval
+ciMean(x, conf = 0.80) # 80% confidence interval
 #>         10%      90%
 #> x 0.5935938 6.073073
 

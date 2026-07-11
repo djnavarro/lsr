@@ -31,9 +31,11 @@ user declined.
 ## Details
 
 Creates one variable per list element in the calling environment
-(usually the global workspace). Element names that are not valid R
-variable names are automatically converted using
-[`make.names`](https://rdrr.io/r/base/make.names.html).
+(usually the global workspace). All elements of `x` must be named;
+passing an unnamed or partially-named list is an error. Element names
+that are not valid R variable names are automatically converted using
+[`make.names`](https://rdrr.io/r/base/make.names.html). An empty list
+produces a message and returns invisibly without creating any variables.
 
 ## See also
 
@@ -44,7 +46,7 @@ variable names are automatically converted using
 
 ``` r
 values <- c(1, 2, 3, 4, 5)
-group  <- c("group A", "group A", "group B", "group B", "group B")
+group <- c("group A", "group A", "group B", "group B", "group B")
 
 # split() returns a named list: one element per group
 grp_list <- split(values, group)
