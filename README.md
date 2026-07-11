@@ -12,10 +12,10 @@ coverage](https://codecov.io/gh/djnavarro/lsr/graph/badge.svg)](https://app.code
 <!-- badges: end -->
 
 **lsr** is a companion package to the textbook [*Learning Statistics
-with R*](https://learningstatisticswithr.com) (Navarro, 2015). It
-provides beginner-friendly wrappers for common statistical procedures —
-t-tests, chi-square tests, effect sizes, correlation matrices, and basic
-data manipulation — with output designed to be readable by students
+with R*](https://learningstatisticswithr.com). It provides
+beginner-friendly wrappers for common statistical procedures — t-tests,
+chi-square tests, effect sizes, correlation matrices, and basic data
+manipulation — with output designed to be readable by students
 encountering statistics for the first time.
 
 ## Example
