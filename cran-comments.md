@@ -64,13 +64,13 @@ Checked locally on R 4.6.1 (Ubuntu 24.04, x86_64):
 
 Submitted to CRAN's own check infrastructure:
 
-- `devtools::check_win_devel()` — results pending
-- `devtools::check_win_release()` — results pending
+- `devtools::check_win_devel()` — 0 errors, 0 warnings, 0 notes
+  (https://win-builder.r-project.org/s2P08fR0ZRt2/)
+- `devtools::check_win_release()` — 0 errors, 0 warnings, 0 notes
+  (https://win-builder.r-project.org/ma084I06iFMK/)
 - `devtools::check_mac_release()` — macOS builder (mac.r-project.org) was
   returning HTTP 502 at time of submission; macOS coverage provided by rhub
   instead (see below)
-
-*(To be updated with final win-builder results before submission.)*
 
 ---
 
