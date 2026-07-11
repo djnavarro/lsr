@@ -207,43 +207,34 @@ each batch to verify `.Rd` files regenerate cleanly.
 
 ---
 
-### Stage 7 — Code linting 🔄 Next
+### Stage 7 — Code linting ✅ Complete
 
 **Goal:** Apply tidyverse style consistently across all 29 source files in
 `R/`. All changes are cosmetic only — no logic, no API, no return-value
 changes. The existing test suite and `R CMD check` are the safety net.
 
-**Scope:**
+**Completed:** 2026-07-11. PR #21 merged into `dev`.
 
-- **Formatting** (via `styler`): spaces around operators, spaces after
-  commas, no spaces after `(` or before `)`, 2-space indentation (no tabs),
-  opening `{` on same line as statement, lines ≤ 80 characters where
-  practical.
-- **Dead code removal**: two commented-out blocks left as development notes
-  will be deleted — the alternative implementation in `rowCopy.R` and the
-  commented-out colour-checking block in `bars.R`.
-- **Internal variable names**: local variables that are ambiguous or
-  cryptically abbreviated will be renamed for clarity. Public API (function
-  names, argument names, return structure) is unchanged.
-
-**Out of scope:** function names, argument names (including British-spelled
-ones like `barLineColour`), return values, roxygen comments, logic.
-
-**Approach:**
-1. Create branch `stage7/lint`
-2. Install `styler` locally (not added to `DESCRIPTION`)
-3. Run `styler::style_pkg(filetype = "R")`
-4. Review diff: confirm no logic changes, no argument-name changes, no
-   unintended reformatting of string literals
-5. Remove the two dead-code blocks manually
-6. Rename unclear internal variables file by file
-7. `devtools::test()` — all assertions must pass
-8. `R CMD check` — 0 errors, 0 warnings, 0 notes
-9. One PR into `dev`
+**Outcome:**
+- `styler::style_pkg(filetype = "R")` applied to all 29 `R/*.R` files and
+  all 28 test files: spaces around operators, spaces after commas, no extra
+  spaces inside parentheses, 2-space indentation, opening braces on same line
+- Dead code removed from `bars.R`: commented-out `isColours()` function and
+  its TODO note, commented-out colour-validation checks, stray
+  `# barLineColour ???` inline comment, and `# par(old.par)` remnant
+- Dead code removed from `rowCopy.R`: commented-out alternative
+  implementation `# t(replicate(times,x))`
+- Dead code removed from `correlate.R`: two commented-out
+  `ct <- cor.test(...)` lines superseded by the `getCT()` helper
+- `cttp` → `ct_result` in `correlate.R` (cryptic abbreviation)
+- `c` → `var_call` in `who.R` `getWhoInfo()` (shadowed base `c()`)
+- `test-rmAll.R`: added `inherits = FALSE` to `exists()` calls to prevent
+  false positives from session variables (pre-existing test fragility)
+- 556 assertions pass; `R CMD check`: 0 errors, 0 warnings, 0 notes
 
 ---
 
-### Stage 8 — pkgdown site 🔄 Next
+### Stage 8 — pkgdown site 🔄 Next (current)
 
 **Goal:** Build a polished documentation site with a well-organised
 Reference section, an updated README, and two articles covering the package

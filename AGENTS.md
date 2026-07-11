@@ -37,9 +37,12 @@ stages, listed in order of priority:
    for accuracy and beginner-friendliness across all 29 functions, in four
    groups (PRs #17–#20, 2026-07-11). Also fixed a duplicate `@description`
    bug in `quantileCut`. See PLAN.md for details.
-7. **Code linting** – apply tidyverse style across all 29 source files;
-   remove dead code; rename unclear internal variables. No API or logic
-   changes. One PR. See PLAN.md for details.
+7. ~~**Code linting**~~ – **Complete.** Tidyverse style applied via `styler`
+   across all 29 source files and all test files; dead code removed from
+   `bars.R`, `rowCopy.R`, and `correlate.R`; two internal variable renames
+   (`cttp` → `ct_result` in `correlate.R`; `c` → `var_call` in `who.R`);
+   fragile `exists()` call in `test-rmAll.R` fixed (PR #21, 2026-07-11).
+   See PLAN.md for details.
 8. **pkgdown site** – structured Reference section, rewritten README, and
    two new pkgdown-only articles (guided overview for novices; critical
    commentary for intermediate users). Four PRs. See PLAN.md for details.
