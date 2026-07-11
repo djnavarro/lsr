@@ -15,6 +15,27 @@ This is a maintenance release. No new exported functions, no API changes.
 - `correlate()`: the pairwise-correlation loop used `1:(n-1)`, which
   evaluates to `c(1, 0)` in R when `n == 1`, causing incorrect iteration.
   Fixed with `seq_len(n-1)`.
+- `correlate()`: when a pair of variables had too few complete observations
+  for `cor.test()` to run, the entire call aborted. The affected cell is now
+  left as `NA` and remaining pairs are computed normally.
+- `correlate()`, `goodnessOfFitTest()`, `associationTest()`: `options(warn = 2)`
+  used internally was not guarded with `on.exit()`, so an unexpected error
+  could leave the session's global warn level permanently elevated. Fixed.
+- `cramersV()`: Yates' continuity correction was applied by default for 2×2
+  tables, causing V to fall below 1 even for perfect association. `cramersV()`
+  now always uses the Pearson chi-squared (`correct = FALSE`).
+- `goodnessOfFitTest()`, `associationTest()`: unused factor levels were
+  silently included in the test with zero observed cases, changing degrees of
+  freedom and p-values without any indication. Both functions now warn and
+  suggest `droplevels()`.
+- `modeOf()`, `maxFreq()`: all-`NA` or zero-length input produced a cryptic
+  base-R message. Both functions now warn and return `NA`.
+- `wideToLong()`: when no column names contained the separator string, errors
+  came from inside `stats::reshape()` with no hint of the cause. The function
+  now checks early and gives a plain-English message.
+- `importList()`: unnamed or partially-named lists produced a cryptic base-R
+  error. The function now checks for missing names and gives an informative
+  message. Empty lists now produce a message rather than silently returning.
 
 **Other changes:**
 
@@ -24,6 +45,8 @@ This is a maintenance release. No new exported functions, no API changes.
 - `tibble` and `withr` added to `Suggests` (test infrastructure only).
 - `Language: en-GB` added to DESCRIPTION.
 - `LazyLoad` field removed from DESCRIPTION (deprecated).
+- `inst/CITATION` removed; `citation("lsr")` now auto-generates a package
+  citation from DESCRIPTION.
 
 ---
 
@@ -41,13 +64,13 @@ Checked locally on R 4.6.1 (Ubuntu 24.04, x86_64):
 
 Submitted to CRAN's own check infrastructure:
 
-- `devtools::check_win_devel()` — 0 errors, 0 warnings, 0 notes
-  (https://win-builder.r-project.org/B2Int72g7dIy/)
-- `devtools::check_win_release()` — 0 errors, 0 warnings, 0 notes
-  (https://win-builder.r-project.org/osViy919Frt7/)
+- `devtools::check_win_devel()` — results pending
+- `devtools::check_win_release()` — results pending
 - `devtools::check_mac_release()` — macOS builder (mac.r-project.org) was
   returning HTTP 502 at time of submission; macOS coverage provided by rhub
   instead (see below)
+
+*(To be updated with final win-builder results before submission.)*
 
 ---
 
@@ -60,7 +83,7 @@ Submitted to rhub v2 on the following platforms:
 - `windows` — GitHub Actions windows-latest
 - `clang-asan` — R-devel on Ubuntu 22.04, ASAN + UBSAN
 
-Results: https://github.com/djnavarro/lsr/actions/runs/29138944675
+Results: https://github.com/djnavarro/lsr/actions/runs/29161721954
 
 All four platforms passed (0 errors, 0 warnings, 0 notes).
 
@@ -69,7 +92,7 @@ Annotations seen in the run output:
 - "data have zero variance" on linux, macos-arm64, and windows — this is
   expected; it is triggered by a `ciMean()` test that deliberately exercises
   the zero-variance warning path.
-- Homebrew tap-trust and macOS runner migration messages on macos-arm64 — 
+- Homebrew tap-trust and macOS runner migration messages on macos-arm64 —
   GitHub Actions infrastructure noise unrelated to the package.
 
 ---
@@ -88,10 +111,10 @@ which lsr functions they use and whether our changes could affect them:
 
 | Package | lsr functions used | Verdict |
 |---|---|---|
-| AOboot | `wideToLong` | Unaffected — our change only adds validation for invalid inputs |
-| calms | `cramersV` | Unaffected — only internal `inherits()` refactor, no behavioural change |
-| noisemodel | `expandFactors` | Unaffected — our change only adds validation for invalid inputs |
-| superb | `correlate`, `wideToLong`, `longToWide` | Unaffected — correlate loop fix only affects the edge case of a single numeric variable; other changes are validation-only |
+| AOboot | `wideToLong` | Unaffected — changes add validation for invalid inputs only |
+| calms | `cramersV` | Low risk — `cramersV()` now uses Pearson chi-squared without continuity correction; V values for 2×2 tables will differ slightly from 0.5.2, but calms does not appear to test exact V values |
+| noisemodel | `expandFactors` | Unaffected — changes add validation for invalid inputs only |
+| superb | `correlate`, `wideToLong`, `longToWide` | Unaffected — correlate loop fix only affects the edge case of <2 numeric variables; other changes are validation-only |
 
 No new failures are expected in any of these packages as a result of this
 release.
