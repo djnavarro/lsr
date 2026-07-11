@@ -61,6 +61,10 @@ modeOf <- function(x, na.rm = TRUE) {
     na.freq <- sum(is.na(x))
   } # count the NAs if needed
   x <- x[!is.na(x)] # delete NAs
+  if (length(x) == 0 && na.freq == 0) {
+    warning('"x" has no non-missing values')
+    return(NA)
+  }
   obs.val <- unique(x) # find unique values
   valFreq <- function(x, y) {
     sum(y == x)
@@ -95,6 +99,10 @@ maxFreq <- function(x, na.rm = TRUE) {
     na.freq <- sum(is.na(x))
   } # count the NAs if needed
   x <- x[!is.na(x)] # delete NAs
+  if (length(x) == 0 && na.freq == 0) {
+    warning('"x" has no non-missing values')
+    return(NA)
+  }
   obs.val <- unique(x) # find unique values
   valFreq <- function(x, y) {
     sum(y == x)

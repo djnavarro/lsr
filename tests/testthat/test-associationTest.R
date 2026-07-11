@@ -67,3 +67,15 @@ test_that("associationTest print method contains expected lines", {
   expect_true(exists_pattern(out, "Expected contingency table"))
   expect_true(exists_pattern(out, "Test results"))
 })
+
+test_that("associationTest warns when a factor has unused levels", {
+  df2 <- df
+  df2$gender <- factor(df2$gender, levels = c("male", "female", "other"))
+  expect_warning(associationTest(~ gender + answer, df2), "unused factor levels")
+})
+
+test_that("associationTest does not leave warn option elevated after running", {
+  old_warn <- getOption("warn")
+  associationTest(~ gender + answer, df)
+  expect_equal(getOption("warn"), old_warn)
+})

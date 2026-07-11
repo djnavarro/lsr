@@ -85,3 +85,9 @@ test_that("wideToLong preserves between-subject variables", {
     expect_true(all(rows$gender == wide2$gender[i]))
   }
 })
+
+test_that("wideToLong gives an informative error when no columns contain the separator", {
+  bad <- data.frame(id = 1:3, score1 = c(1, 2, 3), score2 = c(4, 5, 6))
+  # Default sep is "_"; column names use no separator, so should get a clear message
+  expect_error(wideToLong(bad), 'No column names contain the separator')
+})

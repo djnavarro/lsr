@@ -47,7 +47,18 @@ importList <- function(x, ask = TRUE) {
 
   envir <- parent.frame() # import to parent environment
 
-  vars <- names(x) # get variable names
+  # check for empty list
+  if (length(x) == 0) {
+    message("Nothing to import: the list is empty")
+    return(invisible(0))
+  }
+
+  # check that all elements are named
+  vars <- names(x)
+  if (is.null(vars) || any(vars == "")) {
+    stop('"x" must be a named list or data frame: all elements must have names')
+  }
+
   vars <- make.unique(vars) # make sure the names are unique
   vars <- make.names(vars) # convert to legitimate R names
 

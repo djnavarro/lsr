@@ -112,6 +112,18 @@ associationTest <- function(formula, data = NULL) {
     warning(paste(sum(missingData)), " case(s) removed due to missingness")
   }
 
+  # warn if any factor levels have zero observed cases
+  unused1 <- levels(data[, vars[1]])[tabulate(data[, vars[1]], nbins = nlevels(data[, vars[1]])) == 0]
+  unused2 <- levels(data[, vars[2]])[tabulate(data[, vars[2]], nbins = nlevels(data[, vars[2]])) == 0]
+  if (length(unused1) > 0 || length(unused2) > 0) {
+    warning(
+      "One or more variables have unused factor levels. ",
+      "These levels are included in the contingency table with zero observed cases, ",
+      "which may give misleading results. ",
+      "Call droplevels() on your data first if this is not intended."
+    )
+  }
+
 
   ############ do the test ############
 
@@ -121,24 +133,20 @@ associationTest <- function(formula, data = NULL) {
   # run the corresponding chi-square test, suppressing the warning,
   # replacing it with our own if it exists
   old.warn <- options(warn = 2) # convert warnings to errors
-  htest <- try(stats::chisq.test(x = f), silent = TRUE) # try the test
-  need.warning <- FALSE # assume warning
+  on.exit(options(old.warn)) # always restore, even if an error is thrown
+  htest <- try(stats::chisq.test(x = f), silent = TRUE)
+  need.warning <- FALSE
 
-  # check for failures:
   if (inherits(htest, "try-error")) {
-    # handle the case when the "error" was the warning we're catching
     need.warning <- length(grep("Chi-squared approximation may be incorrect", htest)) > 0
-    if (need.warning) { # if it was a ties problem...
-      options(warn = -1) # suppress warnings completely for the next run...
-    } else { # if not...
-      options(old.warn) # reset warning state and let R throw what it likes...
+    if (need.warning) {
+      options(warn = -1) # suppress warnings for the retry
+    } else {
+      stop(conditionMessage(attr(htest, "condition")))
     }
-
-    # now run the test again & compute effect size
     htest <- stats::chisq.test(x = f)
   }
   effectsize <- cramersV(f)
-  options(old.warn) # reset warnings
 
   # make a note of whether yates' correction has been applied
   yates <- FALSE
