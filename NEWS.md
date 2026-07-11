@@ -1,50 +1,18 @@
-# lsr 0.5.2.9000
+# lsr 1.0.0
 
 ## Bug fixes
 
 * `correlate()`: when fewer than 2 numeric variables were present in the
-  input, the pairwise-correlation loop used `1:(n-1)` which evaluates to
-  `c(1, 0)` in R rather than an empty sequence, causing incorrect iteration.
-  Fixed by replacing with `seq_len(n-1)` in both the correlation loop and the
-  pairwise sample-size loop. The function now returns a well-formed object
-  with no correlations computed when only one numeric variable is present.
+  input, the function could iterate incorrectly due to `1:(n-1)` evaluating
+  to `c(1, 0)` rather than an empty sequence. Fixed with `seq_len(n-1)`.
 
 * `oneSampleTTest()`: the `conf.level` argument was not forwarded to
   `stats::t.test()`, so `$conf.int` always contained the 95% interval
   regardless of what the user requested (#9).
 
 * `independentSamplesTTest()`, `pairedSamplesTTest()`, `associationTest()`:
-  passing a tibble as `data` caused spurious type-check failures because
-  `data[, col]` returns a one-column tibble rather than a vector. Fixed by
+  passing a tibble as `data` caused spurious type-check failures. Fixed by
   coercing `data` to a plain data frame on entry (#2).
-
-* `sortFrame()`: a mixed-case character sort test was unstable across
-  platforms due to locale-sensitive collation. Stabilised by pinning
-  `LC_COLLATE = "C"` in the affected test (#8).
-
-## Internal changes
-
-* Input validation hardened across many functions:
-  - `NA` values passed to logical flag arguments now produce informative
-    errors in `aad()`, `modeOf()`, `maxFreq()`, `etaSquared()`,
-    `permuteLevels()`, `sortFrame()`, `rmAll()`, and `who()`.
-  - `oneSampleTTest()`, `independentSamplesTTest()`, and
-    `pairedSamplesTTest()` now use `||` (scalar) rather than `|` (vector)
-    in `conf.level` guards, avoiding a misleading "condition has length > 1"
-    error.
-  - Deprecated `class() == "..."` / `class() %in% c(...)` comparisons
-    replaced with `inherits()`, `is.factor()`, `is.name()`, `is.matrix()`,
-    and `is.numeric()` throughout (`correlate()`, `associationTest()`,
-    `goodnessOfFitTest()`, `ciMean()`, `modeOf()`, `bars()`).
-  - Missing input validation added to `longToWide()`, `expandFactors()`,
-    and `wideToLong()`.
-
-## Testing
-
-* Test suite overhauled: 28 test files covering all 29 exported functions
-  and all S3 print methods, up from the minimal suite present at 0.5.2.
-  Every file covers typical usage, numeric correctness against a known
-  reference, and expected errors/warnings (501 assertions total).
 
 ## Dependencies
 
