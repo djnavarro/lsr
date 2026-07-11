@@ -1,6 +1,6 @@
 long <- data.frame(
   id       = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
-  time     = c("t1","t1","t1","t2","t2","t2","t3","t3","t3"),
+  time     = c("t1", "t1", "t1", "t2", "t2", "t2", "t3", "t3", "t3"),
   accuracy = c(.50, .03, .72, .94, .63, .49, .78, .71, .16)
 )
 
@@ -42,17 +42,17 @@ test_that("longToWide round-trips through wideToLong for simple cases", {
 
 test_that("longToWide errors on invalid inputs", {
   expect_error(longToWide(list(a = 1:3), accuracy ~ time), '"data" must be a data frame')
-  expect_error(longToWide(long, "accuracy ~ time"),         '"formula" must be a formula')
-  expect_error(longToWide(long, ~accuracy),                 '"formula" must be a two-sided formula')
-  expect_error(longToWide(long, accuracy ~ time, sep = 1),  '"sep" must be a single character string')
-  expect_error(longToWide(long, accuracy ~ time, sep = c("_","-")), '"sep" must be a single character string')
+  expect_error(longToWide(long, "accuracy ~ time"), '"formula" must be a formula')
+  expect_error(longToWide(long, ~accuracy), '"formula" must be a two-sided formula')
+  expect_error(longToWide(long, accuracy ~ time, sep = 1), '"sep" must be a single character string')
+  expect_error(longToWide(long, accuracy ~ time, sep = c("_", "-")), '"sep" must be a single character string')
 })
 
 test_that("longToWide works with multiple within-subject variables", {
   long2 <- data.frame(
-    id      = c(1,1,1,1, 2,2,2,2),
-    day     = c("d1","d1","d2","d2", "d1","d1","d2","d2"),
-    session = c("s1","s2","s1","s2", "s1","s2","s1","s2"),
+    id      = c(1, 1, 1, 1, 2, 2, 2, 2),
+    day     = c("d1", "d1", "d2", "d2", "d1", "d1", "d2", "d2"),
+    session = c("s1", "s2", "s1", "s2", "s1", "s2", "s1", "s2"),
     score   = c(10, 20, 30, 40, 50, 60, 70, 80)
   )
   result <- longToWide(long2, score ~ day + session)

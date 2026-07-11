@@ -1,4 +1,3 @@
-
 # use n large enough to ensure we never have a cell count problem
 df <- data.frame(
   gender = factor(sample(c("male", "female"), size = 100, replace = TRUE)),
@@ -17,7 +16,6 @@ test_that("associationTest computes the same p-value as stats::chisq.test", {
 })
 
 test_that("associationTest returns the same results regardless of data context", {
-
   assoc <- associationTest(~ gender + answer, df)
   gender <- df$gender
   answer <- df$answer
@@ -30,7 +28,6 @@ test_that("associationTest returns the same results regardless of data context",
 })
 
 
-
 test_that("associationTest warns for small N", {
   df_smol <- data.frame(
     gender = as.factor(c("male", "female", "male", "female", "nonbinary")),
@@ -40,7 +37,7 @@ test_that("associationTest warns for small N", {
 })
 
 test_that("associationTest print method returns original object", {
-  x <- associationTest(~gender + answer, df)
+  x <- associationTest(~ gender + answer, df)
   sink(tempfile()) # don't clutter the output
   y <- print(x)
   sink()
@@ -51,14 +48,14 @@ test_that("associationTest print method returns original object", {
 test_that("associationTest works when data is a tibble", {
   skip_if_not_installed("tibble")
   dft <- tibble::as_tibble(df)
-  at_df  <- associationTest(~ gender + answer, df)
+  at_df <- associationTest(~ gender + answer, df)
   at_tbl <- associationTest(~ gender + answer, dft)
   expect_equal(at_df$statistic, at_tbl$statistic, tolerance = 1e-6)
-  expect_equal(at_df$p.value,   at_tbl$p.value,   tolerance = 1e-6)
+  expect_equal(at_df$p.value, at_tbl$p.value, tolerance = 1e-6)
 })
 
 test_that("associationTest print method contains expected lines", {
-  tst <- associationTest(~gender + answer, df)
+  tst <- associationTest(~ gender + answer, df)
   out <- capture.output(print(tst))
   exists_pattern <- function(strs, pattern) {
     length(grep(pattern = pattern, x = strs)) > 0
@@ -70,9 +67,3 @@ test_that("associationTest print method contains expected lines", {
   expect_true(exists_pattern(out, "Expected contingency table"))
   expect_true(exists_pattern(out, "Test results"))
 })
-
-
-
-
-
-

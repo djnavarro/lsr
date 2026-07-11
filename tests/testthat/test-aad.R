@@ -15,7 +15,7 @@ test_that("aad respects na.rm", {
 
 test_that("aad returns correct numeric values", {
   # Docstring example: mean(|{1,3,6} - 10/3|) = 16/9
-  expect_equal(aad(c(1, 3, 6)), 16/9, tolerance = 1e-6)
+  expect_equal(aad(c(1, 3, 6)), 16 / 9, tolerance = 1e-6)
 
   # Uniform values: aad should be 0
   expect_equal(aad(c(4, 4, 4, 4)), 0)
@@ -24,7 +24,7 @@ test_that("aad returns correct numeric values", {
   expect_equal(aad(5), 0)
 
   # Symmetric sequence 1:5: mean(|{1,2,3,4,5} - 3|) = (2+1+0+1+2)/5 = 6/5
-  expect_equal(aad(1:5), 6/5, tolerance = 1e-10)
+  expect_equal(aad(1:5), 6 / 5, tolerance = 1e-10)
 })
 
 test_that("aad returns a single numeric value", {

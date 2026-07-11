@@ -1,5 +1,3 @@
-
-
 # quantileCut() splits the data x into n equally sized groups. Use with care:
 # it is very frequently the case that people want to break a variable into several
 # equally sized groups in order to force a continuous variable into the ANOVA
@@ -48,15 +46,14 @@
 #' table(bins_eq_width)
 #'
 quantileCut <- function(x, n, ...) {
+  if (!is.vector(x) | !methods::is(x, "numeric")) stop('"x" must be a numeric vector')
+  if (length(n) != 1 | !methods::is(n, "numeric")) stop('number of bins "n" must be a single number')
 
-  if( !is.vector(x) | !methods::is(x,"numeric")) stop( '"x" must be a numeric vector')
-  if( length(n) !=1 | !methods::is(n,"numeric")) stop( 'number of bins "n" must be a single number')
-
-  p <- seq(0,1,1/n)
-  breaks <- stats::quantile( x, p, na.rm=TRUE )
-  eps <- (max(x, na.rm=TRUE)-min(x, na.rm=TRUE)) / 1000
+  p <- seq(0, 1, 1 / n)
+  breaks <- stats::quantile(x, p, na.rm = TRUE)
+  eps <- (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)) / 1000
   breaks[1] <- breaks[1] - eps
-  breaks[n+1] <- breaks[n+1] + eps
+  breaks[n + 1] <- breaks[n + 1] + eps
   out <- cut(x, breaks, ...)
-  return( out )
+  return(out)
 }

@@ -1,5 +1,3 @@
-
-
 # expandFactors() takes a data frame as input, and returns the same data frame,
 # but with all factor variables replaced by the corresponding contrasts. It's
 # actually just a wrapper to model.matrix()
@@ -40,15 +38,14 @@
 #' my.contrasts <- list(teacher = "contr.helmert", gender = "contr.treatment")
 #' expandFactors(grading, contrasts.arg = my.contrasts)
 #'
-expandFactors <- function( data, ... ) {
+expandFactors <- function(data, ...) {
+  if (!methods::is(data, "data.frame")) stop('"data" must be a data frame')
 
-  if( !methods::is(data, "data.frame") ) stop( '"data" must be a data frame')
+  attr(data, "na.action") <- stats::na.pass # don't drop NA
+  df <- stats::model.matrix(stats::as.formula(paste("~", names(data), collapse = "+")), data, ...)
+  df <- df[, -1, drop = FALSE] # remove intercept
+  attr(df, "contrasts") <- NULL
+  attr(df, "assign") <- NULL
 
-  attr(data,"na.action") <- stats::na.pass # don't drop NA
-  df <- stats::model.matrix( stats::as.formula( paste("~",names(data),collapse="+")), data, ... )
-  df <- df[,-1,drop=FALSE] # remove intercept
-  attr(df,"contrasts") <- NULL
-  attr(df,"assign") <- NULL
-
-  return( as.data.frame(df) )
+  return(as.data.frame(df))
 }

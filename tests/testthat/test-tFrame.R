@@ -7,7 +7,7 @@ rownames(dataset) <- paste("person", 1:4, sep = "")
 person1 <- c(105, 110, 112)
 person2 <- c(119, 115, 102)
 person3 <- c(121, 119, 108)
-person4 <- c(98,  103, 99)
+person4 <- c(98, 103, 99)
 dataset2 <- data.frame(person1, person2, person3, person4)
 rownames(dataset2) <- c("Gf", "Gc", "Gs")
 
@@ -42,6 +42,6 @@ test_that("tFrame is its own inverse for square numeric data frames", {
 
 test_that("tFrame errors on non-data-frame input", {
   expect_error(tFrame(matrix(1:9, 3, 3)), "intended to apply to data frames only")
-  expect_error(tFrame(1:10),              "intended to apply to data frames only")
-  expect_error(tFrame(list(a = 1:3)),     "intended to apply to data frames only")
+  expect_error(tFrame(1:10), "intended to apply to data frames only")
+  expect_error(tFrame(list(a = 1:3)), "intended to apply to data frames only")
 })

@@ -25,8 +25,8 @@ test_that("cramersV accepts two factor/character vectors as input", {
   # cramersV passes ... to chisq.test, which accepts two vectors.
   # Use N large enough to avoid the "approximation may be incorrect" warning.
   set.seed(9173)
-  x <- factor(sample(c("a","b"), 80, replace = TRUE))
-  y <- factor(sample(c("x","y"), 80, replace = TRUE))
+  x <- factor(sample(c("a", "b"), 80, replace = TRUE))
+  y <- factor(sample(c("x", "y"), 80, replace = TRUE))
   result <- cramersV(x, y)
   expect_type(result, "double")
   expect_length(result, 1L)
@@ -50,7 +50,7 @@ test_that("cramersV result is between 0 and 1", {
 test_that("cramersV goodness-of-fit branch: single vector with probability argument", {
   # chisq.test(x, p=...) triggers the GOF branch in cramersV
   observed <- c(10, 20, 30)
-  probs    <- c(1/6, 2/6, 3/6)
+  probs <- c(1 / 6, 2 / 6, 3 / 6)
   v <- suppressWarnings(cramersV(observed, p = probs))
   expect_type(v, "double")
   expect_length(v, 1L)

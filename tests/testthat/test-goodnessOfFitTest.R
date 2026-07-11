@@ -1,5 +1,7 @@
-gender <- factor(c("male","male","male","male","female","female",
-                   "female","male","male","male"))
+gender <- factor(c(
+  "male", "male", "male", "male", "female", "female",
+  "female", "male", "male", "male"
+))
 
 test_that("goodnessOfFitTest returns a gofTest object", {
   # Regression guard for the original test
@@ -21,8 +23,10 @@ test_that("goodnessOfFitTest p-value matches chisq.test", {
 
 test_that("goodnessOfFitTest result has expected fields", {
   result <- goodnessOfFitTest(gender)
-  expect_named(result, c("outcome","p","observed","expected","difference",
-                          "statistic","df","p.value","warn"))
+  expect_named(result, c(
+    "outcome", "p", "observed", "expected", "difference",
+    "statistic", "df", "p.value", "warn"
+  ))
 })
 
 test_that("goodnessOfFitTest uses equal probabilities by default", {
@@ -35,7 +39,7 @@ test_that("goodnessOfFitTest accepts a named p vector matched to factor levels",
   # Names in opposite order to factor levels — should be reordered automatically.
   # suppressWarnings: small N also triggers "expected frequencies too small".
   result <- suppressWarnings(goodnessOfFitTest(gender, p = c(male = 0.6, female = 0.4)))
-  expect_equal(unname(result$p), c(0.4, 0.6))  # female first (level order)
+  expect_equal(unname(result$p), c(0.4, 0.6)) # female first (level order)
 })
 
 test_that("goodnessOfFitTest warns when p does not sum to 1 but still runs", {
@@ -55,8 +59,8 @@ test_that("goodnessOfFitTest warns when missing data are removed", {
 })
 
 test_that("goodnessOfFitTest errors when x is not a factor", {
-  expect_error(goodnessOfFitTest(c("male","female","male")), "must be a factor")
-  expect_error(goodnessOfFitTest(1:5),                       "must be a factor")
+  expect_error(goodnessOfFitTest(c("male", "female", "male")), "must be a factor")
+  expect_error(goodnessOfFitTest(1:5), "must be a factor")
 })
 
 test_that("goodnessOfFitTest errors when p has the wrong length", {
@@ -67,7 +71,7 @@ test_that("goodnessOfFitTest errors when p has the wrong length", {
 })
 
 test_that("goodnessOfFitTest errors when factor has only one level", {
-  x <- factor(c("a","a","a"))
+  x <- factor(c("a", "a", "a"))
   expect_error(goodnessOfFitTest(x), "at least two levels")
 })
 
@@ -81,7 +85,7 @@ test_that("print.gofTest output contains expected section headings", {
   result <- goodnessOfFitTest(gender)
   out <- capture.output(print(result))
   expect_true(any(grepl("Chi-square test against specified probabilities", out)))
-  expect_true(any(grepl("Hypotheses",    out)))
-  expect_true(any(grepl("Descriptives",  out)))
-  expect_true(any(grepl("Test results",  out)))
+  expect_true(any(grepl("Hypotheses", out)))
+  expect_true(any(grepl("Descriptives", out)))
+  expect_true(any(grepl("Test results", out)))
 })

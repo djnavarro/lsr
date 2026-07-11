@@ -1,6 +1,6 @@
-outcome    <- c(1.4, 2.1, 3.0, 2.1, 3.2, 4.7, 3.5, 4.5, 5.4)
-treatment1 <- factor(c(1,1,1, 2,2,2, 3,3,3))
-treatment2 <- factor(c(1,2,3, 1,2,3, 1,2,3))
+outcome <- c(1.4, 2.1, 3.0, 2.1, 3.2, 4.7, 3.5, 4.5, 5.4)
+treatment1 <- factor(c(1, 1, 1, 2, 2, 2, 3, 3, 3))
+treatment2 <- factor(c(1, 2, 3, 1, 2, 3, 1, 2, 3))
 anova1 <- aov(outcome ~ treatment1)
 anova2 <- aov(outcome ~ treatment1 + treatment2)
 
@@ -41,7 +41,7 @@ test_that("etaSquared type = 3 runs without error and returns a numeric matrix",
 test_that("etaSquared anova = TRUE returns the extended table with 7 columns", {
   result <- etaSquared(anova1, anova = TRUE)
   expect_true(is.matrix(result))
-  expect_equal(colnames(result), c("eta.sq","eta.sq.part","SS","df","MS","F","p"))
+  expect_equal(colnames(result), c("eta.sq", "eta.sq.part", "SS", "df", "MS", "F", "p"))
 })
 
 test_that("etaSquared errors on invalid type", {
@@ -50,7 +50,7 @@ test_that("etaSquared errors on invalid type", {
 })
 
 test_that("etaSquared errors when x is not a linear model", {
-  expect_error(etaSquared(list(a = 1)),  '"x" must be a linear model object')
+  expect_error(etaSquared(list(a = 1)), '"x" must be a linear model object')
   expect_error(etaSquared("not a model"), '"x" must be a linear model object')
 })
 

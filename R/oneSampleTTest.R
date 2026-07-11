@@ -1,4 +1,3 @@
-
 #' One sample t-test
 #'
 #' @description Runs a one-sample t-test and prints the results in a
@@ -52,61 +51,68 @@ oneSampleTTest <- function(
   x,
   mu,
   one.sided = FALSE,
-  conf.level=.95
-){
-
+  conf.level = .95
+) {
   ############ check x and mu ############
 
   # check that the user has specified x and mu
-  if( missing(x) ) { stop( '"x" argument is missing, with no default')}
-  if( missing(mu) ) { stop( '"mu" argument is missing, with no default')}
+  if (missing(x)) {
+    stop('"x" argument is missing, with no default')
+  }
+  if (missing(mu)) {
+    stop('"mu" argument is missing, with no default')
+  }
 
   # check x
-  if( !methods::is(x,"numeric")) {
-    stop( '"x" must be numeric')
+  if (!methods::is(x, "numeric")) {
+    stop('"x" must be numeric')
   }
 
   # check mu
-  if( !methods::is(mu,"numeric") | length(mu) !=1 ) {
-    stop( '"mu" must be a single number')
+  if (!methods::is(mu, "numeric") | length(mu) != 1) {
+    stop('"mu" must be a single number')
   }
 
   ############ check other input arguments ############
 
   # check alternative
-  if( length(one.sided) !=1 ) stop( "invalid value for 'one.sided'" )
-  if( one.sided != FALSE && !(one.sided %in% c("less","greater")) ) {
-    stop( "invalid value for 'one.sided'" )
+  if (length(one.sided) != 1) stop("invalid value for 'one.sided'")
+  if (one.sided != FALSE && !(one.sided %in% c("less", "greater"))) {
+    stop("invalid value for 'one.sided'")
   }
-  if( one.sided == FALSE ) { one.sided = "two.sided" }
+  if (one.sided == FALSE) {
+    one.sided <- "two.sided"
+  }
 
   # check conf.level
-  if( !methods::is(conf.level,"numeric") ||
-      length( conf.level) != 1 ||
-      is.na(conf.level) ||
-      conf.level < 0 ||
-      conf.level > 1
+  if (!methods::is(conf.level, "numeric") ||
+    length(conf.level) != 1 ||
+    is.na(conf.level) ||
+    conf.level < 0 ||
+    conf.level > 1
   ) {
-    stop( '"conf.level" must be a number between 0 and 1')
+    stop('"conf.level" must be a number between 0 and 1')
   }
 
   ############ do the statistical calculations ############
 
   # check for missing data
-  if( any( is.na(x))) {warning( paste( sum(is.na(x))), " case(s) removed due to missingness" ) }
+  if (any(is.na(x))) {
+    warning(paste(sum(is.na(x))), " case(s) removed due to missingness")
+  }
 
   # run the ttest
-  htest <- stats::t.test( x=x, mu=mu, alternative=one.sided, conf.level=conf.level )
+  htest <- stats::t.test(x = x, mu = mu, alternative = one.sided, conf.level = conf.level)
 
   # get cohensD
-  d <- cohensD( x=x, mu=mu )
+  d <- cohensD(x = x, mu = mu)
 
 
   ############ output ############
 
   # get the variable name if it exists
   outcome <- match.call()[2] # get the x argument from the call
-  outcome <- as.character( outcome )
+  outcome <- as.character(outcome)
 
   # create output structure
   TT <- list(
@@ -115,8 +121,8 @@ oneSampleTTest <- function(
     p.value = htest$p.value,
     conf.int = htest$conf.int,
     conf = conf.level,
-    mean = mean(x, na.rm=TRUE),
-    sd = stats::sd(x, na.rm=TRUE),
+    mean = mean(x, na.rm = TRUE),
+    sd = stats::sd(x, na.rm = TRUE),
     outcome = outcome,
     group = NULL,
     group.names = NULL,
@@ -130,6 +136,4 @@ oneSampleTTest <- function(
   # specify the class and ouput
   class(TT) <- "TTest"
   return(TT)
-
-
 }

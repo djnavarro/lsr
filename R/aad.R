@@ -1,5 +1,3 @@
-
-
 #' Mean absolute deviation
 #'
 #' @description Calculates the mean absolute deviation from the sample mean.
@@ -24,18 +22,19 @@
 #'
 #' # missing values
 #' x <- c(1, 3, NA, 6)
-#' aad(x)                 # returns NA
-#' aad(x, na.rm = TRUE)   # ignores the missing value
+#' aad(x) # returns NA
+#' aad(x, na.rm = TRUE) # ignores the missing value
 #'
 aad <- function(x, na.rm = FALSE) {
-  if ( !methods::is(x,"numeric") & !methods::is(x,"integer") ) {
-    stop( '"x" must be numeric')
+  if (!methods::is(x, "numeric") & !methods::is(x, "integer")) {
+    stop('"x" must be numeric')
   }
-  if( !methods::is(na.rm,"logical") || length(na.rm) !=1 || is.na(na.rm) ) {
-    stop( '"na.rm" must be a single logical value')
+  if (!methods::is(na.rm, "logical") || length(na.rm) != 1 || is.na(na.rm)) {
+    stop('"na.rm" must be a single logical value')
   }
-  if (na.rm) { x <- x[!is.na(x)] }
-  y <- mean( abs(x - mean(x)) )
+  if (na.rm) {
+    x <- x[!is.na(x)]
+  }
+  y <- mean(abs(x - mean(x)))
   return(y)
 }
-
