@@ -1,6 +1,6 @@
 Package: lsr
 Title: Companion to "Learning Statistics with R"
-Version: 1.0.0
+Version: 1.0.0.9000
 Authors@R: 
     person(given = "Danielle",
            family = "Navarro",
