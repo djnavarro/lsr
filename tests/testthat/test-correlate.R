@@ -147,3 +147,31 @@ test_that("correlate errors when y is not a matrix, data frame, or numeric vecto
   df <- data.frame(a = 1:5, b = 1:5)
   expect_error(correlate(df, list(c = 1:5)), "y must be a matrix or data frame")
 })
+
+test_that("correlate returns NA (not an error) when one pair has too few observations", {
+  # Variable 'c' has only 2 non-NA values when paired with 'a' and 'b',
+  # so cor.test() cannot run for those pairs. The result should be NA in
+  # those cells rather than aborting the entire call.
+  df <- data.frame(
+    a = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+    b = c(2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
+    c = c(NA, NA, NA, NA, NA, NA, NA, NA, 1, 2)
+  )
+  result <- correlate(df)
+  expect_s3_class(result, "correlate")
+  # a-b pair has plenty of data: should have a real correlation
+  expect_false(is.na(result$correlation["a", "b"]))
+  # a-c and b-c pairs have only 2 observations: should be NA
+  expect_true(is.na(result$correlation["a", "c"]))
+  expect_true(is.na(result$correlation["b", "c"]))
+})
+
+test_that("correlate does not leave warn option elevated after a sparse-pair failure", {
+  df <- data.frame(
+    a = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+    b = c(NA, NA, NA, NA, NA, NA, NA, NA, 1, 2)
+  )
+  old_warn <- getOption("warn")
+  suppressWarnings(try(correlate(df), silent = TRUE))
+  expect_equal(getOption("warn"), old_warn)
+})

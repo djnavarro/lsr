@@ -73,6 +73,18 @@ goodnessOfFitTest <- function(x, p = NULL) {
     stop("factor 'x' must be have at least two levels")
   }
 
+  # warn if any factor levels have zero observed cases
+  unused_levels <- levels(x)[tabulate(x, nbins = nlevels(x)) == 0]
+  if (length(unused_levels) > 0) {
+    warning(
+      "Factor 'x' has unused level(s): ",
+      paste(unused_levels, collapse = ", "),
+      ". These levels are included in the test with zero observed cases, ",
+      "which changes the degrees of freedom and may give misleading results. ",
+      "Call droplevels() on your data first if this is not intended."
+    )
+  }
+
   # either set the default probabilities...
   if (is.null(p)) {
     p <- rep.int(1, nlevels(x)) / nlevels(x)
@@ -99,23 +111,19 @@ goodnessOfFitTest <- function(x, p = NULL) {
   # run the corresponding chi-square test: suppressing the warning,
   # replacing it with our own if it exists
   old.warn <- options(warn = 2) # convert warnings to errors
-  htest <- try(stats::chisq.test(x = f, p = p), silent = TRUE) # try the test
-  need.warning <- FALSE # assume warning
+  on.exit(options(old.warn)) # always restore, even if an error is thrown
+  htest <- try(stats::chisq.test(x = f, p = p), silent = TRUE)
+  need.warning <- FALSE
 
-  # check for failures:
   if (inherits(htest, "try-error")) {
-    # handle the case when the "error" was the warning we're catching
     need.warning <- length(grep("Chi-squared approximation may be incorrect", htest)) > 0
-    if (need.warning) { # if it was a ties problem...
-      options(warn = -1) # suppress warnings completely for the next run...
-    } else { # if not...
-      options(old.warn) # reset warning state and let R throw what it likes...
+    if (need.warning) {
+      options(warn = -1) # suppress warnings for the retry
+    } else {
+      stop(conditionMessage(attr(htest, "condition")))
     }
-
-    # now run the test again & compute effect size
     htest <- stats::chisq.test(x = f, p = p)
   }
-  options(old.warn) # reset warnings
 
   # get the variable name if it exists
   outcome <- match.call()[2] # get the x argument from the call

@@ -15,10 +15,18 @@ test_that("cramersV returns a single numeric value", {
 })
 
 test_that("cramersV gives the correct value for a 2x2 table", {
-  # chisq.test applies Yates' continuity correction for 2x2 tables by default,
-  # so the result is sqrt(7.22/200) ≈ 0.19, not the naive sqrt(8/200) = 0.2
+  # cramersV always uses correct = FALSE (Pearson chi-squared, no continuity
+  # correction), so a 2x2 table uses the analytic formula: V = sqrt(chi2 / N)
+  # For X = cbind(c(40, 60), c(60, 40)): chi2 = 8, N = 200, V = sqrt(8/200) = 0.2
   X <- cbind(c(40, 60), c(60, 40))
-  expect_equal(cramersV(X), sqrt(7.22 / 200), tolerance = 1e-6)
+  expect_equal(cramersV(X), sqrt(8 / 200), tolerance = 1e-6)
+})
+
+test_that("cramersV returns 1 for a perfectly associated 2x2 table", {
+  # With correct = FALSE, perfect association in a 2x2 table gives V = 1.0.
+  # Yates' correction would incorrectly reduce V below 1.
+  X <- matrix(c(10, 0, 0, 10), 2, 2)
+  expect_equal(cramersV(X), 1, tolerance = 1e-6)
 })
 
 test_that("cramersV accepts two factor/character vectors as input", {

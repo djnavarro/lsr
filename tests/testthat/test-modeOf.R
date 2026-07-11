@@ -48,3 +48,18 @@ test_that("maxFreq errors on invalid na.rm argument", {
   expect_error(maxFreq(eyes1, na.rm = "yes"))
   expect_error(maxFreq(eyes1, na.rm = c(TRUE, FALSE)))
 })
+
+test_that("modeOf returns NA with a warning on all-NA input", {
+  expect_warning(result <- modeOf(c(NA, NA, NA)), "no non-missing values")
+  expect_true(is.na(result))
+})
+
+test_that("modeOf returns NA with a warning on zero-length input", {
+  expect_warning(result <- modeOf(character(0)), "no non-missing values")
+  expect_true(is.na(result))
+})
+
+test_that("maxFreq returns NA with a warning on all-NA input", {
+  expect_warning(result <- maxFreq(c(NA, NA, NA)), "no non-missing values")
+  expect_true(is.na(result))
+})

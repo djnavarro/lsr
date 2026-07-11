@@ -45,3 +45,16 @@ test_that("importList errors on invalid ask argument", {
   expect_error(importList(list(a = 1), ask = c(TRUE, FALSE)), '"ask" must be a single logical value')
   expect_error(importList(list(a = 1), ask = "yes"), '"ask" must be a single logical value')
 })
+
+test_that("importList gives an informative error on an unnamed list", {
+  expect_error(importList(list(1, 2, 3), ask = FALSE), "all elements must have names")
+})
+
+test_that("importList gives an informative error on a partially-named list", {
+  expect_error(importList(list(a = 1, 2), ask = FALSE), "all elements must have names")
+})
+
+test_that("importList returns 0 invisibly for an empty list", {
+  expect_message(result <- importList(list(), ask = FALSE), "empty")
+  expect_equal(result, 0)
+})
