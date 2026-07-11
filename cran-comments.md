@@ -37,6 +37,42 @@ Checked locally on R 4.6.1 (Ubuntu 24.04, x86_64):
 
 ---
 
+## win-builder and mac-builder checks
+
+Submitted to CRAN's own check infrastructure:
+
+- `devtools::check_win_devel()` — 0 errors, 0 warnings, 2 notes (see below)
+- `devtools::check_win_release()` — results pending
+- `devtools::check_mac_release()` — macOS builder (mac.r-project.org) was
+  returning HTTP 502 at time of submission; macOS coverage provided by rhub
+  instead (see below)
+
+**win-devel NOTE — URLs in README.md:**
+
+Two pkgdown article links returned 404 because the documentation site had
+not yet been rebuilt at time of checking:
+
+```
+Found the following (possibly) invalid URLs:
+  URL: https://lsr.djnavarro.net/articles/commentary.html
+  URL: https://lsr.djnavarro.net/articles/overview.html
+```
+
+These URLs are correct and will resolve once `dev` is merged into `main` and
+the pkgdown workflow rebuilds the site — which is the first step of the
+release. A final win-builder run will be done after the site is live and
+before submitting to CRAN.
+
+**win-devel NOTE — CITATION format:**
+
+`inst/CITATION` used the deprecated `citEntry()` / `citHeader()` API. The
+file has been removed; `citation("lsr")` now auto-generates a package
+citation from DESCRIPTION, which is more appropriate (the book and the
+package are distinct works). This note will not appear in the final
+submission.
+
+---
+
 ## rhub checks
 
 Submitted to rhub v2 on the following platforms:
