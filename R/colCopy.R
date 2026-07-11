@@ -1,4 +1,3 @@
-
 #' Copy a vector into a matrix
 #'
 #' @description Creates a matrix by stacking multiple copies of a vector as
@@ -37,13 +36,12 @@ NULL
 
 #' @rdname copy
 #' @export
-colCopy <- function(x,times, dimnames=NULL ) {
-  if( !is.vector(x) | is.list(x) ) stop( '"x" must be a vector')
-  if( length(times) !=1 | !methods::is(times,"numeric")) stop( '"times" must be a single number')
-  if( is.null(dimnames) ) dimnames<-list(names(x),character(0))
-  matrix( x, length(x), times, byrow=FALSE, dimnames )
+colCopy <- function(x, times, dimnames = NULL) {
+  if (!is.vector(x) | is.list(x)) stop('"x" must be a vector')
+  if (length(times) != 1 | !methods::is(times, "numeric")) stop('"times" must be a single number')
+  if (is.null(dimnames)) dimnames <- list(names(x), character(0))
+  matrix(x, length(x), times, byrow = FALSE, dimnames)
 
   # alternative code:
   # replicate(times,x)
 }
-

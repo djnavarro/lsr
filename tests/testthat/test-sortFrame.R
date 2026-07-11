@@ -1,8 +1,8 @@
 dataset <- data.frame(
-  txt  = c("bob", "Clare", "clare", "bob", "eve", "eve"),
+  txt = c("bob", "Clare", "clare", "bob", "eve", "eve"),
   num1 = c(3, 1, 2, 0, 0, 2),
   num2 = c(1, 1, 3, 0, 3, 2),
-  etc  = c("not", "used", "as", "a", "sort", "term"),
+  etc = c("not", "used", "as", "a", "sort", "term"),
   stringsAsFactors = FALSE
 )
 
@@ -10,7 +10,7 @@ test_that("sortFrame sorts correctly by a single numeric column", {
   f1 <- sortFrame(dataset, num1)
   # num1 ascending: 0,0,1,2,2,3 → rows 4,5,2,3,6,1 (stable sort)
   expect_equal(f1$num1, c(0, 0, 1, 2, 2, 3))
-  expect_equal(f1$etc,  c("a", "sort", "used", "as", "term", "not"))
+  expect_equal(f1$etc, c("a", "sort", "used", "as", "term", "not"))
 })
 
 test_that("sortFrame sorts correctly by two numeric columns", {
@@ -18,7 +18,7 @@ test_that("sortFrame sorts correctly by two numeric columns", {
   # primary num1, secondary num2: (0,0),(0,3),(1,1),(2,2),(2,3),(3,1) → rows 4,5,2,6,3,1
   expect_equal(f2$num1, c(0, 0, 1, 2, 2, 3))
   expect_equal(f2$num2, c(0, 3, 1, 2, 3, 1))
-  expect_equal(f2$etc,  c("a", "sort", "used", "term", "as", "not"))
+  expect_equal(f2$etc, c("a", "sort", "used", "term", "as", "not"))
 })
 
 test_that("sortFrame returns data frame with unchanged dimensions", {
@@ -37,12 +37,12 @@ test_that("sortFrame alphabetical character sort works for all-lowercase strings
   # Use a dataset with no case-mixing to avoid locale-sensitive tie-breaking
   df_lower <- data.frame(
     word = c("cherry", "apple", "banana", "apple", "date"),
-    val  = 1:5,
+    val = 1:5,
     stringsAsFactors = FALSE
   )
   f <- sortFrame(df_lower, word)
   expect_equal(f$word, c("apple", "apple", "banana", "cherry", "date"))
-  expect_equal(f$val,  c(2L, 4L, 3L, 1L, 5L))
+  expect_equal(f$val, c(2L, 4L, 3L, 1L, 5L))
 })
 
 test_that("sortFrame alphabetical = FALSE uses ASCII ordering", {
@@ -62,9 +62,9 @@ test_that("sortFrame reverse-sorts numerics with minus sign", {
 })
 
 test_that("sortFrame errors on non-data-frame input", {
-  expect_error(sortFrame(1:10, num1),          '"x" must be a data frame')
+  expect_error(sortFrame(1:10, num1), '"x" must be a data frame')
   expect_error(sortFrame(matrix(1:4, 2), num1), '"x" must be a data frame')
-  expect_error(sortFrame(list(a = 1), a),       '"x" must be a data frame')
+  expect_error(sortFrame(list(a = 1), a), '"x" must be a data frame')
 })
 
 test_that("sortFrame errors on invalid alphabetical argument", {

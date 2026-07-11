@@ -1,4 +1,3 @@
-
 # unlibrary() is a thin wrapper around detach(). We use `tools` as a test
 # package because it is always available, has no reverse dependencies in
 # this context, and can be safely detached and re-attached.

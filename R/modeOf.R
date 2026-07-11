@@ -1,4 +1,3 @@
-
 # modeOf() returns the sample mode: the value that has highest observed frequency
 
 #' Sample mode
@@ -33,8 +32,8 @@
 #'
 #' @examples
 #' eyes <- c("green", "green", "brown", "brown", "blue")
-#' modeOf(eyes)   # returns c("green", "brown") -- a tie
-#' maxFreq(eyes)  # returns 2
+#' modeOf(eyes) # returns c("green", "brown") -- a tie
+#' maxFreq(eyes) # returns 2
 #'
 #' # with missing data
 #' eyes <- c("green", "green", "brown", "brown", "blue", NA, NA, NA)
@@ -50,30 +49,32 @@
 #' @rdname mode
 #' @export
 modeOf <- function(x, na.rm = TRUE) {
-
-  if( (!is.vector(x) | is.list(x)) & !is.factor(x) ) {
-    stop( '"x" must be a vector or a factor')
+  if ((!is.vector(x) | is.list(x)) & !is.factor(x)) {
+    stop('"x" must be a vector or a factor')
   }
-  if( !methods::is(na.rm,"logical") || length(na.rm) !=1 || is.na(na.rm) ) {
-    stop( '"na.rm" must be a single logical value')
+  if (!methods::is(na.rm, "logical") || length(na.rm) != 1 || is.na(na.rm)) {
+    stop('"na.rm" must be a single logical value')
   }
 
   na.freq <- 0
-  if (na.rm == FALSE) { na.freq <- sum( is.na(x) ) }  # count the NAs if needed
-  x <- x[!is.na(x)]                                   # delete NAs
-  obs.val <- unique(x)                                # find unique values
-  valFreq <- function(x, y){ sum(y == x) }
-  freq <- unlist((lapply( obs.val, valFreq, x )))     # apply for all unique values
-  max.freq <- max(freq)                               # modal frequency
-  if (na.rm == FALSE & na.freq > max.freq) {
-    modal.values <- NA                                # mode is NA if appropriate...
-  } else {
-    modal.cases <- freq == max.freq                   # otherwise find modal cases
-    modal.values <- obs.val[modal.cases]              # and corresponding values
+  if (na.rm == FALSE) {
+    na.freq <- sum(is.na(x))
+  } # count the NAs if needed
+  x <- x[!is.na(x)] # delete NAs
+  obs.val <- unique(x) # find unique values
+  valFreq <- function(x, y) {
+    sum(y == x)
   }
-  if(is.factor(x)) modal.values <- as.character(modal.values)
-  return( modal.values )
-
+  freq <- unlist((lapply(obs.val, valFreq, x))) # apply for all unique values
+  max.freq <- max(freq) # modal frequency
+  if (na.rm == FALSE & na.freq > max.freq) {
+    modal.values <- NA # mode is NA if appropriate...
+  } else {
+    modal.cases <- freq == max.freq # otherwise find modal cases
+    modal.values <- obs.val[modal.cases] # and corresponding values
+  }
+  if (is.factor(x)) modal.values <- as.character(modal.values)
+  return(modal.values)
 }
 
 
@@ -82,23 +83,23 @@ modeOf <- function(x, na.rm = TRUE) {
 #' @rdname mode
 #' @export
 maxFreq <- function(x, na.rm = TRUE) {
-
-  if( (!is.vector(x) | is.list(x)) & !is.factor(x) ) {
-    stop( '"x" must be a vector or a factor')
+  if ((!is.vector(x) | is.list(x)) & !is.factor(x)) {
+    stop('"x" must be a vector or a factor')
   }
-  if( !methods::is(na.rm,"logical") || length(na.rm) !=1 || is.na(na.rm) ) {
-    stop( '"na.rm" must be a single logical value')
+  if (!methods::is(na.rm, "logical") || length(na.rm) != 1 || is.na(na.rm)) {
+    stop('"na.rm" must be a single logical value')
   }
 
   na.freq <- 0
-  if (na.rm == FALSE) { na.freq <- sum( is.na(x) ) }  # count the NAs if needed
-  x <- x[!is.na(x)]                                   # delete NAs
-  obs.val <- unique(x)                                # find unique values
-  valFreq <- function(x, y){ sum(y == x) }
-  freq <- unlist((lapply( obs.val, valFreq, x )))     # apply for all unique values
-  max.freq <- max(freq, na.freq)                      # modal frequency
-  return( max.freq )
-
+  if (na.rm == FALSE) {
+    na.freq <- sum(is.na(x))
+  } # count the NAs if needed
+  x <- x[!is.na(x)] # delete NAs
+  obs.val <- unique(x) # find unique values
+  valFreq <- function(x, y) {
+    sum(y == x)
+  }
+  freq <- unlist((lapply(obs.val, valFreq, x))) # apply for all unique values
+  max.freq <- max(freq, na.freq) # modal frequency
+  return(max.freq)
 }
-
-

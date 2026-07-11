@@ -15,7 +15,6 @@ test_that("ciMean output matches confint", {
 })
 
 test_that("ciMean respects na.rm argument", {
-
   dat1 <- rnorm(10)
   dat2 <- c(dat1, NA)
 
@@ -28,18 +27,14 @@ test_that("ciMean respects na.rm argument", {
     object = unname(ciMean(dat2, na.rm = FALSE)),
     expected = matrix(c(NA, NA), nrow = 1, ncol = 2)
   )
-
 })
 
 test_that("ciMean errors when passed character or factor", {
-
   expect_error(ciMean(c("a", "b", "c")))
   expect_error(ciMean(factor(c("a", "b", "c"))))
-
 })
 
 test_that("ciMean succeeds when passed data frame", {
-
   df <- data.frame(
     num = 1:4,
     txt = c("a", "b", "c", "d")
@@ -48,37 +43,32 @@ test_that("ciMean succeeds when passed data frame", {
 
   expect_type(ci_df, "double")
   expect_equal(dim(ci_df), c(2, 2))
-  expect_equal(ci_df[1,,drop = FALSE], with(df, ciMean(num)))
-
+  expect_equal(ci_df[1, , drop = FALSE], with(df, ciMean(num)))
 })
 
 test_that("ciMean succeeds when passed numeric matrix", {
-
   mat <- matrix(1:18, 6, 3)
   expect_true(is.matrix(ciMean(mat)))
   expect_equal(dim(ciMean(mat)), c(3, 2))
-
 })
 
 test_that("ciMean errors on missing or invalid x", {
-  expect_error(ciMean(),                    'argument "x" is missing')
-  expect_error(ciMean(matrix("a", 2, 2)),   "matrix input must be numeric")
+  expect_error(ciMean(), 'argument "x" is missing')
+  expect_error(ciMean(matrix("a", 2, 2)), "matrix input must be numeric")
 })
 
 test_that("ciMean errors on invalid conf", {
-  expect_error(ciMean(1:5, conf = "high"),    '"conf" must be numeric')
+  expect_error(ciMean(1:5, conf = "high"), '"conf" must be numeric')
   expect_error(ciMean(1:5, conf = c(.9, .8)), '"conf" must be a single number')
-  expect_error(ciMean(1:5, conf = 1.5),       '"conf" must be between 0 and 1')
+  expect_error(ciMean(1:5, conf = 1.5), '"conf" must be between 0 and 1')
 })
 
 test_that("ciMean errors on invalid na.rm", {
-  expect_error(ciMean(1:5, na.rm = "yes"),        '"na.rm" must be logical')
-  expect_error(ciMean(1:5, na.rm = c(TRUE,FALSE)), '"na.rm" must be of length 1')
-  expect_error(ciMean(1:5, na.rm = NA),            '"na.rm" must be TRUE or FALSE')
+  expect_error(ciMean(1:5, na.rm = "yes"), '"na.rm" must be logical')
+  expect_error(ciMean(1:5, na.rm = c(TRUE, FALSE)), '"na.rm" must be of length 1')
+  expect_error(ciMean(1:5, na.rm = NA), '"na.rm" must be TRUE or FALSE')
 })
 
 test_that("ciMean warns when data have zero variance", {
   expect_warning(ciMean(c(1, 1, 1, 1)), "data have zero variance")
 })
-
-

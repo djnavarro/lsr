@@ -1,4 +1,3 @@
-
 # who() inspects parent.frame(), so we test it by calling it from within
 # helper functions whose local variables are exactly what we want to observe.
 
@@ -65,7 +64,10 @@ test_that("who reports correct class for common types", {
 })
 
 test_that("print.whoList returns its input invisibly", {
-  w <- (function() { x <- 1:5; who() })()
+  w <- (function() {
+    x <- 1:5
+    who()
+  })()
   out <- capture.output(ret <- print(w))
   expect_identical(ret, w)
 })
@@ -77,7 +79,7 @@ test_that("print.whoList prints 'No variables found' for an empty whoList", {
 })
 
 test_that("who errors on invalid expand argument", {
-  expect_error(who(expand = NA),            '"expand" must be a single logical value')
-  expect_error(who(expand = "yes"),         '"expand" must be a single logical value')
-  expect_error(who(expand = c(TRUE, FALSE)),'"expand" must be a single logical value')
+  expect_error(who(expand = NA), '"expand" must be a single logical value')
+  expect_error(who(expand = "yes"), '"expand" must be a single logical value')
+  expect_error(who(expand = c(TRUE, FALSE)), '"expand" must be a single logical value')
 })

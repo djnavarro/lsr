@@ -1,5 +1,3 @@
-
-
 # longToWide() takes a long-form data frame and converts it to a wide-form data frame.
 # Like it's companion function wideToLong() it's not as flexible as cast() and melt(),
 # but it is easier to use.
@@ -44,32 +42,30 @@
 #'
 #' longToWide(long, accuracy ~ time)
 #'
-longToWide <- function( data, formula, sep="_") {
-
-  if( !methods::is(data, "data.frame") ) stop( '"data" must be a data frame')
-  if( missing(formula) ) stop( '"formula" argument is missing, with no default')
-  if( !methods::is(formula, "formula") ) stop( '"formula" must be a formula')
-  if( length(formula) != 3 ) stop( '"formula" must be a two-sided formula')
-  if( !methods::is(sep, "character") || length(sep) != 1 ) {
-    stop( '"sep" must be a single character string')
+longToWide <- function(data, formula, sep = "_") {
+  if (!methods::is(data, "data.frame")) stop('"data" must be a data frame')
+  if (missing(formula)) stop('"formula" argument is missing, with no default')
+  if (!methods::is(formula, "formula")) stop('"formula" must be a formula')
+  if (length(formula) != 3) stop('"formula" must be a two-sided formula')
+  if (!methods::is(sep, "character") || length(sep) != 1) {
+    stop('"sep" must be a single character string')
   }
 
   within <- all.vars(formula[-2])
   v.names <- all.vars(formula[-3])
-  idvar <- setdiff(names(data),c(within,v.names))
+  idvar <- setdiff(names(data), c(within, v.names))
 
-  if( length(within)>1 ) {
-    collapsed.treatments <- apply(as.matrix(data[,within]),1,paste,collapse=sep)
-    data <- data[,setdiff(names(data),within)] # delete split treatments
+  if (length(within) > 1) {
+    collapsed.treatments <- apply(as.matrix(data[, within]), 1, paste, collapse = sep)
+    data <- data[, setdiff(names(data), within)] # delete split treatments
     data$within <- collapsed.treatments # append collapsed treatment
     within <- "within"
   }
-  times <- unique( data[,within]) # measure 'time' names
+  times <- unique(data[, within]) # measure 'time' names
   varying <- list()
-  for( i in seq_along(v.names) ) varying[[i]] <- paste(v.names[i],times, sep=sep)
+  for (i in seq_along(v.names)) varying[[i]] <- paste(v.names[i], times, sep = sep)
 
-  x<-stats::reshape( data, idvar=idvar, varying=varying, direction="wide", times=times, v.names=v.names, timevar=within)
+  x <- stats::reshape(data, idvar = idvar, varying = varying, direction = "wide", times = times, v.names = v.names, timevar = within)
   rownames(x) <- NULL
   return(x)
-
 }

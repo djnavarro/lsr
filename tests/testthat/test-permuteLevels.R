@@ -1,8 +1,8 @@
-x <- factor(c(1,4,2,2,3,3,5,5,6,6), labels = letters[1:6])
-p <- c(5,3,2,1,4,6)
+x <- factor(c(1, 4, 2, 2, 3, 3, 5, 5, 6, 6), labels = letters[1:6])
+p <- c(5, 3, 2, 1, 4, 6)
 
 test_that("permuteLevels returns the correct level ordering", {
-  expect_equal(levels(permuteLevels(x, perm = p)), c("e","c","b","a","d","f"))
+  expect_equal(levels(permuteLevels(x, perm = p)), c("e", "c", "b", "a", "d", "f"))
 })
 
 test_that("permuteLevels returns a factor", {
@@ -25,8 +25,8 @@ test_that("permuteLevels ordered = TRUE produces an ordered factor", {
 })
 
 test_that("permuteLevels errors when x is not a factor", {
-  expect_error(permuteLevels(letters[1:6], p),  '"x" must be a factor')
-  expect_error(permuteLevels(1:6, 1:6),          '"x" must be a factor')
+  expect_error(permuteLevels(letters[1:6], p), '"x" must be a factor')
+  expect_error(permuteLevels(1:6, 1:6), '"x" must be a factor')
 })
 
 test_that("permuteLevels errors when perm is not numeric", {
@@ -38,17 +38,17 @@ test_that("permuteLevels errors when perm has wrong length", {
 })
 
 test_that("permuteLevels errors when perm is not a valid permutation", {
-  expect_error(permuteLevels(x, perm = c(1,1,3,4,5,6)), '"perm" is not a valid permutation')
+  expect_error(permuteLevels(x, perm = c(1, 1, 3, 4, 5, 6)), '"perm" is not a valid permutation')
 })
 
 test_that("permuteLevels errors on invalid ordered argument", {
-  expect_error(permuteLevels(x, p, ordered = NA),           '"ordered" must be a single logical value')
-  expect_error(permuteLevels(x, p, ordered = "yes"),         '"ordered" must be a single logical value')
-  expect_error(permuteLevels(x, p, ordered = c(TRUE, FALSE)),'"ordered" must be a single logical value')
+  expect_error(permuteLevels(x, p, ordered = NA), '"ordered" must be a single logical value')
+  expect_error(permuteLevels(x, p, ordered = "yes"), '"ordered" must be a single logical value')
+  expect_error(permuteLevels(x, p, ordered = c(TRUE, FALSE)), '"ordered" must be a single logical value')
 })
 
 test_that("permuteLevels errors on invalid invert argument", {
-  expect_error(permuteLevels(x, p, invert = NA),            '"invert" must be a single logical value')
-  expect_error(permuteLevels(x, p, invert = "yes"),          '"invert" must be a single logical value')
+  expect_error(permuteLevels(x, p, invert = NA), '"invert" must be a single logical value')
+  expect_error(permuteLevels(x, p, invert = "yes"), '"invert" must be a single logical value')
   expect_error(permuteLevels(x, p, invert = c(TRUE, FALSE)), '"invert" must be a single logical value')
 })

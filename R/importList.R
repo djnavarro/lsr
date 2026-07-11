@@ -1,5 +1,3 @@
-
-
 # importList() copies each element of a list into a separate variable in the workspace.
 
 
@@ -28,7 +26,7 @@
 #'
 #' @examples
 #' values <- c(1, 2, 3, 4, 5)
-#' group  <- c("group A", "group A", "group B", "group B", "group B")
+#' group <- c("group A", "group A", "group B", "group B", "group B")
 #'
 #' # split() returns a named list: one element per group
 #' grp_list <- split(values, group)
@@ -41,34 +39,32 @@
 #'   importList(grp_list)
 #' }
 #'
-importList <- function(x, ask = TRUE ) {
-
-  if( !methods::is(x,"list") & !methods::is(x,"data.frame")) stop( '"x" must be a list or data frame')
-  if( !methods::is(ask,"logical") || length(ask) !=1 || is.na(ask) ) {
-    stop( '"ask" must be a single logical value')
+importList <- function(x, ask = TRUE) {
+  if (!methods::is(x, "list") & !methods::is(x, "data.frame")) stop('"x" must be a list or data frame')
+  if (!methods::is(ask, "logical") || length(ask) != 1 || is.na(ask)) {
+    stop('"ask" must be a single logical value')
   }
 
-  envir = parent.frame() # import to parent environment
+  envir <- parent.frame() # import to parent environment
 
-  vars <- names(x)  # get variable names
+  vars <- names(x) # get variable names
   vars <- make.unique(vars) # make sure the names are unique
   vars <- make.names(vars) # convert to legitimate R names
 
-  if( ask ) {
+  if (ask) {
     cat("Names of variables to be created:\n")
     print(vars)
     ans <- NA
-    while( ! (ans %in% c("y","n") ) ) {
+    while (!(ans %in% c("y", "n"))) {
       ans <- readline("Create these variables? [y/n] ")
     }
     if (ans == "n") {
-      return( invisible(0) )
+      return(invisible(0))
     }
   }
 
   for (v in seq_along(vars)) { # for each variable in x:
     assign(x = vars[v], value = x[[v]], envir = envir)
   }
-  return( invisible(1) )
-
+  return(invisible(1))
 }

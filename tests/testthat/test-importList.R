@@ -18,7 +18,9 @@ test_that("importList imports multiple elements", {
   lst <- list(x = 10, y = 20, z = 30)
   importList(lst, ask = FALSE)
   expect_true(exists("x") && exists("y") && exists("z"))
-  expect_equal(x, 10); expect_equal(y, 20); expect_equal(z, 30)
+  expect_equal(x, 10)
+  expect_equal(y, 20)
+  expect_equal(z, 30)
   rm(x, y, z)
 })
 
@@ -31,9 +33,9 @@ test_that("importList coerces invalid names with make.names", {
 })
 
 test_that("importList errors on non-list input", {
-  expect_error(importList(1:5,          ask = FALSE), '"x" must be a list or data frame')
+  expect_error(importList(1:5, ask = FALSE), '"x" must be a list or data frame')
   expect_error(importList("not a list", ask = FALSE), '"x" must be a list or data frame')
-  expect_error(importList(42L,          ask = FALSE), '"x" must be a list or data frame')
+  expect_error(importList(42L, ask = FALSE), '"x" must be a list or data frame')
 })
 
 test_that("importList errors on invalid ask argument", {
@@ -41,5 +43,5 @@ test_that("importList errors on invalid ask argument", {
   # causes an error downstream when if(NA) is evaluated; still an error.
   expect_error(importList(list(a = 1), ask = NA))
   expect_error(importList(list(a = 1), ask = c(TRUE, FALSE)), '"ask" must be a single logical value')
-  expect_error(importList(list(a = 1), ask = "yes"),           '"ask" must be a single logical value')
+  expect_error(importList(list(a = 1), ask = "yes"), '"ask" must be a single logical value')
 })

@@ -1,5 +1,3 @@
-
-
 # tFrame() transposes a data frame. This isn't usually a very sensible thing to do,
 # except in those cases where the data frame would actually make sense as a matrix,
 # in which case you could coerce to a matrx and then transpose using t(). However,
@@ -28,9 +26,9 @@
 #'
 #' @examples
 #' dataset <- data.frame(
-#'   Gf = c(105, 119, 121, 98),   # fluid intelligence
-#'   Gc = c(110, 115, 119, 103),  # crystallised intelligence
-#'   Gs = c(112, 102, 108, 99)    # processing speed
+#'   Gf = c(105, 119, 121, 98), # fluid intelligence
+#'   Gc = c(110, 115, 119, 103), # crystallised intelligence
+#'   Gs = c(112, 102, 108, 99) # processing speed
 #' )
 #' rownames(dataset) <- paste0("person", 1:4)
 #' dataset
@@ -38,10 +36,10 @@
 #' tFrame(dataset)
 #'
 tFrame <- function(x) {
-  if (!methods::is(x,"data.frame")) {
+  if (!methods::is(x, "data.frame")) {
     stop("'tFrame' is intended to apply to data frames only")
   }
   x <- t(x) # coerce to matrix and transpose
   x <- as.data.frame(x)
-  return( x )
+  return(x)
 }

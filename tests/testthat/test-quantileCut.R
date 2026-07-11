@@ -39,7 +39,7 @@ test_that("quantileCut passes extra arguments to cut (e.g. labels)", {
 
 test_that("quantileCut errors when x is not numeric", {
   expect_error(quantileCut(c("a", "b", "c"), 3), '"x" must be a numeric vector')
-  expect_error(quantileCut(factor(1:5), 2),       '"x" must be a numeric vector')
+  expect_error(quantileCut(factor(1:5), 2), '"x" must be a numeric vector')
 })
 
 test_that("quantileCut errors when n is not a single number", {

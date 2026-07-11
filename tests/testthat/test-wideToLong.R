@@ -9,16 +9,16 @@ wide <- data.frame(
 
 # A more complex design with multiple within-subject factors.
 wide2 <- data.frame(
-  id            = 1:4,
-  gender        = factor(c("male","male","female","female")),
-  MRT_cond1_day1 = c(415,500,478,550),
-  MRT_cond2_day1 = c(455,532,499,602),
-  MRT_cond1_day2 = c(400,490,468,502),
-  MRT_cond2_day2 = c(450,518,474,588),
-  PC_cond1_day1  = c(79,83,91,75),
-  PC_cond2_day1  = c(82,86,90,78),
-  PC_cond1_day2  = c(88,92,98,89),
-  PC_cond2_day2  = c(93,97,100,95)
+  id = 1:4,
+  gender = factor(c("male", "male", "female", "female")),
+  MRT_cond1_day1 = c(415, 500, 478, 550),
+  MRT_cond2_day1 = c(455, 532, 499, 602),
+  MRT_cond1_day2 = c(400, 490, 468, 502),
+  MRT_cond2_day2 = c(450, 518, 474, 588),
+  PC_cond1_day1 = c(79, 83, 91, 75),
+  PC_cond2_day1 = c(82, 86, 90, 78),
+  PC_cond1_day2 = c(88, 92, 98, 89),
+  PC_cond2_day2 = c(93, 97, 100, 95)
 )
 
 test_that("wideToLong structural tests pass (regression guard)", {
@@ -32,7 +32,7 @@ test_that("wideToLong structural tests pass (regression guard)", {
   expect_equal(nrow(w2), 16)
   expect_named(w2, c("id", "gender", "MRT", "PC", "within1", "within2"))
 
-  w3 <- wideToLong(wide2, within = c("condition","day"))
+  w3 <- wideToLong(wide2, within = c("condition", "day"))
   expect_s3_class(w3, "data.frame")
   expect_equal(nrow(w3), 16)
   expect_named(w3, c("id", "gender", "MRT", "PC", "condition", "day"))
@@ -58,7 +58,7 @@ test_that("wideToLong cell values are correct for simple two-timepoint case", {
 })
 
 test_that("wideToLong cell values are correct for MRT in complex design", {
-  w <- wideToLong(wide2, within = c("condition","day"))
+  w <- wideToLong(wide2, within = c("condition", "day"))
   # participant 1, condition=cond1, day=day1: MRT should be 415
   row <- w[w$id == 1 & w$condition == "cond1" & w$day == "day1", ]
   expect_equal(row$MRT, 415)
@@ -68,17 +68,17 @@ test_that("wideToLong cell values are correct for MRT in complex design", {
 })
 
 test_that("wideToLong errors on invalid inputs", {
-  expect_error(wideToLong(list(a = 1:3), "time"),          '"data" must be a data frame')
-  expect_error(wideToLong(wide, within = character(0)),     '"within" must be a non-empty character vector')
-  expect_error(wideToLong(wide, within = 1),               '"within" must be a non-empty character vector')
-  expect_error(wideToLong(wide, sep = 1),                   '"sep" must be a single character string')
-  expect_error(wideToLong(wide, sep = c("_","-")),          '"sep" must be a single character string')
-  expect_error(wideToLong(wide, split = NA),                '"split" must be a single logical value')
-  expect_error(wideToLong(wide, split = "yes"),             '"split" must be a single logical value')
+  expect_error(wideToLong(list(a = 1:3), "time"), '"data" must be a data frame')
+  expect_error(wideToLong(wide, within = character(0)), '"within" must be a non-empty character vector')
+  expect_error(wideToLong(wide, within = 1), '"within" must be a non-empty character vector')
+  expect_error(wideToLong(wide, sep = 1), '"sep" must be a single character string')
+  expect_error(wideToLong(wide, sep = c("_", "-")), '"sep" must be a single character string')
+  expect_error(wideToLong(wide, split = NA), '"split" must be a single logical value')
+  expect_error(wideToLong(wide, split = "yes"), '"split" must be a single logical value')
 })
 
 test_that("wideToLong preserves between-subject variables", {
-  w <- wideToLong(wide2, within = c("condition","day"))
+  w <- wideToLong(wide2, within = c("condition", "day"))
   # gender should be preserved per participant
   for (i in 1:4) {
     rows <- w[w$id == i, ]

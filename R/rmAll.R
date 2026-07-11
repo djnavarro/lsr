@@ -1,4 +1,3 @@
-
 # rmAll() removes all variables from the workspace. It's not noticeably
 # different to rm( list=objects() ), and it's largely unnecessary in
 # RStudio because there's a button you can click to do the same thing,
@@ -35,9 +34,8 @@
 #'   rmAll(ask = FALSE)
 #' }
 rmAll <- function(ask = TRUE) {
-
-  if( !methods::is(ask,"logical") || length(ask) != 1 || is.na(ask) ) {
-    stop( '"ask" must be a single logical value')
+  if (!methods::is(ask, "logical") || length(ask) != 1 || is.na(ask)) {
+    stop('"ask" must be a single logical value')
   }
 
   # preliminaries
@@ -46,34 +44,31 @@ rmAll <- function(ask = TRUE) {
 
 
   # ask the user if they mean it...
-  if ( ask ) {
-
+  if (ask) {
     # don't bother if already empty
     if (length(object.list) == 0) {
       print("Workspace is already empty")
-      return( invisible(1) )
+      return(invisible(1))
     }
 
     # first, display all the objects...
     cat("Current contents of workspace:\n")
-    print( object.list )
+    print(object.list)
 
     # then ask user for a decision...
-    full.prompt <- paste( "Remove all objects? [y/n] ",sep = " ")
+    full.prompt <- paste("Remove all objects? [y/n] ", sep = " ")
     response <- NA
-    while( !(response %in% c("y","n")) ) {
-      response <- readline( full.prompt )
+    while (!(response %in% c("y", "n"))) {
+      response <- readline(full.prompt)
     }
 
     # bail out if necessary
-    if( response == "n" ) {
-      return( invisible(0) )
+    if (response == "n") {
+      return(invisible(0))
     }
-
   }
 
   # remove everything and return
-  rm( list = object.list, envir = env ) # ... remove all objects
-  return( invisible(1) ) # ... return with invisible flag
-
+  rm(list = object.list, envir = env) # ... remove all objects
+  return(invisible(1)) # ... return with invisible flag
 }

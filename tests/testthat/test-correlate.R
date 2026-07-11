@@ -17,7 +17,7 @@ z <- data.frame(
 z$h[1:5] <- NA
 
 test_that("correlation returns s3 object", {
-  expect_s3_class(correlate(x),    "correlate")
+  expect_s3_class(correlate(x), "correlate")
   expect_s3_class(correlate(x, y), "correlate")
   expect_s3_class(correlate(x, z), "correlate")
 })
@@ -32,7 +32,7 @@ test_that("correlation output has expected structure", {
   for (m in seq_along(out)) {
     expect_type(out[[m]], "list")
     expect_length(out[[m]], 5)
-    expect_named(out[[m]], c("correlation","p.value","sample.size","args","tiesProblem"))
+    expect_named(out[[m]], c("correlation", "p.value", "sample.size", "args", "tiesProblem"))
     for (i in 1:3) expect_true(inherits(out[[m]][[i]], "matrix"))
     expect_type(out[[m]][[4]], "character")
     expect_type(out[[m]][[5]], "logical")
@@ -84,21 +84,21 @@ test_that("correlate with corr.method = spearman gives Spearman coefficients", {
 })
 
 test_that("print.correlate returns its input invisibly", {
-  r   <- correlate(x)
+  r <- correlate(x)
   out <- capture.output(ret <- print(r))
   expect_identical(ret, r)
 })
 
 test_that("print.correlate output includes CORRELATIONS header", {
-  r   <- correlate(x)
+  r <- correlate(x)
   out <- capture.output(print(r))
   expect_true(any(grepl("CORRELATIONS", out)))
 })
 
 test_that("print.correlate with test = TRUE shows p-values and sample sizes", {
-  r   <- correlate(x, test = TRUE)
+  r <- correlate(x, test = TRUE)
   out <- capture.output(print(r))
-  expect_true(any(grepl("p-VALUES",    out)))
+  expect_true(any(grepl("p-VALUES", out)))
   expect_true(any(grepl("SAMPLE SIZES", out)))
 })
 
