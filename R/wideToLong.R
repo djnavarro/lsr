@@ -89,6 +89,18 @@ wideToLong <- function(data, within = "within", sep = "_", split = TRUE) {
   }
 
   ind <- grep(sep, names(data), fixed = TRUE) # indices of variables that are repeated
+
+  # check that the separator appears in at least some column names
+  if (length(ind) == 0) {
+    stop(
+      'No column names contain the separator "', sep, '". ',
+      'Repeated-measures column names must follow the pattern ',
+      'MEASURE', sep, 'CONDITION (e.g. "score', sep, 't1", "score', sep, 't2"). ',
+      'Check that your column names use "', sep, '" as the separator, ',
+      'or set sep = "..." to match a different separator.'
+    )
+  }
+
   idvar <- names(data)[-ind] # names of id variables
 
   # make sure that the id variables do uniquely specify cases

@@ -123,25 +123,26 @@ correlate <- function(x, y = NULL, test = FALSE, corr.method = "pearson", p.adju
 
   # define a function to run correlation test and trap warning message
   getCT <- function(x, y, method) {
-    # get the correlation test, trapping the ties problem warning as needed...
     old.warn <- options(warn = 2) # convert warnings to errors
-    ct <- try(stats::cor.test(x, y, method = method), silent = TRUE) # try the correlation
-    tp <- FALSE # assume no ties problem unless...
+    on.exit(options(old.warn)) # always restore, even if an error is thrown
+    ct <- try(stats::cor.test(x, y, method = method), silent = TRUE)
+    tp <- FALSE
 
-    # check for failures:
     if (inherits(ct, "try-error")) {
-      # handle the case when the "error" was a ties warning
-      tp <- length(grep("exact p-value with ties", ct)) > 0
-      if (tp) { # if it was a ties problem...
-        options(warn = -1) # suppress warnings completely for the next run...
-      } else { # if not...
-        options(old.warn) # reset warning state and let R throw what it likes...
+      if (length(grep("exact p-value with ties", ct)) > 0) {
+        # the "error" was a ties warning: suppress and retry
+        tp <- TRUE
+        options(warn = -1)
+        ct <- try(stats::cor.test(x, y, method = method), silent = TRUE)
+        if (inherits(ct, "try-error")) return(list(ct = NULL, tp = FALSE))
+      } else if (length(grep("not enough", ct)) > 0) {
+        # too few complete observations for this pair: leave cell as NA
+        return(list(ct = NULL, tp = FALSE))
+      } else {
+        # unexpected error: propagate with a clean message
+        stop(conditionMessage(attr(ct, "condition")))
       }
-
-      # now run the test again...
-      ct <- stats::cor.test(x, y, method = method)
     }
-    options(old.warn) # reset warnings to original state
 
     return(list(ct = ct, tp = tp))
   }
@@ -171,10 +172,12 @@ correlate <- function(x, y = NULL, test = FALSE, corr.method = "pearson", p.adju
 
         ct_result <- getCT(x[, i], x[, j], corr.method)
 
-        # store the output
-        R$tiesProblem <- R$tiesProblem | ct_result$tp
-        R$correlation[j, i] <- R$correlation[i, j] <- ct_result$ct$estimate
-        R$p.value[j, i] <- R$p.value[i, j] <- ct_result$ct$p.value
+        # store the output (ct is NULL when there are too few observations)
+        if (!is.null(ct_result$ct)) {
+          R$tiesProblem <- R$tiesProblem | ct_result$tp
+          R$correlation[j, i] <- R$correlation[i, j] <- ct_result$ct$estimate
+          R$p.value[j, i] <- R$p.value[i, j] <- ct_result$ct$p.value
+        }
       }
     }
 
@@ -225,10 +228,12 @@ correlate <- function(x, y = NULL, test = FALSE, corr.method = "pearson", p.adju
 
         ct_result <- getCT(x[, i], y[, j], corr.method)
 
-        # store the output
-        R$tiesProblem <- R$tiesProblem | ct_result$tp
-        R$correlation[i, j] <- ct_result$ct$estimate
-        R$p.value[i, j] <- ct_result$ct$p.value
+        # store the output (ct is NULL when there are too few observations)
+        if (!is.null(ct_result$ct)) {
+          R$tiesProblem <- R$tiesProblem | ct_result$tp
+          R$correlation[i, j] <- ct_result$ct$estimate
+          R$p.value[i, j] <- ct_result$ct$p.value
+        }
 
         # store sample size
         R$sample.size[i, j] <- sum(!(is.na(x[, i]) | is.na(y[, j])))

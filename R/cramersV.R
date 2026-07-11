@@ -41,7 +41,11 @@
 #' cramersV(X)
 #'
 cramersV <- function(...) {
-  test <- stats::chisq.test(...)
+  # Pearson chi-squared (correct = FALSE) is required so that V is on the
+  # correct 0-to-1 scale. Yates' continuity correction reduces chi-squared
+  # below its Pearson value, which causes V to be less than 1 even for
+  # perfect 2x2 association.
+  test <- stats::chisq.test(..., correct = FALSE)
   chi2 <- test$statistic
   N <- sum(test$observed)
 

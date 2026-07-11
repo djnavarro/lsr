@@ -89,3 +89,15 @@ test_that("print.gofTest output contains expected section headings", {
   expect_true(any(grepl("Descriptives", out)))
   expect_true(any(grepl("Test results", out)))
 })
+
+test_that("goodnessOfFitTest warns when factor has unused levels", {
+  # Subsetting can leave unused levels in the factor
+  x <- factor(c("a", "a", "b", "b", "c", "c"), levels = c("a", "b", "c", "d"))
+  expect_warning(goodnessOfFitTest(x), "unused level")
+})
+
+test_that("goodnessOfFitTest does not leave warn option elevated after running", {
+  old_warn <- getOption("warn")
+  goodnessOfFitTest(gender)
+  expect_equal(getOption("warn"), old_warn)
+})
