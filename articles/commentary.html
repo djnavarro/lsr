@@ -139,12 +139,12 @@ They also paper over some important distinctions. For example,
 <code><a href="../reference/independentSamplesTTest.html">independentSamplesTTest()</a></code> always runs Welch’s
 <em>t</em>-test rather than Student’s, which is usually the right choice
 — but a student who uses this function without knowing that is learning
-a habit rather than a principle.</p>
+a habit, not than a principle.</p>
 <p>If you want hypothesis testing with clean, readable output but more
 flexibility and a better-developed theoretical framework, the <a href="https://infer.tidymodels.org" class="external-link"><strong>infer</strong></a> package
 takes a simulation-based approach that connects naturally to how
-statisticians now think about inference. For output formatting in a
-research context, <a href="https://easystats.github.io/parameters/" class="external-link"><strong>parameters</strong></a>
+statisticians (well, some of them) think about inference. For output
+formatting in a research context, <a href="https://easystats.github.io/parameters/" class="external-link"><strong>parameters</strong></a>
 from the easystats ecosystem produces well-organised tables suitable for
 reporting.</p>
 </div>
@@ -243,8 +243,10 @@ the same flaw, and I later wrote a separate package, <a href="https://sessionche
 to nudge beginners away from that practice. Providing
 <code><a href="../reference/rmAll.html">rmAll()</a></code> was, in retrospect, a step in the wrong direction.
 If you want a clean environment, restart your R session; if you want
-your script to be robust, write it so that it does not depend on what
-happens to be in the workspace.</p>
+your script to be robust, write it in a way that is genuinely safe.
+Don’t write it in a way that leaves you vulnerable to whatever happens
+to be in the workspace, or the search path, or any of the other strange
+things that lurk underneath the surface of an R session.</p>
 <p><strong><code><a href="../reference/unlibrary.html">unlibrary()</a></code></strong> is the function I feel most
 ambivalent about. The idea is reasonable enough — an easy way to detach
 a package, with an interface that mirrors <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. The

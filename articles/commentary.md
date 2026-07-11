@@ -74,13 +74,14 @@ They also paper over some important distinctions. For example,
 [`independentSamplesTTest()`](https://lsr.djnavarro.net/reference/independentSamplesTTest.md)
 always runs Welch’s *t*-test rather than Student’s, which is usually the
 right choice — but a student who uses this function without knowing that
-is learning a habit rather than a principle.
+is learning a habit, not than a principle.
 
 If you want hypothesis testing with clean, readable output but more
 flexibility and a better-developed theoretical framework, the
 [**infer**](https://infer.tidymodels.org) package takes a
 simulation-based approach that connects naturally to how statisticians
-now think about inference. For output formatting in a research context,
+(well, some of them) think about inference. For output formatting in a
+research context,
 [**parameters**](https://easystats.github.io/parameters/) from the
 easystats ecosystem produces well-organised tables suitable for
 reporting.
@@ -191,8 +192,10 @@ nudge beginners away from that practice. Providing
 [`rmAll()`](https://lsr.djnavarro.net/reference/rmAll.md) was, in
 retrospect, a step in the wrong direction. If you want a clean
 environment, restart your R session; if you want your script to be
-robust, write it so that it does not depend on what happens to be in the
-workspace.
+robust, write it in a way that is genuinely safe. Don’t write it in a
+way that leaves you vulnerable to whatever happens to be in the
+workspace, or the search path, or any of the other strange things that
+lurk underneath the surface of an R session.
 
 **[`unlibrary()`](https://lsr.djnavarro.net/reference/unlibrary.md)** is
 the function I feel most ambivalent about. The idea is reasonable enough
