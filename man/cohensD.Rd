@@ -71,7 +71,7 @@ For a one-sample calculation, supply only \code{x} (and optionally
 \examples{
 # two independent groups supplied as separate vectors
 gradesA <- c(55, 65, 65, 68, 70) # 5 students with teacher A
-gradesB <- c(56, 60, 62, 66)     # 4 students with teacher B
+gradesB <- c(56, 60, 62, 66) # 4 students with teacher B
 cohensD(gradesA, gradesB)
 
 # the same comparison using a formula and a data frame
@@ -80,7 +80,7 @@ teacher <- c("A", "A", "A", "A", "A", "B", "B", "B", "B")
 cohensD(grade ~ teacher)
 
 # paired samples: use method = "paired" (SD of within-person differences)
-pre  <- c(100, 122, 97, 25, 274)
+pre <- c(100, 122, 97, 25, 274)
 post <- c(104, 125, 99, 29, 277)
 cohensD(pre, post, method = "paired")
 

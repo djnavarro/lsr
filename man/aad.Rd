@@ -29,8 +29,8 @@ aad(x)
 
 # missing values
 x <- c(1, 3, NA, 6)
-aad(x)                 # returns NA
-aad(x, na.rm = TRUE)   # ignores the missing value
+aad(x) # returns NA
+aad(x, na.rm = TRUE) # ignores the missing value
 
 }
 \seealso{

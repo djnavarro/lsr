@@ -17,6 +17,11 @@
 #' warning is issued if any cases are dropped. If the probabilities in
 #' \code{p} do not sum exactly to 1, they are rescaled with a warning.
 #'
+#' If \code{x} has unused factor levels (levels with zero observed cases), a
+#' warning is issued. Those levels are included in the test with zero observed
+#' cases, which changes the degrees of freedom and may give misleading results.
+#' Call \code{\link{droplevels}} on the data first if this is not intended.
+#'
 #' @return Prints a summary of the test showing the variable name, null and
 #' alternative hypotheses, a table of observed frequencies, expected
 #' frequencies, and hypothesised probabilities, and the test results

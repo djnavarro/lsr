@@ -31,12 +31,12 @@ standardised versions of the constituent predictors.
 }
 \examples{
 X1 <- c(0.69, 0.77, 0.92, 1.72, 1.79, 2.37, 2.64, 2.69, 2.84, 3.41)
-Y  <- c(3.28, 4.23, 3.34, 3.73, 5.33, 6.02, 5.16, 6.49, 6.49, 6.05)
+Y <- c(3.28, 4.23, 3.34, 3.73, 5.33, 6.02, 5.16, 6.49, 6.49, 6.05)
 
 # simple linear regression
 model1 <- lm(Y ~ X1)
-coefficients(model1)   # unstandardised
-standardCoefs(model1)  # unstandardised and standardised side by side
+coefficients(model1) # unstandardised
+standardCoefs(model1) # unstandardised and standardised side by side
 
 # multiple regression
 X2 <- c(0.19, 0.22, 0.95, 0.43, 0.51, 0.04, 0.12, 0.44, 0.38, 0.33)

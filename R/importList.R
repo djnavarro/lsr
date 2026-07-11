@@ -13,8 +13,11 @@
 #'   proceeding. Set to \code{FALSE} to import silently.
 #'
 #' @details Creates one variable per list element in the calling environment
-#' (usually the global workspace). Element names that are not valid R variable
-#' names are automatically converted using \code{\link{make.names}}.
+#' (usually the global workspace). All elements of \code{x} must be named;
+#' passing an unnamed or partially-named list is an error. Element names that
+#' are not valid R variable names are automatically converted using
+#' \code{\link{make.names}}. An empty list produces a message and returns
+#' invisibly without creating any variables.
 #'
 #' @return Called primarily for its side effect of creating variables in the
 #' workspace. Invisibly returns \code{1} if variables were created, \code{0}

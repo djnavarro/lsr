@@ -25,12 +25,15 @@ workspace, using the list element names as variable names.
 }
 \details{
 Creates one variable per list element in the calling environment
-(usually the global workspace). Element names that are not valid R variable
-names are automatically converted using \code{\link{make.names}}.
+(usually the global workspace). All elements of \code{x} must be named;
+passing an unnamed or partially-named list is an error. Element names that
+are not valid R variable names are automatically converted using
+\code{\link{make.names}}. An empty list produces a message and returns
+invisibly without creating any variables.
 }
 \examples{
 values <- c(1, 2, 3, 4, 5)
-group  <- c("group A", "group A", "group B", "group B", "group B")
+group <- c("group A", "group A", "group B", "group B", "group B")
 
 # split() returns a named list: one element per group
 grp_list <- split(values, group)
