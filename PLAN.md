@@ -423,18 +423,12 @@ release on GitHub.
     local `R CMD check --as-cran` (0/0/0), rhub on four platforms, win-builder
     devel and release (both 0/0/0).
 
-- **10d — Handle CRAN reviewer feedback (if any)**
-  - Address any notes or requests from the CRAN team promptly
-  - Small fixes go into a follow-up commit on a new branch targeting `dev`,
-    then merge to `main` before resubmitting
-  - Do not tag or reopen `dev` until CRAN confirms acceptance
+- **10d — Handle CRAN reviewer feedback (if any)** — No feedback required;
+  package accepted without changes.
 
-- **10e — Post-acceptance: tag and reopen dev**
-  - Create a GitHub release tagged `v1.0.0`, with release notes drawn from
-    the `NEWS.md` entry
-  - Bump `Version` in `DESCRIPTION` to `1.0.0.9000`
-  - Add a new `# lsr 1.0.0.9000` heading at the top of `NEWS.md`
-  - Commit as "open dev for post-1.0.0 work"
+- **10e — Post-acceptance: tag and reopen dev** ✅ Done (2026-07-12)
+  - GitHub release created: https://github.com/djnavarro/lsr/releases/tag/v1.0.0
+  - `dev` reopened at `1.0.0.9000`
 
 ---
 

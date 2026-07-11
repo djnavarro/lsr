@@ -7,7 +7,7 @@
 Beginners* (Navarro, 2015). It provides beginner-friendly wrappers around
 common statistical procedures and is published on CRAN.
 
-- **Current version:** 0.5.2
+- **Current version:** 1.0.0 (CRAN) / 1.0.0.9000 (dev)
 - **R dependency:** >= 3.0.0
 - **License:** MIT
 - **Repository:** https://github.com/djnavarro/lsr
@@ -59,9 +59,10 @@ stages, listed in order of priority:
    checks all passed. Seven additional bugs fixed after a release-candidate
    stress test (PRs #25, #27). Single PR (`stage-9-cran-prep`) targeting
    `dev`. See PLAN.md for details.
-10. **CRAN submission and post-release** – Package submitted to CRAN on
-    2026-07-12. Awaiting review. After acceptance: tag `v1.0.0`, open `dev`
-    at `1.0.0.9000`. See PLAN.md for details.
+10. ~~**CRAN submission and post-release**~~ – **Complete.** Package accepted
+    by CRAN on 2026-07-12; live at https://cran.r-project.org/package=lsr.
+    GitHub release tagged `v1.0.0`; `dev` reopened at `1.0.0.9000`.
+    See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.
