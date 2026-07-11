@@ -1,6 +1,7 @@
-# Copies a vector into a matrix
+# Copy a vector into a matrix
 
-Copies a vector into a matrix
+Creates a matrix by stacking multiple copies of a vector as rows
+(`rowCopy`) or as columns (`colCopy`).
 
 ## Usage
 
@@ -14,44 +15,51 @@ rowCopy(x, times, dimnames = NULL)
 
 - x:
 
-  The vector to be copied
+  A vector to be copied.
 
 - times:
 
-  Number of copies of the vector to bind together
+  The number of copies to stack together.
 
 - dimnames:
 
-  List specifying row and column names
+  An optional list specifying row and column names for the output
+  matrix.
 
 ## Value
 
-For `rowCopy`, the output is a matrix with `times` rows and `length(x)`
-columns, in which each row contains the vector `x`. For `colCopy`, each
-column corresponds to the vector `x`.
+For `rowCopy`, a matrix with `times` rows and `length(x)` columns, where
+each row is `x`. For `colCopy`, a matrix with `length(x)` rows and
+`times` columns, where each column is `x`.
 
 ## Details
 
-This is a convenience function for binding together multiple copies of
-the same vector. The intended usage is for situations where one might
-ordinarily use `rbind` or `cbind`, but the work is done by the `matrix`
-function. Instead of needing to input multiple copies of the input
-vector `x` (as one would for `rbind`), one only needs to specify the
-number of `times` that the vector should be copied.
+These functions are shortcuts for building a matrix where every row (or
+every column) is the same vector. They are equivalent to calling
+[`matrix`](https://rdrr.io/r/base/matrix.html) with appropriate `byrow`
+and dimension arguments.
+
+## See also
+
+[`matrix`](https://rdrr.io/r/base/matrix.html),
+[`rbind`](https://rdrr.io/r/base/cbind.html),
+[`cbind`](https://rdrr.io/r/base/cbind.html)
 
 ## Examples
 
 ``` r
+x <- c(3, 1, 4, 1, 5)
 
-#Example 1: basic usage
-data <- c(3,1,4,1,5)
-rowCopy( data, 4 )
+# stack x as rows
+rowCopy(x, 4)
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]    3    1    4    1    5
 #> [2,]    3    1    4    1    5
 #> [3,]    3    1    4    1    5
 #> [4,]    3    1    4    1    5
-colCopy( data, 4 )
+
+# stack x as columns
+colCopy(x, 4)
 #>      [,1] [,2] [,3] [,4]
 #> [1,]    3    3    3    3
 #> [2,]    1    1    1    1
@@ -59,9 +67,9 @@ colCopy( data, 4 )
 #> [4,]    1    1    1    1
 #> [5,]    5    5    5    5
 
-#Example 2: attach dimension names
-dnames <- list( rows = c("r1","r2","r3"), cols = c("c1","c2","c3","c4","c5") )
-rowCopy( data,3,dnames )
+# with custom dimension names
+dnames <- list(rows = c("r1", "r2", "r3"), cols = c("c1", "c2", "c3", "c4", "c5"))
+rowCopy(x, 3, dnames)
 #>     cols
 #> rows c1 c2 c3 c4 c5
 #>   r1  3  1  4  1  5

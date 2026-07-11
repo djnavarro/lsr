@@ -1,8 +1,10 @@
 pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-07-11T04:03Z
+articles:
+  articles/commentary: commentary.html
+  articles/overview: overview.html
+last_built: 2026-07-11T05:10Z
 urls:
   reference: https://lsr.djnavarro.net/reference
   article: https://lsr.djnavarro.net/articles

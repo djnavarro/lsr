@@ -1,6 +1,9 @@
-# Print method for lsr chi-square tests
+# Print chi-square association test results
 
-Print method for lsr chi-square tests
+Prints the results of a chi-square test of association in a readable
+format. This function is called automatically whenever a result from
+[`associationTest`](https://lsr.djnavarro.net/reference/associationTest.md)
+is displayed.
 
 ## Usage
 
@@ -13,12 +16,13 @@ print(x, ...)
 
 - x:
 
-  An object of class 'assocTest'
+  An association test result, as returned by
+  [`associationTest`](https://lsr.djnavarro.net/reference/associationTest.md).
 
 - ...:
 
-  For consistency with the generic (unused)
+  Additional arguments (unused, included for compatibility).
 
 ## Value
 
-Invisibly returns the original object
+Invisibly returns `x` unchanged.

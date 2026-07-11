@@ -1,6 +1,9 @@
-# Print method for correlate objects
+# Print correlation matrix results
 
-Print method for correlate objects
+Prints the results of a correlation analysis in a readable format. This
+function is called automatically whenever a result from
+[`correlate`](https://lsr.djnavarro.net/reference/correlate.md) is
+displayed.
 
 ## Usage
 
@@ -13,12 +16,13 @@ print(x, ...)
 
 - x:
 
-  An object of class 'correlate'
+  A correlation result, as returned by
+  [`correlate`](https://lsr.djnavarro.net/reference/correlate.md).
 
 - ...:
 
-  For consistency with the generic (unused)
+  Additional arguments (unused, included for compatibility).
 
 ## Value
 
-Invisibly returns the original object
+Invisibly returns `x` unchanged.

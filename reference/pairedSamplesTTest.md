@@ -1,7 +1,7 @@
 # Paired samples t-test
 
-Convenience function that runs a paired samples t-test. This is a
-wrapper function intended to be used for pedagogical purposes only.
+Runs a paired-samples t-test and prints the results in a readable
+format.
 
 ## Usage
 
@@ -19,72 +19,64 @@ pairedSamplesTTest(
 
 - formula:
 
-  Formula specifying the outcome and the groups (required).
+  A formula describing the data. For wide-format data use a one-sided
+  formula such as `~ time1 + time2`. For long-format data use
+  `outcome ~ group + (id)`, or `outcome ~ group` together with the `id`
+  argument.
 
 - data:
 
-  Optional data frame containing the variables.
+  An optional data frame containing the variables named in `formula`.
+  Tibbles are accepted and converted automatically. If `data` is omitted
+  the variables are looked up in the workspace.
 
 - id:
 
-  The name of the id variable (must be a character string).
+  The name of the participant ID variable as a character string (e.g.,
+  `id = "subject"`). Required when using long-format data with a plain
+  `outcome ~ group` formula instead of `outcome ~ group + (id)`.
 
 - one.sided:
 
-  One sided or two sided hypothesis test (default = `FALSE`)
+  Set to `FALSE` (default) for a two-sided test. Set to the name of the
+  group or variable expected to have the larger mean for a one-sided
+  test (e.g., `one.sided = "time2"`).
 
 - conf.level:
 
-  The confidence level for the confidence interval (default = .95).
+  The confidence level for the confidence interval. The default is
+  `0.95` for a 95% interval.
 
 ## Value
 
-An object of class 'TTest'. When printed, the output is organised into
-five short sections. The first section lists the name of the test and
-the variables included. The second provides means and standard
-deviations. The third states explicitly what the null and alternative
-hypotheses were. The fourth contains the test results: t-statistic,
-degrees of freedom and p-value. The final section includes the relevant
-confidence interval and an estimate of the effect size (i.e., Cohen's d)
+Prints a summary showing the variable names, descriptive statistics
+(including the mean and standard deviation of the differences), null and
+alternative hypotheses, test results (t-statistic, degrees of freedom,
+p-value), a confidence interval, and Cohen's d as a measure of effect
+size. The underlying results are also returned as a list, so the output
+can be assigned to a variable and inspected if needed.
 
 ## Details
 
-The `pairedSamplesTTest` function runs a paired-sample t-test, and
-prints the results in a format that is easier for novices to handle than
-the output of `t.test`. All the actual calculations are done by the
-`t.test` and `cohensD` functions.
+Runs a paired-samples t-test and prints the results in a
+beginner-friendly format. The calculations are done by
+[`t.test`](https://rdrr.io/r/stats/t.test.html) and
+[`cohensD`](https://lsr.djnavarro.net/reference/cohensD.md).
 
-There are two different ways of specifying the formula, depending on
-whether the data are in wide form or long form. If the data are in wide
-form, then the input should be a one-sided formula of the form
-`~ variable1 + variable2`. The `id` variable is not required: the first
-element of `variable1` is paired with the first element of `variable2`
-and so on. Both `variable1` and `variable2` must be numeric.
+There are two ways to supply data. If the data are in **wide format**
+(one row per participant, with the two measurements in separate
+columns), use a one-sided formula such as `~ time1 + time2`. The first
+row of `time1` is paired with the first row of `time2`, and so on.
 
-If the data are in long form, a two sided formula is required. The
-simplest way to specify the test is to input a formula of the form
-`outcome ~ group + (id)`. The term in parentheses is assumed to be the
-`id` variable, and must be a factor. The `group` variable must be a
-factor with two levels (if there are more than two levels but only two
-are used in the data, a warning is given). The `outcome` variable must
-be numeric.
+If the data are in **long format** (two rows per participant), use a
+two-sided formula. The recommended style is `outcome ~ group + (id)`,
+where the participant ID variable is enclosed in parentheses.
+Alternatively, use the plain formula `outcome ~ group` and supply the ID
+variable name via the `id` argument. The lme4-style notation
+`outcome ~ group + (1|id)` is also accepted as equivalent to
+`outcome ~ group + (id)`.
 
-The reason for using the `outcome ~ group + (id)` format is that it is
-broadly consistent with the way repeated measures analyses are specified
-in the `lme4` package. However, this format may not appeal to some
-people for teaching purposes. Given this, the `pairedSamplesTTest` also
-supports a simpler formula of the form `outcome ~ group`, so long as the
-user specifies the `id` argument: this must be a character vector
-specifying the name of the id variable
-
-As with the `t.test` function, the default test is two sided,
-corresponding to a default value of `one.sided = FALSE`. To specify a
-one sided test, the `one.sided` argument must specify the name of the
-factor level (long form data) or variable (wide form data) that is
-hypothesised (under the alternative) to have the larger mean. For
-instance, if the outcome at "time2" is expected to be higher than at
-"time1", then the corresponding one sided test is specified by
-`one.sided = "time2"`.
+Participants with missing measurements are removed with a warning.
 
 ## See also
 
@@ -96,20 +88,24 @@ instance, if the outcome at "time2" is expected to be higher than at
 ## Examples
 
 ``` r
-# long form data frame
+# long-format data: one row per participant per time point
 df <- data.frame(
-  id = factor( x=c(1, 1, 2, 2, 3, 3, 4, 4),
-               labels=c("alice","bob","chris","diana") ),
-  time = factor( x=c(1,2,1,2,1,2,1,2),
-                 labels=c("time1","time2")),
-  wm = c(3, 4, 6, 6, 9, 12,7,9)
+  id = factor(
+    x = c(1, 1, 2, 2, 3, 3, 4, 4),
+    labels = c("alice", "bob", "chris", "diana")
+  ),
+  time = factor(
+    x = c(1, 2, 1, 2, 1, 2, 1, 2),
+    labels = c("time1", "time2")
+  ),
+  wm = c(3, 4, 6, 6, 9, 12, 7, 9)
 )
 
-# wide form
-df2 <- longToWide( df, wm ~ time )
+# wide-format data: one row per participant
+df2 <- longToWide(df, wm ~ time)
 
-# basic test, run from long form or wide form data
-pairedSamplesTTest( formula= wm ~ time, data=df, id="id" )
+# three equivalent ways to run the same test
+pairedSamplesTTest(formula = wm ~ time, data = df, id = "id")
 #> 
 #>    Paired samples t-test 
 #> 
@@ -135,7 +131,7 @@ pairedSamplesTTest( formula= wm ~ time, data=df, id="id" )
 #>    two-sided 95% confidence interval:  [-3.554, 0.554] 
 #>    estimated effect size (Cohen's d):  1.162 
 #> 
-pairedSamplesTTest( formula= wm ~ time + (id), data=df )
+pairedSamplesTTest(formula = wm ~ time + (id), data = df)
 #> 
 #>    Paired samples t-test 
 #> 
@@ -161,7 +157,7 @@ pairedSamplesTTest( formula= wm ~ time + (id), data=df )
 #>    two-sided 95% confidence interval:  [-3.554, 0.554] 
 #>    estimated effect size (Cohen's d):  1.162 
 #> 
-pairedSamplesTTest( formula= ~wm_time1 + wm_time2, data=df2 )
+pairedSamplesTTest(formula = ~wm_time1 + wm_time2, data = df2)
 #> 
 #>    Paired samples t-test 
 #> 
@@ -186,8 +182,8 @@ pairedSamplesTTest( formula= ~wm_time1 + wm_time2, data=df2 )
 #>    estimated effect size (Cohen's d):  1.162 
 #> 
 
-# one sided test
-pairedSamplesTTest( formula= wm~time, data=df, id="id", one.sided="time2" )
+# one-sided test: is time2 larger than time1?
+pairedSamplesTTest(formula = wm ~ time, data = df, id = "id", one.sided = "time2")
 #> 
 #>    Paired samples t-test 
 #> 
@@ -214,9 +210,9 @@ pairedSamplesTTest( formula= wm~time, data=df, id="id", one.sided="time2" )
 #>    estimated effect size (Cohen's d):  1.162 
 #> 
 
-# missing data because of NA values
+# missing value: that participant is removed with a warning
 df$wm[1] <- NA
-pairedSamplesTTest( formula= wm~time, data=df, id="id" )
+pairedSamplesTTest(formula = wm ~ time, data = df, id = "id")
 #> Warning: 1 case(s) removed due to missingness
 #> 
 #>    Paired samples t-test 
@@ -244,9 +240,9 @@ pairedSamplesTTest( formula= wm~time, data=df, id="id" )
 #>    estimated effect size (Cohen's d):  1.091 
 #> 
 
-# missing data because of missing cases from the long form data frame
-df <- df[-1,]
-pairedSamplesTTest( formula= wm~time, data=df, id="id" )
+# missing row: that participant is also removed with a warning
+df <- df[-1, ]
+pairedSamplesTTest(formula = wm ~ time, data = df, id = "id")
 #> Warning: 1 case(s) removed due to missingness
 #> 
 #>    Paired samples t-test 

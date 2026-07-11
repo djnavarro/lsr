@@ -8,18 +8,15 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/djnavarro/lsr/blob/main/inst/CITATION)
+[`DESCRIPTION`](https://github.com/djnavarro/lsr/blob/main/DESCRIPTION)
 
-Navarro, D. J. (2015) Learning statistics with R: A tutorial for
-psychology students and other beginners. (Version 0.6) University of New
-South Wales. Sydney, Australia
+Navarro D (2026). *lsr: Companion to "Learning Statistics with R"*. R
+package version 1.0.0, <https://github.com/djnavarro/lsr>.
 
     @Manual{,
-      title = {Learning statistics with R: A tutorial for psychology students and other beginners. (Version 0.6)},
+      title = {lsr: Companion to "Learning Statistics with R"},
       author = {Danielle Navarro},
-      organization = {University of New South Wales},
-      address = {Sydney, Australia},
-      year = {2015},
-      note = {R package version 0.5.1},
-      url = {https://learningstatisticswithr.com},
+      year = {2026},
+      note = {R package version 1.0.0},
+      url = {https://github.com/djnavarro/lsr},
     }

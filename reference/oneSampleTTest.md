@@ -1,7 +1,6 @@
 # One sample t-test
 
-Convenience function that runs a one sample t-test. This is a wrapper
-function intended to be used for pedagogical purposes only.
+Runs a one-sample t-test and prints the results in a readable format.
 
 ## Usage
 
@@ -13,44 +12,38 @@ oneSampleTTest(x, mu, one.sided = FALSE, conf.level = 0.95)
 
 - x:
 
-  The variable to be tested (required).
+  A numeric vector containing the data to be tested.
 
 - mu:
 
-  The value against which the mean should be tested (required).
+  The hypothesised population mean to test against.
 
 - one.sided:
 
-  One sided or two sided hypothesis test (default = `FALSE`)
+  Set to `FALSE` (default) for a two-sided test. Set to `"greater"` if
+  you expect the population mean to be above `mu`, or `"less"` if you
+  expect it to be below.
 
 - conf.level:
 
-  The confidence level for the confidence interval (default = .95).
+  The confidence level for the confidence interval. The default is
+  `0.95` for a 95% interval.
 
 ## Value
 
-An object of class 'TTest'. When printed, the output is organised into
-five short sections. The first section lists the name of the test and
-the variables included. The second provides means and standard
-deviations. The third states explicitly what the null and alternative
-hypotheses were. The fourth contains the test results: t-statistic,
-degrees of freedom and p-value. The final section includes the relevant
-confidence interval and an estimate of the effect size (i.e., Cohen's
-d).
+Prints a summary showing the variable name, descriptive statistics, null
+and alternative hypotheses, test results (t-statistic, degrees of
+freedom, p-value), a confidence interval, and Cohen's d as a measure of
+effect size. The underlying results are also returned as a list, so the
+output can be assigned to a variable and inspected if needed.
 
 ## Details
 
-The `oneSampleTTest` function runs a one-sample t-test on the data in
-`x`, and prints the results in a format that is easier for novices to
-handle than the output of `t.test`. All the actual calculations are done
-by the `t.test` and `cohensD` functions.
-
-As with the `t.test` function, the default test is two sided,
-corresponding to a default value of `one.sided = FALSE`. To specify a
-one sided test in which the alternative hypothesis is that `x` is larger
-than `mu`, the input must be `one.sided = "greater"`. Similarly, if
-`one.sided="less"`, then the alternative hypothesis is that the mean of
-`x` is smaller than `mu`.
+Runs a one-sample t-test comparing the mean of `x` to the hypothesised
+value `mu`, and prints the results in a beginner-friendly format. The
+calculations are done by [`t.test`](https://rdrr.io/r/stats/t.test.html)
+and [`cohensD`](https://lsr.djnavarro.net/reference/cohensD.md). Missing
+values in `x` are removed with a warning.
 
 ## See also
 
@@ -62,10 +55,10 @@ than `mu`, the input must be `one.sided = "greater"`. Similarly, if
 ## Examples
 
 ``` r
+likert <- c(3, 1, 4, 1, 4, 6, 7, 2, 6, 6, 7)
 
-likert <- c(3,1,4,1,4,6,7,2,6,6,7)
-
-oneSampleTTest( x = likert, mu = 4 )
+# two-sided test (the default)
+oneSampleTTest(x = likert, mu = 4)
 #> 
 #>    One sample t-test 
 #> 
@@ -89,7 +82,9 @@ oneSampleTTest( x = likert, mu = 4 )
 #>    two-sided 95% confidence interval:  [2.738, 5.807] 
 #>    estimated effect size (Cohen's d):  0.119 
 #> 
-oneSampleTTest( x = likert, mu = 4, one.sided = "greater" )
+
+# one-sided test: is the mean greater than 4?
+oneSampleTTest(x = likert, mu = 4, one.sided = "greater")
 #> 
 #>    One sample t-test 
 #> 
@@ -113,7 +108,9 @@ oneSampleTTest( x = likert, mu = 4, one.sided = "greater" )
 #>    one-sided 95% confidence interval:  [3.024, Inf] 
 #>    estimated effect size (Cohen's d):  0.119 
 #> 
-oneSampleTTest( x = likert, mu = 4, conf.level=.99 )
+
+# wider confidence interval
+oneSampleTTest(x = likert, mu = 4, conf.level = 0.99)
 #> 
 #>    One sample t-test 
 #> 
@@ -134,12 +131,13 @@ oneSampleTTest( x = likert, mu = 4, conf.level=.99 )
 #>    p-value:  0.7 
 #> 
 #> Other information: 
-#>    two-sided 99% confidence interval:  [2.738, 5.807] 
+#>    two-sided 99% confidence interval:  [2.09, 6.456] 
 #>    estimated effect size (Cohen's d):  0.119 
 #> 
 
-likert <- c(3,NA,4,NA,4,6,7,NA,6,6,7)
-oneSampleTTest( x = likert, mu = 4 )
+# missing values are removed with a warning
+likert <- c(3, NA, 4, NA, 4, 6, 7, NA, 6, 6, 7)
+oneSampleTTest(x = likert, mu = 4)
 #> Warning: 3 case(s) removed due to missingness
 #> 
 #>    One sample t-test 

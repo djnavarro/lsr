@@ -1,8 +1,7 @@
 # Unload a package
 
-A wrapper function to [`detach`](https://rdrr.io/r/base/detach.html)
-that removes a package from the search path, but takes a package name as
-input similar to [`library`](https://rdrr.io/r/base/library.html).
+Removes a package from the search path, using the same naming convention
+as [`library`](https://rdrr.io/r/base/library.html).
 
 ## Usage
 
@@ -14,28 +13,33 @@ unlibrary(package)
 
 - package:
 
-  A package name, which may be specified with or without quotes.
+  The name of the package to unload, with or without quotes.
 
 ## Value
 
-Identical to `detach`.
+Called for its side effect of removing the package from the search path.
+Returns the result of [`detach`](https://rdrr.io/r/base/detach.html)
+invisibly.
 
 ## Details
 
-Unloads a package. This is just a wrapper for the `detach` function.
-However, the `package` argument is just the name of the package (rather
-than the longer string that is required by the `detach` function), and –
-like the `library` function – can be specified without quote marks. The
-`unlibrary` function does not unload dependencies, only the named
-package.
-
-The name "unlibrary" is a bit of an abuse of both R terminology (in
-which one has a library of packages) and the English language, but I
-think it helps convey that the goal of the `unlibrary` function is to do
-the opposite of what the `library` function does.
+Calls [`detach`](https://rdrr.io/r/base/detach.html) on the named
+package. Unlike `detach`, which requires the full `"package:name"`
+string, `unlibrary` accepts the bare package name (with or without
+quotes), matching the syntax of
+[`library`](https://rdrr.io/r/base/library.html). Only the named package
+is unloaded; dependencies are not affected.
 
 ## See also
 
 [`library`](https://rdrr.io/r/base/library.html),
-[`require`](https://rdrr.io/r/base/library.html),
 [`detach`](https://rdrr.io/r/base/detach.html)
+
+## Examples
+
+``` r
+if (FALSE) {
+  # after loading a package with library(), unload it with unlibrary()
+  unlibrary(MASS)
+}
+```

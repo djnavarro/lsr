@@ -1,7 +1,7 @@
 # Independent samples t-test
 
-Convenience function that runs an independent samples t-test. This is a
-wrapper function intended to be used for pedagogical purposes only.
+Runs an independent-samples t-test and prints the results in a readable
+format.
 
 ## Usage
 
@@ -19,53 +19,51 @@ independentSamplesTTest(
 
 - formula:
 
-  Formula specifying the outcome and the groups (required).
+  A formula of the form `outcome ~ group`, where `outcome` is the
+  numeric variable being measured and `group` is a factor with exactly
+  two levels.
 
 - data:
 
-  Optional data frame containing the variables.
+  An optional data frame containing the variables named in `formula`.
+  Tibbles are accepted and converted automatically. If `data` is omitted
+  the variables are looked up in the workspace.
 
 - var.equal:
 
-  Should the test assume equal variances (default = `FALSE`).
+  Set to `TRUE` to run Student's t-test, which assumes equal group
+  variances. The default (`FALSE`) runs Welch's t-test, which is safer
+  when variances may differ between groups.
 
 - one.sided:
 
-  One sided or two sided hypothesis test (default = `FALSE`)
+  Set to `FALSE` (default) for a two-sided test. Set to the name of the
+  group expected to have the larger mean for a one-sided test (e.g.,
+  `one.sided = "group2"`).
 
 - conf.level:
 
-  The confidence level for the confidence interval (default = .95).
+  The confidence level for the confidence interval. The default is
+  `0.95` for a 95% interval.
 
 ## Value
 
-An object of class 'TTest'. When printed, the output is organised into
-five short sections. The first section lists the name of the test and
-the variables included. The second provides means and standard
-deviations. The third states explicitly what the null and alternative
-hypotheses were. The fourth contains the test results: t-statistic,
-degrees of freedom and p-value. The final section includes the relevant
-confidence interval and an estimate of the effect size (i.e., Cohen's d)
+Prints a summary showing the outcome and grouping variable names, group
+means and standard deviations, null and alternative hypotheses, test
+results (t-statistic, degrees of freedom, p-value), a confidence
+interval, and Cohen's d as a measure of effect size. The underlying
+results are also returned as a list, so the output can be assigned to a
+variable and inspected if needed.
 
 ## Details
 
-The `independentSamplesTTest` function runs an independent-samples
-t-test and prints the results in a format that is easier for novices to
-handle than the output of `t.test`. All the actual calculations are done
-by the `t.test` and `cohensD` functions. The `formula` argument must be
-a two-sided formula of the form `outcome ~ group`. When
-`var.equal=TRUE`, a Student's t-test is run and the estimate of Cohen's
-d uses a pooled estimate of standard deviation. When `var.equal=FALSE`,
-the Welch test is used, and the estimate of Cohen's d uses the "unequal"
-method.
-
-As with the `t.test` function, the default test is two sided,
-corresponding to a default value of `one.sided = FALSE`. To specify a
-one sided test, the `one.sided` argument must specify the name of the
-factor level that is hypothesised (under the alternative) to have the
-larger mean. For instance, if the outcome for "group2" is expected to be
-higher than for "group1", then the corresponding one sided test is
-specified by `one.sided = "group2"`.
+Runs an independent-samples t-test comparing the means of two groups,
+and prints the results in a beginner-friendly format. The calculations
+are done by [`t.test`](https://rdrr.io/r/stats/t.test.html) and
+[`cohensD`](https://lsr.djnavarro.net/reference/cohensD.md). When
+`var.equal = TRUE`, Cohen's d uses a pooled standard deviation; when
+`var.equal = FALSE` (Welch's test), it uses the "unequal" method. Cases
+with missing values are removed with a warning.
 
 ## See also
 
@@ -77,13 +75,13 @@ specified by `one.sided = "group2"`.
 ## Examples
 
 ``` r
-
 df <- data.frame(
   rt = c(451, 562, 704, 324, 505, 600, 829),
-  cond = factor( x=c(1,1,1,2,2,2,2), labels=c("group1","group2")))
+  cond = factor(x = c(1, 1, 1, 2, 2, 2, 2), labels = c("group1", "group2"))
+)
 
-# Welch t-test
-independentSamplesTTest( rt ~ cond, df )
+# Welch's t-test (the default, does not assume equal variances)
+independentSamplesTTest(rt ~ cond, df)
 #> 
 #>    Welch's independent samples t-test 
 #> 
@@ -109,8 +107,8 @@ independentSamplesTTest( rt ~ cond, df )
 #>    estimated effect size (Cohen's d):  0.045 
 #> 
 
-# Student t-test
-independentSamplesTTest( rt ~ cond, df, var.equal=TRUE )
+# Student's t-test (assumes equal variances)
+independentSamplesTTest(rt ~ cond, df, var.equal = TRUE)
 #> 
 #>    Student's independent samples t-test 
 #> 
@@ -136,8 +134,8 @@ independentSamplesTTest( rt ~ cond, df, var.equal=TRUE )
 #>    estimated effect size (Cohen's d):  0.043 
 #> 
 
-# one sided test
-independentSamplesTTest( rt ~ cond, df, one.sided="group1" )
+# one-sided test: is group1 larger?
+independentSamplesTTest(rt ~ cond, df, one.sided = "group1")
 #> 
 #>    Welch's independent samples t-test 
 #> 
@@ -163,10 +161,10 @@ independentSamplesTTest( rt ~ cond, df, one.sided="group1" )
 #>    estimated effect size (Cohen's d):  0.045 
 #> 
 
-# missing data
+# missing values are removed with a warning
 df$rt[1] <- NA
 df$cond[7] <- NA
-independentSamplesTTest( rt ~ cond, df )
+independentSamplesTTest(rt ~ cond, df)
 #> Warning: 2 case(s) removed due to missingness
 #> 
 #>    Welch's independent samples t-test 

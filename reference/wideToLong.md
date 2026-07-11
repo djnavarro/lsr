@@ -1,7 +1,8 @@
 # Reshape from wide to long
 
-Reshape a data frame from wide form to long form using the variable
-names
+Reshapes a data frame from wide form (one row per subject) to long form
+(one row per observation), using variable names to determine the
+structure.
 
 ## Usage
 
@@ -13,64 +14,52 @@ wideToLong(data, within = "within", sep = "_", split = TRUE)
 
 - data:
 
-  The data frame.
+  A wide-form data frame with one row per subject (or experimental
+  unit). Variables whose names contain `sep` are treated as repeated
+  measures; all others are treated as between-subject variables.
 
 - within:
 
-  Name to give to the long-form within-subject factor(s)
+  A character string, or vector of strings, giving the name(s) to use
+  for the within-subject factor column(s) in the output. Defaults to
+  `"within"`.
 
 - sep:
 
-  Separator string used in wide-form variable names
+  The separator string used in the wide-form variable names to separate
+  the measure name from the factor level(s). Defaults to `"_"`. The
+  separator must not appear anywhere else in the variable names.
 
 - split:
 
-  Should multiple within-subject factors be split into multiple
-  variables?
+  Set to `TRUE` (the default) to split multiple within-subject factors
+  into separate columns in the output. Set to `FALSE` to keep them
+  combined into a single column.
 
 ## Value
 
-A data frame containing the reshaped data
+A long-form data frame with one row per observation.
 
 ## Details
 
-The `wideToLong` function is the companion function to `longToWide`. The
-`data` argument is a "wide form" data frame, in which each row
-corresponds to a single experimental unit (e.g., a single subject). The
-output is a "long form" data frame, in which each row corresponds to a
-single observation.
+This function is the companion to
+[`longToWide`](https://lsr.djnavarro.net/reference/longToWide.md). It
+determines the reshape structure from the variable names rather than
+requiring an explicit formula.
 
-The `wideToLong` function relies on the variable names to determine how
-the data should be reshaped. The naming scheme for these variables
-places the name of the measured variable first, followed by the levels
-of the within-subjects variable(s), separated by the separator string
-`sep` (default is `_`) The separator string cannot appear anywhere else
-in the variable names: variables without the separator string are
-assumed to be between-subject variables.
+The naming scheme for repeated-measures variables places the measure
+name first, followed by the factor level(s), all joined by `sep`. For
+example, variables named `accuracy_t1` and `accuracy_t2` indicate a
+measure called `accuracy` recorded at two time points (`t1` and `t2`).
+After reshaping, the long-form output contains one column called
+`accuracy` and a factor column (named by the `within` argument) with
+levels `t1` and `t2`.
 
-If the experiment measured the `accuracy` of participants at some task
-at two different points in time, then the wide form data frame would
-contain variables of the form `accuracy_t1` and `accuracy_t2`. After
-reshaping, the long form data frame would contain one measured variable
-called `accuracy`, and a within-subjects factor with levels `t1` and
-`t2`. The name of the within-subjects factor is the `within` argument.
-
-The function supports experimental designs with multiple within-subjects
-factors and multi-variable observations. For example, suppose each
-experimental subject is tested in two `conditions` (`cond1` and
-`cond2`), on each of two `days` (`day1` and `day2`), yielding an
-experimental design in which four observations are made for each
-subject. For each such observation, we record the mean response time
-`MRT` for and proportion of correct responses `PC` for the participant.
-The variable names needed for a design such as this one would be
-`MRT_cond1_day1`, `MRT_cond1_day2`, `PC_cond1_day1`, etc. The `within`
-argument should be a vector of names for the within-subject factors: in
-this case, `within = c("condition","day")`.
-
-By default, if there are multiple within-subject factors implied by the
-existence of multiple separators, the output will keep these as distinct
-variables in the long form data frame (`split=FALSE`). If `split=TRUE`,
-the within-subject factors will be collapsed into a single variable.
+Designs with multiple within-subject factors are supported. For example,
+`MRT_cond1_day1` encodes measure `MRT` at level `cond1` of one factor
+and `day1` of another. Supply `within = c("condition", "day")` to name
+both output columns. Multiple measured variables per observation (e.g.,
+both `MRT` and `PC`) are also supported.
 
 ## See also
 
@@ -80,15 +69,13 @@ the within-subject factors will be collapsed into a single variable.
 ## Examples
 
 ``` r
-# Outcome measure is mean response time (MRT), measured in two conditions
-# with 4 participants. All participants participate in both conditions.
-
-wide <- data.frame( accuracy_t1 = c( .15,.50,.78,.55 ),  # accuracy at time point 1
-                    accuracy_t2 = c( .55,.32,.99,.60 ),  # accuracy at time point 2
-                    id = 1:4 )                           # id variable
-
-# convert to long form
-wideToLong( wide, "time" )
+# simple design: accuracy measured at two time points for 4 participants
+wide <- data.frame(
+  id          = 1:4,
+  accuracy_t1 = c(.15, .50, .78, .55),
+  accuracy_t2 = c(.55, .32, .99, .60)
+)
+wideToLong(wide, "time")
 #>   id time accuracy
 #> 1  1   t1     0.15
 #> 2  2   t1     0.50
@@ -99,46 +86,22 @@ wideToLong( wide, "time" )
 #> 7  3   t2     0.99
 #> 8  4   t2     0.60
 
+# complex design: two measures (MRT, PC), two conditions, two days
+wide2 <- data.frame(
+  id             = 1:4,
+  gender         = factor(c("male", "male", "female", "female")),
+  MRT_cond1_day1 = c(415, 500, 478, 550),
+  MRT_cond2_day1 = c(455, 532, 499, 602),
+  MRT_cond1_day2 = c(400, 490, 468, 502),
+  MRT_cond2_day2 = c(450, 518, 474, 588),
+  PC_cond1_day1  = c(79, 83, 91, 75),
+  PC_cond2_day1  = c(82, 86, 90, 78),
+  PC_cond1_day2  = c(88, 92, 98, 89),
+  PC_cond2_day2  = c(93, 97, 100, 95)
+)
 
-# A more complex design with multiple within-subject factors. Again, we have only
-# four participants, but now we have two different outcome measures, mean response
-# time (MRT) and the proportion of correct responses (PC). Additionally, we have two
-# different repeated measures variables. As before, we have the experimental condition
-# (cond1, cond2), but this time each participant does both conditions on two different
-# days (day1, day2). Finally, we have multiple between-subject variables too, namely
-# id and gender.
-
-wide2 <- data.frame( id = 1:4,
-                     gender = factor( c("male","male","female","female") ),
-                     MRT_cond1_day1 = c( 415,500,478,550 ),
-                     MRT_cond2_day1 = c( 455,532,499,602 ),
-                     MRT_cond1_day2 = c( 400,490,468,502 ),
-                     MRT_cond2_day2 = c( 450,518,474,588 ),
-                     PC_cond1_day1 = c( 79,83,91,75 ),
-                     PC_cond2_day1 = c( 82,86,90,78 ),
-                     PC_cond1_day2 = c( 88,92,98,89 ),
-                     PC_cond2_day2 = c( 93,97,100,95 ) )
-
-# conversion to long form:
-wideToLong( wide2 )
-#>    id gender MRT  PC within1 within2
-#> 1   1   male 415  79   cond1    day1
-#> 2   2   male 500  83   cond1    day1
-#> 3   3 female 478  91   cond1    day1
-#> 4   4 female 550  75   cond1    day1
-#> 5   1   male 455  82   cond2    day1
-#> 6   2   male 532  86   cond2    day1
-#> 7   3 female 499  90   cond2    day1
-#> 8   4 female 602  78   cond2    day1
-#> 9   1   male 400  88   cond1    day2
-#> 10  2   male 490  92   cond1    day2
-#> 11  3 female 468  98   cond1    day2
-#> 12  4 female 502  89   cond1    day2
-#> 13  1   male 450  93   cond2    day2
-#> 14  2   male 518  97   cond2    day2
-#> 15  3 female 474 100   cond2    day2
-#> 16  4 female 588  95   cond2    day2
-wideToLong( wide2, within = c("condition","day") )
+# default: condition and day become separate columns
+wideToLong(wide2, within = c("condition", "day"))
 #>    id gender MRT  PC condition  day
 #> 1   1   male 415  79     cond1 day1
 #> 2   2   male 500  83     cond1 day1
@@ -157,8 +120,8 @@ wideToLong( wide2, within = c("condition","day") )
 #> 15  3 female 474 100     cond2 day2
 #> 16  4 female 588  95     cond2 day2
 
-# treat "condition x day" as a single repeated measures variable:
-wideToLong( wide2, split = FALSE)
+# alternative: keep condition and day as one combined column
+wideToLong(wide2, split = FALSE)
 #>    id gender     within MRT  PC
 #> 1   1   male cond1_day1 415  79
 #> 2   2   male cond1_day1 500  83

@@ -1,7 +1,7 @@
 # Confidence interval around the mean
 
-Calculates confidence intervals for the mean of a normally-distributed
-variable.
+Calculates a confidence interval for the mean of a numeric variable (or
+each numeric variable in a data frame or matrix).
 
 ## Usage
 
@@ -13,49 +13,54 @@ ciMean(x, conf = 0.95, na.rm = FALSE)
 
 - x:
 
-  A numeric vector, data frame or matrix containing the observations.
+  A numeric vector, matrix, or data frame.
 
 - conf:
 
-  The level of confidence desired. Defaults to a 95% confidence interval
+  The confidence level. Defaults to `0.95` for a 95% interval.
 
 - na.rm:
 
-  Logical value indicating whether missing values are to be removed.
+  Set to `TRUE` to remove missing values before computing the interval.
   Defaults to `FALSE`.
 
 ## Value
 
-The output is a matrix containing the lower and upper ends of the
-confidence interval for each variable. If a data frame is specified as
-input and contains non-numeric variables, the corresponding rows in the
-output matrix have NA values.
+A matrix with one row per variable and two columns giving the lower and
+upper bounds of the confidence interval. Column names reflect the
+confidence level (e.g., `"2.5%"` and `"97.5%"` for a 95% interval).
 
 ## Details
 
-This function calculates the confidence interval for the mean of a
-variable (or set of variables in a data frame or matrix), under the
-standard assumption that the data are normally distributed. By default
-it returns a 95% confidence interval (`conf = 0.95`) and does not remove
-missing values (`na.rm = FALSE`).
+Calculates a confidence interval for the mean under the standard
+assumption that the data are normally distributed. When `x` is a matrix
+or data frame, a separate interval is computed for each column.
+Non-numeric columns in a data frame produce `NA` rows in the output.
+
+## See also
+
+[`t.test`](https://rdrr.io/r/stats/t.test.html),
+[`mean`](https://rdrr.io/r/base/mean.html)
 
 ## Examples
 
 ``` r
-X <- c(1, 3, 6)          # data
-ciMean(X)                # 95 percent confidence interval
+x <- c(1, 3, 6)
+ciMean(x)                  # 95% confidence interval
 #>        2.5%    97.5%
-#> X -2.918276 9.584943
-ciMean(X, conf = .8)     # 80 percent confidence interval
+#> x -2.918276 9.584943
+ciMean(x, conf = 0.80)     # 80% confidence interval
 #>         10%      90%
-#> X 0.5935938 6.073073
+#> x 0.5935938 6.073073
 
-confint( lm(X ~ 1) )     # for comparison purposes
+# for comparison: equivalent result via lm
+confint(lm(x ~ 1))
 #>                 2.5 %   97.5 %
 #> (Intercept) -2.918276 9.584943
 
-X <- c(1, 3, NA, 6)      # data with missing values
-ciMean(X, na.rm = TRUE)  # remove missing values
+# missing values
+x <- c(1, 3, NA, 6)
+ciMean(x, na.rm = TRUE)
 #>        2.5%    97.5%
-#> X -2.918276 9.584943
+#> x -2.918276 9.584943
 ```

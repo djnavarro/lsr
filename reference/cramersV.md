@@ -1,6 +1,7 @@
 # Cramer's V
 
-Calculate the Cramer's V measure of association
+Calculates Cramer's V, a measure of the strength of association for
+chi-square tests.
 
 ## Usage
 
@@ -12,41 +13,40 @@ cramersV(...)
 
 - ...:
 
-  Arguments to be passed to the `chisq.test` function.
+  Arguments passed to
+  [`chisq.test`](https://rdrr.io/r/stats/chisq.test.html), in the same
+  format accepted by that function.
 
 ## Value
 
-A numeric variable with a single element corresponding to the value of
-V.
+A single number giving the value of Cramer's V.
 
 ## Details
 
-Calculates the Cramer's V measure of effect size for chi-square tests of
-association and goodness of fit. The arguments to the `cramersV`
-function are all passed straight to the `chisq.test` function, and
-should have the same format.
+Cramer's V summarises the strength of association from a chi-square
+test. It is appropriate for both tests of association (two categorical
+variables) and goodness of fit tests (one variable versus hypothesised
+probabilities). Values range from 0 (no association) to 1 (perfect
+association). The arguments are passed directly to
+[`chisq.test`](https://rdrr.io/r/stats/chisq.test.html), so the input
+format is the same.
+
+## See also
+
+[`chisq.test`](https://rdrr.io/r/stats/chisq.test.html),
+[`associationTest`](https://lsr.djnavarro.net/reference/associationTest.md),
+[`goodnessOfFitTest`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md)
 
 ## Examples
 
 ``` r
-
-# Consider an experiment with two conditions, each with 100
-# participants. Each participant chooses between one of three
-# options. Possible data for this experiment:
-
+# frequency table for two groups, each choosing from three options
 condition1 <- c(30, 20, 50)
 condition2 <- c(35, 30, 35)
-X <- cbind( condition1, condition2 )
-rownames(X) <- c( 'choice1', 'choice2', 'choice3' )
-print(X)
-#>         condition1 condition2
-#> choice1         30         35
-#> choice2         20         30
-#> choice3         50         35
+X <- cbind(condition1, condition2)
+rownames(X) <- c("choice1", "choice2", "choice3")
 
-# To test the null hypothesis that the distribution of choices
-# is identical in the two conditions, we would run a chi-square
-# test:
+# chi-square test of association
 chisq.test(X)
 #> 
 #>  Pearson's Chi-squared test
@@ -55,7 +55,7 @@ chisq.test(X)
 #> X-squared = 5.0317, df = 2, p-value = 0.0808
 #> 
 
-# To estimate the effect size we can use Cramer's V:
-cramersV( X )  # returns a value of 0.159
+# effect size estimate
+cramersV(X)
 #> [1] 0.1586139
 ```

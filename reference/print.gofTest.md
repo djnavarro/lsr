@@ -1,6 +1,9 @@
-# Print method for lsr goodness-of-fit tests
+# Print goodness of fit test results
 
-Print method for lsr goodness-of-fit tests
+Prints the results of a chi-square goodness of fit test in a readable
+format. This function is called automatically whenever a result from
+[`goodnessOfFitTest`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md)
+is displayed.
 
 ## Usage
 
@@ -13,12 +16,13 @@ print(x, ...)
 
 - x:
 
-  An object of class 'gofTest'
+  A goodness of fit test result, as returned by
+  [`goodnessOfFitTest`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md).
 
 - ...:
 
-  For consistency with the generic (unused)
+  Additional arguments (unused, included for compatibility).
 
 ## Value
 
-Invisibly returns the original object
+Invisibly returns `x` unchanged.

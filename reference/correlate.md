@@ -1,7 +1,7 @@
 # Correlation matrices
 
-Computes a correlation matrix and runs hypothesis tests with corrections
-for multiple comparisons
+Computes a correlation matrix, optionally with hypothesis tests and
+corrections for multiple comparisons.
 
 ## Usage
 
@@ -19,95 +19,82 @@ correlate(
 
 - x:
 
-  Matrix or data frame containing variables to be correlated
+  A numeric vector, matrix, or data frame containing the variables to be
+  correlated.
 
 - y:
 
-  Optionally, a second set of variables to be correlated with those in
-  `x`
+  An optional second matrix or data frame. If provided, the variables in
+  `x` are correlated with the variables in `y` rather than with each
+  other.
 
 - test:
 
-  Should hypothesis tests be displayed? (Default=`FALSE`)
+  Set to `TRUE` to display p-values and sample sizes alongside the
+  correlations. Defaults to `FALSE`.
 
 - corr.method:
 
-  What kind of correlations should be computed? Default is `"pearson"`,
-  but `"spearman"` and `"kendall"` are also supported
+  The type of correlation to compute: `"pearson"` (the default),
+  `"spearman"`, or `"kendall"`.
 
 - p.adjust.method:
 
-  What method should be used to correct for multiple comparisons.
-  Default value is `"holm"`, and the allowable values are the same as
-  for [`p.adjust`](https://rdrr.io/r/stats/p.adjust.html)
+  The method used to correct p-values for multiple comparisons. Defaults
+  to `"holm"`. All methods supported by
+  [`p.adjust`](https://rdrr.io/r/stats/p.adjust.html) are accepted.
 
 ## Value
 
-The printed output shows the correlation matrix, and if tests are
-requested it also reports a matrix of p-values and sample sizes
-associated with each correlation (these can vary if there are missing
-data). The underlying data structure is an object of class `correlate`
-(an S3 class). It is effectively a list containing four elements:
-`correlation` is the correlation matrix, `p.value` is the matrix of
-p-values, `sample.size` is the matrix of sample sizes, and `args` is a
-vector that stores information about what the user requested.
+Prints the correlation matrix. If `test = TRUE`, also prints a matrix of
+adjusted p-values and a matrix of sample sizes. The results are also
+returned as a list with four elements: `correlation` (the correlation
+matrix), `p.value` (the matrix of p-values), `sample.size` (the matrix
+of sample sizes), and `args` (a record of the options used). The list
+can be assigned to a variable and inspected if needed.
 
 ## Details
 
-The `correlate` function calculates a correlation matrix between all
-pairs of variables. Much like the `cor` function, if the user inputs
-only one set of variables (`x`) then it computes all pairwise
-correlations between the variables in `x`. If the user specifies both
-`x` and `y` it correlates the variables in `x` with the variables in
-`y`.
+Calculates a correlation matrix between all pairs of numeric variables.
+If only `x` is supplied, all pairwise correlations among the variables
+in `x` are computed. If both `x` and `y` are supplied, variables in `x`
+are correlated with variables in `y`.
 
-Unlike the `cor` function, `correlate` does not generate an error if
-some of the variables are categorical (i.e., factors). Variables that
-are not numeric (or integer) class are simply ignored. They appear in
-the output, but no correlations are reported for those variables. The
-decision to have the `correlate` function allow the user a little
-leniency when the input contains non-numeric variables should be
-explained. The motivation is pedagogical rather than statistical. It is
-sometimes the case in psychology that students need to work with
-correlation matrices before they are comfortable subsetting a data
-frame, so it is convenient to allow them to type commands like
-`correlate(data)` even when `data` contains variables for which
-Pearson/Spearman correlations are not appropriate. (It is also useful to
-use the output of `correlate` to illustrate the fact that Pearson
-correlations should not be used for categorical variables).
+Non-numeric variables (e.g., factors) are silently ignored: they appear
+in the output with `NA` in place of correlation values. This makes it
+convenient to pass an entire data frame without first removing
+categorical columns.
 
-A second difference between `cor` and `correlate` is that `correlate`
-runs hypothesis tests for all correlations in the correlation matrix
-(using the `cor.test` function to do the work). The results of the tests
-are only displayed to the user if `test=TRUE`. This is a pragmatic
-choice, given the (perhaps unfortunate) fact that psychologists often
-want to see the results of these tests: it is probably not coincidental
-that the `corr.test` function in the psych package already provides this
-functionality (though the output is difficult for novices to read).
+When `test = TRUE`, hypothesis tests are run for every pair of numeric
+variables. To reduce the risk of false positives from testing many pairs
+at once, p-values are adjusted using the Holm method by default. See
+[`p.adjust`](https://rdrr.io/r/stats/p.adjust.html) for other available
+methods.
 
-The concern with running hypothesis tests for all elements of a
-correlation matrix is inflated Type I error rates. To minimise this
-risk, reported p-values are adjusted using the Holm method. The user can
-change this setting by specifying `p.adjust.method`. See
-[`p.adjust`](https://rdrr.io/r/stats/p.adjust.html) for details.
+Missing data are handled using pairwise complete cases, so sample sizes
+may differ across pairs of variables.
 
-Missing data are handled using pairwise complete cases.
+## See also
+
+[`cor`](https://rdrr.io/r/stats/cor.html),
+[`cor.test`](https://rdrr.io/r/stats/cor.test.html),
+[`p.adjust`](https://rdrr.io/r/stats/p.adjust.html)
 
 ## Examples
 
 ``` r
 # data frame with factors and missing values
 data <- data.frame(
-  anxiety = c(1.31,2.72,3.18,4.21,5.55,NA),
-  stress = c(2.01,3.45,1.99,3.25,4.27,6.80),
-  depression = c(2.51,1.77,3.34,5.83,9.01,7.74),
-  happiness = c(4.02,3.66,5.23,6.37,7.83,1.18),
-  gender = factor( c("male","female","female","male","female","female") ),
-  ssri = factor( c("no","no","no",NA,"yes","yes") )
+  anxiety    = c(1.31, 2.72, 3.18, 4.21, 5.55, NA),
+  stress     = c(2.01, 3.45, 1.99, 3.25, 4.27, 6.80),
+  depression = c(2.51, 1.77, 3.34, 5.83, 9.01, 7.74),
+  happiness  = c(4.02, 3.66, 5.23, 6.37, 7.83, 1.18),
+  gender = factor(c("male", "female", "female", "male", "female", "female")),
+  ssri   = factor(c("no", "no", "no", NA, "yes", "yes"))
 )
 
-# default output is just the (Pearson) correlation matrix
-correlate( data )
+# Pearson correlation matrix (the default)
+correlate(data)
 #> 
 #> CORRELATIONS
 #> ============
@@ -122,8 +109,8 @@ correlate( data )
 #> gender           .      .          .         .      .    .
 #> ssri             .      .          .         .      .    .
 
-# other types of correlation:
-correlate( data, corr.method="spearman" )
+# Spearman correlations
+correlate(data, corr.method = "spearman")
 #> 
 #> CORRELATIONS
 #> ============
@@ -138,24 +125,22 @@ correlate( data, corr.method="spearman" )
 #> gender           .      .          .         .      .    .
 #> ssri             .      .          .         .      .    .
 
-# two meaningful subsets to be correlated:
-nervous <- data[,c("anxiety","stress")]
-happy <- data[,c("happiness","depression","ssri")]
-
-# default output for two matrix input
-correlate( nervous, happy )
+# correlate two subsets of variables with each other
+nervous <- data[, c("anxiety", "stress")]
+happy   <- data[, c("happiness", "depression")]
+correlate(nervous, happy)
 #> 
 #> CORRELATIONS
 #> ============
 #> - correlation type:  pearson 
 #> - correlations shown only when both variables are numeric
 #> 
-#>         happiness depression ssri
-#> anxiety     0.924      0.906    .
-#> stress     -0.453      0.693    .
+#>         happiness depression
+#> anxiety     0.924      0.906
+#> stress     -0.453      0.693
 
-# the same examples, with Holm-corrected p-values
-correlate( data, test=TRUE )
+# include Holm-corrected p-values and sample sizes
+correlate(data, test = TRUE)
 #> 
 #> CORRELATIONS
 #> ============
@@ -198,35 +183,4 @@ correlate( data, test=TRUE )
 #> happiness        5      6          6         6      6    5
 #> gender           5      6          6         6      6    5
 #> ssri             4      5          5         5      5    5
-correlate( nervous, happy, test=TRUE )
-#> 
-#> CORRELATIONS
-#> ============
-#> - correlation type:  pearson 
-#> - correlations shown only when both variables are numeric
-#> 
-#>         happiness    depression    ssri   
-#> anxiety     0.924.        0.906       .   
-#> stress     -0.453         0.693       .   
-#> 
-#> ---
-#> Signif. codes: . = p < .1, * = p<.05, ** = p<.01, *** = p<.001
-#> 
-#> 
-#> p-VALUES
-#> ========
-#> - total number of tests run:  4 
-#> - correction for multiple testing:  holm 
-#> 
-#>         happiness depression ssri
-#> anxiety     0.100      0.103    .
-#> stress      0.367      0.255    .
-#> 
-#> 
-#> SAMPLE SIZES
-#> ============
-#> 
-#>         happiness depression ssri
-#> anxiety         5          5    .
-#> stress          6          6    .
 ```

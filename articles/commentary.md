@@ -1,0 +1,236 @@
+# A critical commentary on lsr
+
+## Prologue
+
+In 2010 I was teaching an introductory statistics class to first-year
+psychology undergraduates, using base R. The experience of watching
+students try to learn statistics, programming, and the quirks of base R
+simultaneously — in a mandatory class that, if I’m honest, most of them
+probably didn’t want to take — made me want to do something to make the
+process less awful. So I wrote the first version of lsr to accompany my
+course notes. The course notes eventually became a textbook, [*Learning
+Statistics with R*](https://learningstatisticswithr.com), and the
+package came along for the ride.
+
+I wasn’t a very good programmer at the time. The code wasn’t well
+written, and I found the CRAN submission process genuinely hard to
+navigate — it was even more opaque then than it is now. But I did the
+best I could, students seemed to like it, and the package found an
+audience.
+
+That was sixteen years ago. R has moved on since then, and so have I:
+I’m not an academic any more, and I no longer work in psychology. The
+package has been stable for a long time, and I’ve been reluctant to
+touch it precisely because it works well enough for what it was meant to
+do. But doing a maintenance pass on the code without also writing this
+article felt dishonest. Everything in lsr now has better alternatives
+elsewhere in the R ecosystem, and some of the choices I made are
+genuinely bad practice, not just outdated.
+
+So, this is the article I wish had existed when I was first handing lsr
+to students: an honest account of what the package does well, where it
+falls short, and what to use instead once you’ve outgrown it.
+
+## What lsr is — and isn’t
+
+lsr is a pedagogical scaffold. It is not a research tool, and it was
+never intended to be one. The functions wrap common statistical
+procedures to produce output that a beginner can read without already
+knowing what to look for. That’s the whole point, and for that purpose
+most of it works reasonably well.
+
+It has another property that is worth naming honestly: it was
+*assembled*, not *designed*. I added functions whenever something
+occurred to me — if I was teaching a topic and thought a cleaner
+interface would help, I wrote one. There was no systematic plan, and the
+API reflects that. Some functions take a data frame and a formula, some
+take vectors, some take a table. If you have been using the package for
+a while and find yourself checking the help page every time you call a
+function, that’s why.
+
+The rest of this article goes through the main areas of the package,
+explains what I think is good, what I think is problematic, and what I
+would recommend instead.
+
+## Hypothesis test wrappers
+
+The six test functions —
+[`oneSampleTTest()`](https://lsr.djnavarro.net/reference/oneSampleTTest.md),
+[`independentSamplesTTest()`](https://lsr.djnavarro.net/reference/independentSamplesTTest.md),
+[`pairedSamplesTTest()`](https://lsr.djnavarro.net/reference/pairedSamplesTTest.md),
+[`associationTest()`](https://lsr.djnavarro.net/reference/associationTest.md),
+[`goodnessOfFitTest()`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md),
+and
+[`posthocPairwiseT()`](https://lsr.djnavarro.net/reference/posthocPairwiseT.md)
+— are the core of the package, and they are the part I am most
+comfortable defending. The output is designed to be readable: hypotheses
+are stated in plain English, every component of the result is labelled,
+and an effect size is included automatically. For a student seeing a
+*t*-test for the first time, this is genuinely useful.
+
+What the wrappers give up is flexibility. They cover a narrow set of use
+cases and give you very little control over what is computed or how.
+They also paper over some important distinctions. For example,
+[`independentSamplesTTest()`](https://lsr.djnavarro.net/reference/independentSamplesTTest.md)
+always runs Welch’s *t*-test rather than Student’s, which is usually the
+right choice — but a student who uses this function without knowing that
+is learning a habit rather than a principle.
+
+If you want hypothesis testing with clean, readable output but more
+flexibility and a better-developed theoretical framework, the
+[**infer**](https://infer.tidymodels.org) package takes a
+simulation-based approach that connects naturally to how statisticians
+now think about inference. For output formatting in a research context,
+[**parameters**](https://easystats.github.io/parameters/) from the
+easystats ecosystem produces well-organised tables suitable for
+reporting.
+
+## Effect sizes
+
+[`cohensD()`](https://lsr.djnavarro.net/reference/cohensD.md),
+[`etaSquared()`](https://lsr.djnavarro.net/reference/etaSquared.md), and
+[`cramersV()`](https://lsr.djnavarro.net/reference/cramersV.md) all work
+correctly and give sensible results for the standard cases they cover.
+The limitation is coverage: the functions compute a fixed set of effect
+size metrics with no support for uncertainty quantification, and the
+implementations have not kept pace with developments in the literature.
+
+The [**effectsize**](https://easystats.github.io/effectsize/) package,
+also part of the easystats ecosystem, covers a much wider range of
+effect sizes, computes confidence intervals for them, and is actively
+maintained. If you are doing research rather than coursework, effectsize
+is the right tool.
+
+## Correlation matrices
+
+[`correlate()`](https://lsr.djnavarro.net/reference/correlate.md)
+produces a readable correlation matrix and, when `test = TRUE`, applies
+the Holm procedure to correct the *p*-values for multiple comparisons.
+This seems like a reasonable default, and it is what I would have
+recommended in 2010.
+
+The problem is that the multiple testing correction approach is more
+contested than it looks. Running pairwise correlation tests and then
+correcting the *p*-values treats each correlation as independent of the
+others, but the correlations in a matrix are not independent — they are
+constrained by the structure of the data. Applying Holm gives a result
+that looks statistically careful without necessarily being so. This is
+the kind of subtlety a beginner cannot be expected to know, but that an
+intermediate user should be aware of.
+
+The [**correlation**](https://easystats.github.io/correlation/) package
+from the easystats ecosystem takes a more principled approach and
+supports a wider range of correlation types and correction methods. For
+anything beyond a simple exploratory look at pairwise associations, I
+would use that instead.
+
+## Data reshaping
+
+[`wideToLong()`](https://lsr.djnavarro.net/reference/wideToLong.md) and
+[`longToWide()`](https://lsr.djnavarro.net/reference/longToWide.md)
+convert between wide and long data formats by splitting column names on
+a separator character: if your columns are named `score_pre` and
+`score_post`, the function infers that `score` is the measurement
+variable and `pre` / `post` are the conditions. This is a tidy
+convention that works well in controlled examples.
+
+It breaks down quickly with real data. Column names in practice are
+irregular, the separator you want is not always a single character, and
+even when the convention applies the results need careful checking. The
+functions also have no support for reshaping multiple measurement
+variables simultaneously.
+
+`tidyr::pivot_longer()` and `tidyr::pivot_wider()` are the right tools
+for reshaping in modern R. They are more flexible, better documented,
+and handle edge cases that
+[`wideToLong()`](https://lsr.djnavarro.net/reference/wideToLong.md) and
+[`longToWide()`](https://lsr.djnavarro.net/reference/longToWide.md) do
+not. The `names_to` and `names_from` arguments take a little getting
+used to, but the investment is worth it.
+
+## Plotting
+
+[`bars()`](https://lsr.djnavarro.net/reference/bars.md) produces a bar
+chart with error bars. I included it because producing a decent bar
+chart in base R at the time required enough boilerplate to be
+distracting in an introductory class. It was always a minimal tool, and
+it remains one.
+
+There is not much to say here: **ggplot2** is the right way to visualise
+data in R. It has a steeper learning curve than
+[`bars()`](https://lsr.djnavarro.net/reference/bars.md), but it also has
+an actual design and can produce essentially any plot you are likely to
+need. The time you spend learning ggplot2 will pay off in ways that
+learning [`bars()`](https://lsr.djnavarro.net/reference/bars.md) simply
+cannot.
+
+## Workspace utilities
+
+This is the section where I feel the need to be most open about my poor
+choices.
+
+**[`who()`](https://lsr.djnavarro.net/reference/who.md)** works fine. It
+lists the objects in your workspace with their types and sizes. The
+problem is the name: I came to R from MATLAB, and I named the function
+after MATLAB’s `who` command without really thinking about whether the
+name made sense in R. It doesn’t especially, but it is also not actively
+harmful. In a modern IDE like Positron or RStudio the environment pane
+shows you the same information without any function call at all, so
+[`who()`](https://lsr.djnavarro.net/reference/who.md) is solving a
+problem that has largely gone away.
+
+**[`rmAll()`](https://lsr.djnavarro.net/reference/rmAll.md)** I am less
+comfortable defending. The function clears the workspace, which sounds
+useful if you want to start fresh. The problem is that wanting to “clear
+the workspace” is usually a sign of a deeper issue: a script that
+depends on whatever happens to be in the environment rather than being
+self-contained. The traditional idiom `rm(list = ls())` has the same
+flaw, and I later wrote a separate package,
+[sessioncheck](https://sessioncheck.djnavarro.net), specifically to
+nudge beginners away from that practice. Providing
+[`rmAll()`](https://lsr.djnavarro.net/reference/rmAll.md) was, in
+retrospect, a step in the wrong direction. If you want a clean
+environment, restart your R session; if you want your script to be
+robust, write it so that it does not depend on what happens to be in the
+workspace.
+
+**[`unlibrary()`](https://lsr.djnavarro.net/reference/unlibrary.md)** is
+the function I feel most ambivalent about. The idea is reasonable enough
+— an easy way to detach a package, with an interface that mirrors
+[`library()`](https://rdrr.io/r/base/library.html). The problem starts
+one level up: [`library()`](https://rdrr.io/r/base/library.html) is
+itself a confusing name, because you are loading a *package*, not a
+library in any sense that corresponds to how the word is usually used.
+Building
+[`unlibrary()`](https://lsr.djnavarro.net/reference/unlibrary.md) on top
+of that doesn’t really clarify anything. If you need to detach a
+package, `detach("package:name", unload = TRUE)` is explicit, if not
+elegant; in practice the need arises rarely enough that it is not worth
+memorising either interface.
+
+## Epilogue
+
+If you learned statistics using lsr and the accompanying textbook, I
+sincerely hope the experience was useful. The package was written to
+lower the barrier to entry for people who don’t always feel like they
+belong in a statistics class, and if it did that for you, it served its
+purpose.
+
+The honest graduation path looks something like this. For tidy, readable
+statistical output in a research context, explore the
+[easystats](https://easystats.github.io/easystats/) ecosystem:
+**parameters** for model summaries, **effectsize** for effect sizes,
+**correlation** for correlation matrices. For hypothesis testing with a
+modern inferential framework, look at **infer**. For data reshaping,
+learn `tidyr::pivot_longer()` and `tidyr::pivot_wider()`. For
+visualisation, invest in **ggplot2**.
+
+None of these are difficult to pick up if you already have a working
+knowledge of R and basic statistics. The lsr versions of these things
+were designed to minimise what you needed to know up front; the
+alternatives are designed to maximise what you can do once you know a
+little more.
+
+With the benefit of some time and distance, I’m glad I wrote lsr. That
+being said, I’m also very glad the R ecosystem has moved to a place
+where it is no longer necessary.

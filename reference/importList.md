@@ -1,7 +1,7 @@
-# Import a list
+# Import a list into the workspace
 
-Creates variables in the workspace corresponding to the elements of a
-list
+Copies each element of a list into a separate variable in the workspace,
+using the list element names as variable names.
 
 ## Usage
 
@@ -13,26 +13,27 @@ importList(x, ask = TRUE)
 
 - x:
 
-  List to be imported
+  A list or data frame whose elements are to be imported as individual
+  variables.
 
 - ask:
 
-  Should R ask the user to confirm the new variables before creating
-  them? (default is `TRUE`)
+  Set to `TRUE` (the default) to display the names of the variables that
+  will be created and ask for confirmation before proceeding. Set to
+  `FALSE` to import silently.
 
 ## Value
 
-Invisibly returns `0` if the user chooses not to import the variables,
-otherwise invisibly returns `1`.
+Called primarily for its side effect of creating variables in the
+workspace. Invisibly returns `1` if variables were created, `0` if the
+user declined.
 
 ## Details
 
-The `importList` function creates variables in the parent environment
-(generally the global workspace) corresponding to each of the elements
-of the list object `x`. If the names of these elements do not correspond
-to legitimate variables names they are converted using the
-[`make.names`](https://rdrr.io/r/base/make.names.html) functions to
-valid variables names.
+Creates one variable per list element in the calling environment
+(usually the global workspace). Element names that are not valid R
+variable names are automatically converted using
+[`make.names`](https://rdrr.io/r/base/make.names.html).
 
 ## See also
 
@@ -42,37 +43,17 @@ valid variables names.
 ## Examples
 
 ``` r
+values <- c(1, 2, 3, 4, 5)
+group  <- c("group A", "group A", "group B", "group B", "group B")
 
-# data set organised into two groups
-data <- c(1,2,3,4,5)
-group <- c("group A","group A","group B","group B","group B")
+# split() returns a named list: one element per group
+grp_list <- split(values, group)
 
-# the split function creates a list with two elements
-# named "group A" and "group B", each containing the
-# data for the respective groups
-data.list <- split( data, group )
+# import silently (no confirmation prompt)
+importList(grp_list, ask = FALSE)
 
-# The data.list variable looks like this:
-
-#   $`group A`
-#   [1] 1 2
-#
-#   $`group B`
-#   [1] 3 4 5
-
-# importing the list with the default value of ask = TRUE will
-# cause R to wait on the user's approval. Typing this:
-
-#   importList( data.list )
-
-# would produce the following output:
-
-#   Names of variables to be created:
-#   [1] "group.A" "group.B"
-#   Create these variables? [y/n]
-
-# If the user then types y, the new variables are created.
-
-# this version will silently import the variables.
-importList( x = data.list, ask = FALSE )
+if (FALSE) {
+  # interactive: shows variable names and asks for confirmation
+  importList(grp_list)
+}
 ```

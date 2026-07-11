@@ -1,21 +1,74 @@
 # lsr
 
-The goal of lsr is to provide tools intended to make introductory
-statistics easier to teach, including wrappers for common hypothesis
-tests and basic data manipulation. The package is associated with the
-introductory textbook at <https://learningstatisticswithr.com>
+**lsr** is a companion package to the textbook [*Learning Statistics
+with R*](https://learningstatisticswithr.com) (Navarro, 2015). It
+provides beginner-friendly wrappers for common statistical procedures —
+t-tests, chi-square tests, effect sizes, correlation matrices, and basic
+data manipulation — with output designed to be readable by students
+encountering statistics for the first time.
+
+## Example
+
+Here is an independent-samples t-test comparing extra sleep between two
+drug groups in the built-in `sleep` dataset:
+
+``` r
+
+library(lsr)
+independentSamplesTTest(formula = extra ~ group, data = sleep)
+#> 
+#>    Welch's independent samples t-test 
+#> 
+#> Outcome variable:   extra 
+#> Grouping variable:  group 
+#> 
+#> Descriptive statistics: 
+#>                 1     2
+#>    mean     0.750 2.330
+#>    std dev. 1.789 2.002
+#> 
+#> Hypotheses: 
+#>    null:        population means equal for both groups
+#>    alternative: different population means in each group
+#> 
+#> Test results: 
+#>    t-statistic:  -1.861 
+#>    degrees of freedom:  17.776 
+#>    p-value:  0.079 
+#> 
+#> Other information: 
+#>    two-sided 95% confidence interval:  [-3.365, 0.205] 
+#>    estimated effect size (Cohen's d):  0.832
+```
+
+Compared to base R’s [`t.test()`](https://rdrr.io/r/stats/t.test.html),
+the output labels every component in plain English and automatically
+reports Cohen’s *d* alongside the test result.
+
+## Where to go next
+
+- [**Guided
+  overview**](https://lsr.djnavarro.net/articles/overview.html) — a
+  hands-on introduction for students and beginners, working through
+  descriptive statistics, reshaping data, and hypothesis testing with a
+  single example dataset.
+- [**Critical
+  commentary**](https://lsr.djnavarro.net/articles/commentary.html) — an
+  honest account of the package’s limitations and pointers to better
+  tools for users who have outgrown it.
+- [**Reference**](https://lsr.djnavarro.net/reference/) — documentation
+  for all 29 functions, organised by topic.
 
 ## Installation
 
-You can install the released version of lsr from
-[CRAN](https://CRAN.R-project.org) with:
+Install the released version from [CRAN](https://CRAN.R-project.org):
 
 ``` r
 
 install.packages("lsr")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+Or the development version from GitHub:
 
 ``` r
 
@@ -25,72 +78,114 @@ devtools::install_github("djnavarro/lsr")
 
 # Package index
 
-## All functions
+## Hypothesis tests
 
-- [`aad()`](https://lsr.djnavarro.net/reference/aad.md) : Mean (average)
-  absolute deviation from the mean
-- [`associationTest()`](https://lsr.djnavarro.net/reference/associationTest.md)
-  : Chi-square test of association / independence
-- [`bars()`](https://lsr.djnavarro.net/reference/bars.md) : Grouped Bar
-  Plots with Error Bars
-- [`ciMean()`](https://lsr.djnavarro.net/reference/ciMean.md) :
-  Confidence interval around the mean
-- [`cohensD()`](https://lsr.djnavarro.net/reference/cohensD.md) :
-  Cohen's d
-- [`colCopy()`](https://lsr.djnavarro.net/reference/copy.md)
-  [`rowCopy()`](https://lsr.djnavarro.net/reference/copy.md) : Copies a
-  vector into a matrix
-- [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md) :
-  Correlation matrices
-- [`cramersV()`](https://lsr.djnavarro.net/reference/cramersV.md) :
-  Cramer's V
-- [`etaSquared()`](https://lsr.djnavarro.net/reference/etaSquared.md) :
-  Effect size calculations for ANOVAs
-- [`expandFactors()`](https://lsr.djnavarro.net/reference/expandFactors.md)
-  : Expand factors to a set of contrasts
-- [`goodnessOfFitTest()`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md)
-  : Chi-square test against specified probabilities
-- [`importList()`](https://lsr.djnavarro.net/reference/importList.md) :
-  Import a list
-- [`independentSamplesTTest()`](https://lsr.djnavarro.net/reference/independentSamplesTTest.md)
-  : Independent samples t-test
-- [`longToWide()`](https://lsr.djnavarro.net/reference/longToWide.md) :
-  Reshape from long to wide
-- [`maxFreq()`](https://lsr.djnavarro.net/reference/mode.md)
-  [`modeOf()`](https://lsr.djnavarro.net/reference/mode.md) : Sample
-  mode
+Wrapper functions for common statistical tests used in introductory
+courses, with output designed to be readable by beginners.
+
 - [`oneSampleTTest()`](https://lsr.djnavarro.net/reference/oneSampleTTest.md)
   : One sample t-test
+- [`independentSamplesTTest()`](https://lsr.djnavarro.net/reference/independentSamplesTTest.md)
+  : Independent samples t-test
 - [`pairedSamplesTTest()`](https://lsr.djnavarro.net/reference/pairedSamplesTTest.md)
   : Paired samples t-test
-- [`permuteLevels()`](https://lsr.djnavarro.net/reference/permuteLevels.md)
-  : Permute the levels of a factor
+- [`associationTest()`](https://lsr.djnavarro.net/reference/associationTest.md)
+  : Chi-square test of association / independence
+- [`goodnessOfFitTest()`](https://lsr.djnavarro.net/reference/goodnessOfFitTest.md)
+  : Chi-square goodness of fit test
 - [`posthocPairwiseT()`](https://lsr.djnavarro.net/reference/posthocPairwiseT.md)
   : Post-hoc pairwise t-tests for ANOVA
 - [`print(`*`<TTest>`*`)`](https://lsr.djnavarro.net/reference/print.TTest.md)
-  : Print method for lsr t-tests
+  : Print t-test results
 - [`print(`*`<assocTest>`*`)`](https://lsr.djnavarro.net/reference/print.assocTest.md)
-  : Print method for lsr chi-square tests
-- [`print(`*`<correlate>`*`)`](https://lsr.djnavarro.net/reference/print.correlate.md)
-  : Print method for correlate objects
+  : Print chi-square association test results
 - [`print(`*`<gofTest>`*`)`](https://lsr.djnavarro.net/reference/print.gofTest.md)
-  : Print method for lsr goodness-of-fit tests
-- [`print(`*`<whoList>`*`)`](https://lsr.djnavarro.net/reference/print.whoList.md)
-  : Print method for whoList objects
-- [`quantileCut()`](https://lsr.djnavarro.net/reference/quantileCut.md)
-  : Cut by quantiles
-- [`rmAll()`](https://lsr.djnavarro.net/reference/rmAll.md) : Remove all
-  objects
-- [`sortFrame()`](https://lsr.djnavarro.net/reference/sortFrame.md) :
-  Sort a data frame
-- [`standardCoefs()`](https://lsr.djnavarro.net/reference/standardCoefs.md)
-  : Standardised regression coefficients
-- [`tFrame()`](https://lsr.djnavarro.net/reference/tFrame.md) :
-  Transpose a data frame
-- [`unlibrary()`](https://lsr.djnavarro.net/reference/unlibrary.md) :
-  Unload a package
-- [`who()`](https://lsr.djnavarro.net/reference/who.md) : Contents of
-  workspace
+  : Print goodness of fit test results
+
+## Effect sizes and descriptive statistics
+
+Functions for computing effect sizes and summarising data, intended as
+companions to the hypothesis test functions above.
+
+- [`cohensD()`](https://lsr.djnavarro.net/reference/cohensD.md) :
+  Cohen's d
+- [`etaSquared()`](https://lsr.djnavarro.net/reference/etaSquared.md) :
+  Effect size for ANOVAs
+- [`cramersV()`](https://lsr.djnavarro.net/reference/cramersV.md) :
+  Cramer's V
+- [`ciMean()`](https://lsr.djnavarro.net/reference/ciMean.md) :
+  Confidence interval around the mean
+- [`correlate()`](https://lsr.djnavarro.net/reference/correlate.md) :
+  Correlation matrices
+- [`print(`*`<correlate>`*`)`](https://lsr.djnavarro.net/reference/print.correlate.md)
+  : Print correlation matrix results
+
+## Data manipulation
+
+Functions for reshaping, reordering, and recoding data frames and
+factors.
+
 - [`wideToLong()`](https://lsr.djnavarro.net/reference/wideToLong.md) :
   Reshape from wide to long
+- [`longToWide()`](https://lsr.djnavarro.net/reference/longToWide.md) :
+  Reshape from long to wide
+- [`expandFactors()`](https://lsr.djnavarro.net/reference/expandFactors.md)
+  : Expand factors to a set of contrasts
+- [`permuteLevels()`](https://lsr.djnavarro.net/reference/permuteLevels.md)
+  : Permute the levels of a factor
+- [`quantileCut()`](https://lsr.djnavarro.net/reference/quantileCut.md)
+  : Cut by quantiles
+- [`sortFrame()`](https://lsr.djnavarro.net/reference/sortFrame.md) :
+  Sort a data frame
+- [`tFrame()`](https://lsr.djnavarro.net/reference/tFrame.md) :
+  Transpose a data frame
+- [`colCopy()`](https://lsr.djnavarro.net/reference/copy.md)
+  [`rowCopy()`](https://lsr.djnavarro.net/reference/copy.md) : Copy a
+  vector into a matrix
 
+## Visualisation
+
+A simple plotting function for displaying frequency and proportion data
+as bar charts.
+
+- [`bars()`](https://lsr.djnavarro.net/reference/bars.md) : Grouped bar
+  plots with error bars
+
+## Workspace utilities
+
+Helper functions for inspecting and managing the R workspace, and for
+miscellaneous statistical tasks not covered elsewhere.
+
+- [`who()`](https://lsr.djnavarro.net/reference/who.md) : Contents of
+  workspace
+- [`modeOf()`](https://lsr.djnavarro.net/reference/mode.md)
+  [`maxFreq()`](https://lsr.djnavarro.net/reference/mode.md) : Sample
+  mode
+- [`aad()`](https://lsr.djnavarro.net/reference/aad.md) : Mean absolute
+  deviation
+- [`rmAll()`](https://lsr.djnavarro.net/reference/rmAll.md) : Remove all
+  objects from the workspace
+- [`unlibrary()`](https://lsr.djnavarro.net/reference/unlibrary.md) :
+  Unload a package
+- [`importList()`](https://lsr.djnavarro.net/reference/importList.md) :
+  Import a list into the workspace
+- [`standardCoefs()`](https://lsr.djnavarro.net/reference/standardCoefs.md)
+  : Standardised regression coefficients
+- [`print(`*`<whoList>`*`)`](https://lsr.djnavarro.net/reference/print.whoList.md)
+  : Print workspace summary
+
+# Articles
+
+### Learning lsr
+
+- [A guided overview of
+  lsr](https://lsr.djnavarro.net/articles/overview.md):
+
+  A hands-on introduction to the lsr package for students and readers of
+  Learning Statistics with R.
+
+- [A critical commentary on
+  lsr](https://lsr.djnavarro.net/articles/commentary.md):
+
+  An honest assessment of the lsr package: what it was designed to do,
+  where it falls short, and what to use instead.

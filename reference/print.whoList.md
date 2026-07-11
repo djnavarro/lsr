@@ -1,6 +1,8 @@
-# Print method for whoList objects
+# Print workspace summary
 
-Print method for whoList objects
+Prints a workspace summary in a readable format. This function is called
+automatically whenever a result from
+[`who`](https://lsr.djnavarro.net/reference/who.md) is displayed.
 
 ## Usage
 
@@ -13,12 +15,13 @@ print(x, ...)
 
 - x:
 
-  An object of class 'whoList'
+  A workspace summary, as returned by
+  [`who`](https://lsr.djnavarro.net/reference/who.md).
 
 - ...:
 
-  For consistency with the generic (unused)
+  Additional arguments (unused, included for compatibility).
 
 ## Value
 
-Invisibly returns the original object
+Invisibly returns `x` unchanged.

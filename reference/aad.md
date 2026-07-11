@@ -1,6 +1,6 @@
-# Mean (average) absolute deviation from the mean
+# Mean absolute deviation
 
-Calculates the mean absolute deviation from the sample mean
+Calculates the mean absolute deviation from the sample mean.
 
 ## Usage
 
@@ -12,36 +12,39 @@ aad(x, na.rm = FALSE)
 
 - x:
 
-  A vector containing the observations.
+  A numeric vector containing the observations.
 
 - na.rm:
 
-  A logical value indicating whether or not missing values should be
-  removed. Defaults to `FALSE`
+  Set to `TRUE` to remove missing values before computing the deviation.
+  Defaults to `FALSE`.
 
 ## Value
 
-Numeric
+A single number giving the mean absolute deviation.
 
 ## Details
 
-The `aad` function calculates the average (i.e. mean) absolute deviation
-from the mean value of `x`, removing `NA` values if requested by the
-user. It exists primarily to simplify the discussion of descriptive
-statistics during an introductory stats class.
+Computes the average of the absolute differences between each
+observation and the sample mean of `x`, i.e. `mean(abs(x - mean(x)))`.
+
+## See also
+
+[`mean`](https://rdrr.io/r/base/mean.html),
+[`sd`](https://rdrr.io/r/stats/sd.html),
+[`var`](https://rdrr.io/r/stats/cor.html)
 
 ## Examples
 
 ``` r
-# basic usage
-X <- c(1, 3, 6)  # data
-aad(X)           # returns a value of 1.777
+x <- c(1, 3, 6)
+aad(x)
 #> [1] 1.777778
 
-# removing missing data
-X <- c(1, 3, NA, 6)   # data
-aad(X)                # returns NA
+# missing values
+x <- c(1, 3, NA, 6)
+aad(x)                 # returns NA
 #> [1] NA
-aad(X, na.rm = TRUE)  # returns 1.777
+aad(x, na.rm = TRUE)   # ignores the missing value
 #> [1] 1.777778
 ```

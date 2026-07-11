@@ -1,6 +1,7 @@
-# Remove all objects
+# Remove all objects from the workspace
 
-Removes all objects from the workspace
+Deletes all objects from the workspace, with an optional confirmation
+prompt.
 
 ## Usage
 
@@ -12,23 +13,35 @@ rmAll(ask = TRUE)
 
 - ask:
 
-  Logical value indicating whether to ask user to confirm deletions.
-  Default is `TRUE`
+  Set to `TRUE` (the default) to display the current workspace contents
+  and ask for confirmation before deleting. Set to `FALSE` to delete
+  immediately without prompting.
 
 ## Value
 
-Invisibly returns 0 if no deletions are made, 1 if at least one deletion
-is made.
+Invisibly returns `1` if objects were deleted, `0` if the user declined
+or the workspace was already empty.
 
 ## Details
 
-The `rmAll` function provides a simple way of deleting all objects from
-the workspace. It is almost equivalent to the usual
-`rm(list = objects())` command. The only difference that it requires the
-user to confirm the deletions first if `ask = TRUE`, after displaying a
-list of the current objects in the worspace. This can occasionally be
-useful for teaching purposes.
+Removes all objects from the workspace. When `ask = TRUE`, the list of
+objects is printed and the user must type `y` to confirm before anything
+is deleted. This is similar to `rm(list = objects())`, but with an
+interactive safety check.
 
 ## See also
 
-[`rm`](https://rdrr.io/r/base/rm.html)
+[`rm`](https://rdrr.io/r/base/rm.html),
+[`objects`](https://rdrr.io/r/base/ls.html)
+
+## Examples
+
+``` r
+if (FALSE) {
+  # interactive: displays workspace contents and asks for confirmation
+  rmAll()
+
+  # non-interactive: deletes immediately without prompting
+  rmAll(ask = FALSE)
+}
+```
