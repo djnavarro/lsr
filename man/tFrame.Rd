@@ -25,9 +25,9 @@ measurement type and each column represents a participant.
 }
 \examples{
 dataset <- data.frame(
-  Gf = c(105, 119, 121, 98),   # fluid intelligence
-  Gc = c(110, 115, 119, 103),  # crystallised intelligence
-  Gs = c(112, 102, 108, 99)    # processing speed
+  Gf = c(105, 119, 121, 98), # fluid intelligence
+  Gc = c(110, 115, 119, 103), # crystallised intelligence
+  Gs = c(112, 102, 108, 99) # processing speed
 )
 rownames(dataset) <- paste0("person", 1:4)
 dataset

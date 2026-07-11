@@ -39,7 +39,10 @@
 #' \code{\link{p.adjust}} for other available methods.
 #'
 #' Missing data are handled using pairwise complete cases, so sample sizes may
-#' differ across pairs of variables.
+#' differ across pairs of variables. If a particular pair of variables has too
+#' few complete observations for \code{\link{cor.test}} to run, the
+#' corresponding cell in the correlation matrix is left as \code{NA} rather
+#' than causing the whole call to fail.
 #'
 #' @return Prints the correlation matrix. If \code{test = TRUE}, also prints a
 #' matrix of adjusted p-values and a matrix of sample sizes. The results are

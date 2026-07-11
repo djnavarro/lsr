@@ -60,17 +60,20 @@ once, p-values are adjusted using the Holm method by default. See
 \code{\link{p.adjust}} for other available methods.
 
 Missing data are handled using pairwise complete cases, so sample sizes may
-differ across pairs of variables.
+differ across pairs of variables. If a particular pair of variables has too
+few complete observations for \code{\link{cor.test}} to run, the
+corresponding cell in the correlation matrix is left as \code{NA} rather
+than causing the whole call to fail.
 }
 \examples{
 # data frame with factors and missing values
 data <- data.frame(
-  anxiety    = c(1.31, 2.72, 3.18, 4.21, 5.55, NA),
-  stress     = c(2.01, 3.45, 1.99, 3.25, 4.27, 6.80),
+  anxiety = c(1.31, 2.72, 3.18, 4.21, 5.55, NA),
+  stress = c(2.01, 3.45, 1.99, 3.25, 4.27, 6.80),
   depression = c(2.51, 1.77, 3.34, 5.83, 9.01, 7.74),
-  happiness  = c(4.02, 3.66, 5.23, 6.37, 7.83, 1.18),
+  happiness = c(4.02, 3.66, 5.23, 6.37, 7.83, 1.18),
   gender = factor(c("male", "female", "female", "male", "female", "female")),
-  ssri   = factor(c("no", "no", "no", NA, "yes", "yes"))
+  ssri = factor(c("no", "no", "no", NA, "yes", "yes"))
 )
 
 # Pearson correlation matrix (the default)
@@ -81,7 +84,7 @@ correlate(data, corr.method = "spearman")
 
 # correlate two subsets of variables with each other
 nervous <- data[, c("anxiety", "stress")]
-happy   <- data[, c("happiness", "depression")]
+happy <- data[, c("happiness", "depression")]
 correlate(nervous, happy)
 
 # include Holm-corrected p-values and sample sizes

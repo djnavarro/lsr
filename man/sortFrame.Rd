@@ -40,16 +40,16 @@ are used.
 }
 \examples{
 dataset <- data.frame(
-  txt  = c("bob", "Clare", "clare", "bob", "eve", "eve"),
+  txt = c("bob", "Clare", "clare", "bob", "eve", "eve"),
   num1 = c(3, 1, 2, 0, 0, 2),
   num2 = c(1, 1, 3, 0, 3, 2),
   stringsAsFactors = FALSE
 )
 
-sortFrame(dataset, num1)           # sort by num1 ascending
-sortFrame(dataset, num1, num2)     # sort by num1 then num2
-sortFrame(dataset, -num1)          # sort by num1 descending
-sortFrame(dataset, txt)            # sort alphabetically (case-insensitive)
+sortFrame(dataset, num1) # sort by num1 ascending
+sortFrame(dataset, num1, num2) # sort by num1 then num2
+sortFrame(dataset, -num1) # sort by num1 descending
+sortFrame(dataset, txt) # sort alphabetically (case-insensitive)
 }
 \seealso{
 \code{\link{order}}, \code{\link{sort}}, \code{\link{xtfrm}}
