@@ -402,24 +402,39 @@ release on GitHub.
 
 **Sub-tasks:**
 
-- **10a — Submit to CRAN**
+- **10a — Merge `dev` → `main` and deploy pkgdown site**
+  - Open and merge the `stage-9-cran-prep` PR into `dev`, then merge `dev`
+    into `main`
+  - The `pkgdown.yaml` GitHub Actions workflow will rebuild and deploy the
+    site automatically; wait for it to complete
+  - Verify the two article URLs that triggered a win-builder NOTE are now
+    live: `https://lsr.djnavarro.net/articles/overview.html` and
+    `https://lsr.djnavarro.net/articles/commentary.html`
+
+- **10b — Final win-builder and mac-builder checks**
+  - Re-run `devtools::check_win_devel()` and `devtools::check_win_release()`
+    from `main`; both should now be 0 errors, 0 warnings, 0 notes
+  - Retry `devtools::check_mac_release()` (was returning HTTP 502 during
+    Stage 9)
+  - Update `cran-comments.md` with the clean results
+
+- **10c — Submit to CRAN**
   - Submit via `devtools::submit_cran()` (runs `R CMD check --as-cran` one
     final time and uploads to CRAN's web form)
   - Watch for the automatic confirmation email; respond if CRAN sends further
     questions
 
-- **10b — Handle CRAN reviewer feedback (if any)**
+- **10d — Handle CRAN reviewer feedback (if any)**
   - Address any notes or requests from the CRAN team promptly
   - Small fixes go into a follow-up commit on the same branch (or a new
     `stage-9-cran-prep-v2` branch)
   - Do not merge into `main` until CRAN confirms acceptance
 
-- **10c — Post-acceptance: merge and tag**
-  - Merge `dev` → `main`
+- **10e — Post-acceptance: tag and reopen dev**
   - Create a GitHub release tagged `v1.0.0`, with release notes drawn from
     the `NEWS.md` entry
 
-- **10d — Re-open `dev` for future work**
+- **10f — Re-open `dev` for future work**
   - Bump `Version` in `DESCRIPTION` to `1.0.0.9000`
   - Add a new `# lsr 1.0.0.9000` heading at the top of `NEWS.md`
   - Commit as "open dev for post-1.0.0 work"
