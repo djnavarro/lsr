@@ -234,7 +234,7 @@ changes. The existing test suite and `R CMD check` are the safety net.
 
 ---
 
-### Stage 8 — pkgdown site 🔄 Next (current)
+### Stage 8 — pkgdown site ✅ Complete
 
 **Goal:** Build a polished documentation site with a well-organised
 Reference section, an updated README, and two articles covering the package
@@ -267,7 +267,7 @@ to include:
 
 `README.md` is regenerated from `README.Rmd` and committed alongside it.
 
-#### Sub-task 8c — Article 1: Guided overview (novice audience)
+#### Sub-task 8c — Article 1: Guided overview (novice audience) ✅ Complete (PR #22, 2026-07-11)
 
 **File:** `vignettes/articles/overview.Rmd` (pkgdown-only; not built by
 `R CMD check`)
@@ -288,7 +288,7 @@ textbook.
 
 A single coherent toy dataset will be used throughout.
 
-#### Sub-task 8d — Article 2: Critical commentary (intermediate audience)
+#### Sub-task 8d — Article 2: Critical commentary (intermediate audience) ✅ Complete (PR #23, 2026-07-11)
 
 **File:** `vignettes/articles/commentary.Rmd` (pkgdown-only)
 

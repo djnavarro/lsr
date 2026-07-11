@@ -43,9 +43,15 @@ stages, listed in order of priority:
    (`cttp` → `ct_result` in `correlate.R`; `c` → `var_call` in `who.R`);
    fragile `exists()` call in `test-rmAll.R` fixed (PR #21, 2026-07-11).
    See PLAN.md for details.
-8. **pkgdown site** – structured Reference section, rewritten README, and
-   two new pkgdown-only articles (guided overview for novices; critical
-   commentary for intermediate users). Four PRs. See PLAN.md for details.
+8. ~~**pkgdown site**~~ – **Complete.** Structured Reference section in
+   `_pkgdown.yml` (five named groups, all 34 exported names); rewritten
+   `README.Rmd` (orienting description, motivating example, "where to go
+   next" links); two pkgdown-only articles: `vignettes/articles/overview.Rmd`
+   (guided novice tour of all major functions) and
+   `vignettes/articles/commentary.Rmd` (first-person critical assessment,
+   historical context, alternatives). `knitr` and `rmarkdown` added to
+   `Suggests`. Four PRs (#22–#23, plus #20a for `_pkgdown.yml` and README).
+   See PLAN.md for details.
 
 When in doubt, do less. A minimal, safe, targeted change is always preferable
 to a broad refactor.
