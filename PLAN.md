@@ -321,6 +321,111 @@ package to students, or graduating students away from it.
 
 ---
 
+### Stage 9 — CRAN submission preparation ⬜ Pending
+
+**Goal:** Ensure the package passes `R CMD check --as-cran` with 0 errors,
+0 warnings, and 0 notes, and that all supporting materials (version number,
+NEWS.md, DESCRIPTION, `cran-comments.md`) are ready for submission.
+
+**Version:** `1.0.0` — the API has been stable for years, the package is
+feature-frozen, and the maintenance cycle has brought tests, internals, docs,
+and site to a mature state. 1.0.0 communicates that accurately.
+
+**Sub-tasks:**
+
+- **9a — Version bump and NEWS finalisation**
+  - Bump `Version` in `DESCRIPTION` from `0.5.2.9000` → `1.0.0`
+  - Remove `LazyLoad: yes` from `DESCRIPTION` (field is deprecated)
+  - Rename the `# lsr 0.5.2.9000` heading in `NEWS.md` to `# lsr 1.0.0`
+  - Condense NEWS entries to user-visible changes (bug fixes + dependency
+    additions); test-suite and internal changes are not typically included
+    verbatim in a CRAN NEWS entry
+  - Confirm `RoxygenNote` in `DESCRIPTION` matches the installed roxygen2
+    version (currently `8.0.0`; verify before submitting)
+
+- **9b — DESCRIPTION audit**
+  - Title: verify title case and CRAN policy compliance
+  - Description: verify it doesn't begin "This package …", ends with a
+    period, and doesn't repeat the package name
+  - URL field: `http://lsr.djnavarro.net/` is the package site — update
+    scheme to `https://` if the site supports it
+  - BugReports: already correct
+
+- **9c — Spelling check**
+  - Run `spelling::spell_check_package()` and review results
+  - Add a `WORDLIST` file (via `spelling::update_wordlist()`) for correctly-
+    spelled technical terms flagged by the checker (function names, proper
+    nouns such as "Navarro", "Cohen", "Cramér")
+
+- **9d — URL check**
+  - Run `urlchecker::url_check()` on the package
+  - Fix or remove any broken or redirecting URLs in `.Rd` files and vignettes
+
+- **9e — `R CMD check --as-cran` (local)**
+  - Run `devtools::check(args = "--as-cran")` locally
+  - Target: 0 errors, 0 warnings, 0 notes (the unavoidable "New submission"
+    note on a version bump is acceptable)
+
+- **9f — rhub checks**
+  - Run `rhub::rhub_check()` to check on additional platforms beyond the
+    CI matrix (Windows with rtools, various Linux distributions, macOS arm64)
+  - Review any notes or warnings that appear only on specific platforms;
+    rhub can surface encoding issues, compiler differences, and platform-
+    specific NOTE triggers that local and GitHub CI checks miss
+
+- **9g — Reverse dependency check**
+  - Run `revdepcheck::revdep_check()` to check all CRAN packages that depend
+    on lsr
+  - Confirm that internal changes (hardened input validation, tibble
+    coercion, `seq_len` fix in `correlate`) have not broken any downstream
+    packages
+  - Document the results in `cran-comments.md`
+
+- **9h — CI check on GitHub Actions**
+  - Push the prep branch to GitHub and confirm the `R-CMD-check.yaml` matrix
+    passes cleanly on all three OS × R version combinations
+
+- **9i — `cran-comments.md`**
+  - Create `cran-comments.md` at the repo root (add to `.Rbuildignore`)
+  - Include: summary of changes since 0.5.2; `R CMD check` result; any
+    platform-specific rhub notes; reverse-dependency check results
+
+**PR:** Single PR (`stage-9-cran-prep`) targeting `dev`. No functional code
+changes; only version bumps, text, and supporting files.
+
+---
+
+### Stage 10 — CRAN submission and post-release ⬜ Pending
+
+**Goal:** Submit to CRAN, handle any reviewer feedback, and close out the
+release on GitHub.
+
+**Sub-tasks:**
+
+- **10a — Submit to CRAN**
+  - Submit via `devtools::submit_cran()` (runs `R CMD check --as-cran` one
+    final time and uploads to CRAN's web form)
+  - Watch for the automatic confirmation email; respond if CRAN sends further
+    questions
+
+- **10b — Handle CRAN reviewer feedback (if any)**
+  - Address any notes or requests from the CRAN team promptly
+  - Small fixes go into a follow-up commit on the same branch (or a new
+    `stage-9-cran-prep-v2` branch)
+  - Do not merge into `main` until CRAN confirms acceptance
+
+- **10c — Post-acceptance: merge and tag**
+  - Merge `dev` → `main`
+  - Create a GitHub release tagged `v1.0.0`, with release notes drawn from
+    the `NEWS.md` entry
+
+- **10d — Re-open `dev` for future work**
+  - Bump `Version` in `DESCRIPTION` to `1.0.0.9000`
+  - Add a new `# lsr 1.0.0.9000` heading at the top of `NEWS.md`
+  - Commit as "open dev for post-1.0.0 work"
+
+---
+
 ## Guiding principles
 
 - The package is **stable and feature-frozen**. No new exported functions,
