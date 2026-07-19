@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/djnavarro/lsr/blob/v1.0.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/djnavarro/lsr/blob/main/DESCRIPTION)
 
 Navarro D (2026). *lsr: Companion to "Learning Statistics with R"*. R
 package version 1.0.0, <https://github.com/djnavarro/lsr>.
